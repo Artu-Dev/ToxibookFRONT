@@ -1,0 +1,61 @@
+
+.inputComponent {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 5px 6px 15px #00000057;
+}
+
+.inputComponent p {
+  font-weight: 300;
+  position: absolute;
+  color: #C4C4C4;
+  font-size: .9rem;
+  left: 1rem;
+  top: .6rem;
+}
+
+.inputComponent input {
+  padding: 2rem 3rem .6rem 1.5rem;
+  background: #191A19;
+  color: #e8e8ea;
+  border: none;
+  width: 100%;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: ease .3s;
+  
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.inputComponent input::-webkit-inner-spin-button { 
+  -webkit-appearance: none;
+  
+}
+
+.inputComponent input:hover {
+  background: #252725;
+}
+
+.inputComponent input:focus {
+  outline: 2px solid #4E9F3D;
+}
+
+.inputComponent .icon {
+  position: absolute;
+  font-size: 1.2rem;
+  padding-top: .2rem;
+  color: #C4C4C4;
+  right: 1.5rem;
+}
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

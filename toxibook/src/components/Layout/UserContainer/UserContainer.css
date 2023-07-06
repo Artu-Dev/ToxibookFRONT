@@ -1,0 +1,40 @@
+
+.userContainer {
+  display: flex;
+  width: fit-content;
+  gap: .5rem;
+}
+
+.userContainer img {
+  height: 2.5rem;
+  width: 2.5rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.userContainer > span {
+  padding-top: .1rem;
+}
+
+.userContainer span .username {
+  font-size: .9rem;
+  color: #fbf0ff;
+  font-weight: bold;
+}
+
+.userContainer .verified span {
+  color: #4E9F3D;
+  position: relative;
+  top: .15rem;
+  left: .3rem;
+  font-size: 1rem;
+}
+
+.userContainer span .tag {
+  font-size: .7rem;
+  color: #aaaaaa;
+}
+
+.userContainer span .tag::before {
+  content: "@";
+}

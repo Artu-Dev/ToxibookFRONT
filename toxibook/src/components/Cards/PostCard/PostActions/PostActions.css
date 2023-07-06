@@ -1,0 +1,62 @@
+.bottomPost-container ul {
+  display: flex;
+  justify-content: space-evenly;
+  list-style: none;
+  gap: 2rem;
+  padding-top: 1rem;
+}
+
+.bottomPost-container ul li {
+  display: flex;
+  gap: .5rem;
+  font-size: 1rem;
+  color: #d3d3d3;
+}
+
+.bottomPost-container ul li i {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.postActions-like i {
+  font-size: 1.2rem;
+}
+
+.bottomPost-container ul li i::after {
+  content: "";
+  position: absolute;
+  height: 2rem;
+  border-radius: 1rem;
+  aspect-ratio: 1/1;
+  background: #ff6d9165;
+  transition: ease .3s;
+  opacity: 0;
+  z-index: -1;
+}
+
+.bottomPost-container .postActions-comment i::after {
+  background: #6dff8065;
+}
+
+.bottomPost-container .postActions-share i::after {
+  background: #6dddff65;
+}
+
+.bottomPost-container ul li:hover i::after {
+  opacity: 1;
+  scale: 1.1;
+}
+
+.bottomPost-container ul li i.selected {
+  color: #DA0037;
+}
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

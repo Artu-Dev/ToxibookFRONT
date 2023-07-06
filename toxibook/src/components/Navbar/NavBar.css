@@ -1,0 +1,54 @@
+.navbar-container {
+  background: #050505;
+  padding: .1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
+
+.navbar-postTypes {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.navbar-postTypes a {
+  opacity: .7;
+  position: relative;
+  top: .1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-postTypes .trending {
+  color: #DA0037;
+}
+.navbar-postTypes .latest {
+  color: #2e67b2;
+}
+
+.navbar-postTypes .trending.selected {
+  opacity: 1;
+  text-shadow: 0 0 15px #da003777;
+}
+.navbar-postTypes .latest.selected {
+  opacity: 1;
+  text-shadow: 0 0 15px #2e67b294;
+}
+
+.navbar-profile {
+  padding-top: .2rem;
+}
+
+.profile-picture {
+  height: 2.2rem;
+  width: 2.2rem;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.452);
+}

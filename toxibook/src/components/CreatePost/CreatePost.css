@@ -1,0 +1,163 @@
+.createPostContainer {
+	max-width: 100%;
+	padding: 1rem;
+	background: #141514;
+	border-radius: .5rem;
+	margin-bottom: 1rem;
+}
+
+.createPost-topArea {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+}
+
+.postConfigs {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+	justify-content: space-between;
+}
+
+.select-privatePost {
+	background: none;
+	padding: .5rem 1.5rem;
+	border: 2px solid #F2ECFF;
+	color: #F2ECFF;
+	border-radius: 2rem;
+	cursor: pointer;
+}
+
+.select-privatePost:hover {
+	background: #0000005d
+}
+
+.select-privatePost:focus {
+	border: 2px solid #4E9F3D;
+	outline: none;
+}
+
+.postPerms {
+	display: inline-flex;
+	align-items: center;
+	padding-right: .8rem;
+}
+
+.postPerms input {
+	height: 1.2rem;
+	width: 1.2rem;
+	margin: 5px;
+	display: inline-block;
+	appearance: none;
+	position: relative;
+	background-color: #F2ECFF;
+	border-radius: 15%;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.postPerms input::after {
+	content: '';
+	display: block;
+	height: 0.8rem;
+	width: .4rem;
+	border-bottom: .21rem solid #b7fca7;
+	border-right: .21rem solid #b7fca7;
+	opacity: 0;
+	transform: rotate(45deg) translate(-50%, -50%);
+	position: absolute;
+	top: 41%;
+	left: 15%;
+	transition: .25s ease;
+}
+
+.postPerms input::before {
+	content: '';
+	display: block;
+	height: 0;
+	width: 0;
+	background-color: #4E9F3D;
+	border-radius: 50%;
+	opacity: .5;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transition: .3s ease;
+}
+
+.postPerms input:checked::before {
+	height: 140%;
+	width: 140%;
+	opacity: 100%;
+}
+
+.postPerms input:checked::after {
+	opacity: 100%;
+}
+
+.postPerms label {
+	color: #eee;
+	font-weight: bold;
+	font-size: .9rem;
+	cursor: pointer;
+}
+
+.postPerms:not(:has(input:checked)) label {
+	opacity: .7;
+}
+
+.createPost-topArea textarea {
+	resize: none;
+	min-width: 100%;
+	max-height: 9rem;
+	min-height: 4rem;
+	line-height: 1.5rem;
+	background: none;
+	border: none;
+	background: #323432;
+	border-radius: .3rem;
+	font-size: 1.4rem;
+	color: #eee;
+	padding: .8rem 1rem;
+	transition: outline ease .3s;
+}
+
+.createPost-topArea textarea:focus {
+	outline: 2px solid #4E9F3D;
+}
+
+.createPost-bottomArea {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0 .8rem;
+	padding-top: .5rem;
+}
+
+.uploadImage input {
+	display: none;
+}
+
+.uploadImage label {
+	color: #eee;
+	font-size: 1.2rem;
+	cursor: pointer;
+	transition: ease .3s;
+	display: flex;
+}
+
+.uploadImage label:hover {
+	color: #4E9F3D;
+}
+
+
+
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

@@ -1,0 +1,165 @@
+.login-container {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(#2C5364, #203A43, #0F2027);
+  display: grid;
+  place-items: center;
+}
+
+.login-container section {
+  width: 60rem;
+  height: 35rem;
+  position: relative;
+  display: flex;
+  color: #E8E8EA;
+  border-radius: 2rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.login-secondary {
+  width: 50%;
+  height: 100%;
+  background: #201f1f;
+  border-radius: 2rem 0 0 2rem;
+}
+
+.login-secondary .background-secondary {
+  border-radius: 2rem 0 0 2rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.logo {
+  position: absolute;
+  left: 2rem;
+  bottom: 1.5rem;
+  width: 8rem;
+  filter: drop-shadow(0 0 8px #00000048);
+}
+
+.login-primary {
+  background: #0c0d0c;
+  border-radius: 0 2rem 2rem 0;
+  width: 50%;
+  padding: 5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.login-primary h1 {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+.login-primary form {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-primary .botao {
+  margin-top: 2rem;
+}
+
+.login-primary .cadastro {
+    margin-top: .5rem;
+    background: none;
+    color: #E8E8EA;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: ease .3s;
+}
+
+.login-primary .cadastro:hover {
+  color: #4E9F3D;
+  text-decoration: underline 2px solid #4E9F3D;
+}
+
+@media (max-width: 1024px) {
+  .login-container section {
+    width: 80%;
+  }
+
+  .login-primary h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0;
+  }
+
+  .login-secondary {
+    width: 40%;
+    height: 100%;
+  }
+
+  .login-primary {
+    width: 60%;
+    padding: 5rem 2rem;
+  }
+
+  .login-primary form .botao {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container section {
+    flex-direction: column;
+  }
+
+  .login-primary {
+    border-radius: 0 0 2rem 2rem;
+    width: 100%;
+    height: 70%;
+    padding: 1rem;
+  }
+  
+  .login-primary form .cadastro{
+    font-size: 1rem;
+  }
+
+  .login-primary h1 {
+    font-size: 2rem;
+  }
+
+  .logo {
+    top: 6rem;
+    left: 1rem;
+    width: 6rem;
+  }
+
+  .login-secondary .background-secondary {
+    border-radius: 2rem 2rem 0 0;
+  }
+
+  .login-secondary {
+    border-radius: 2rem 2rem 0 0;
+    width: 100%;
+    height: 30%;
+  }
+}
+
+@media (max-width: 450px) {
+  .login-container section {
+    width: 95%;
+  }
+}
+
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

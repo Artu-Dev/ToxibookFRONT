@@ -1,0 +1,48 @@
+
+.submit-btn {
+  width: 7rem;
+  height: 2.5rem;
+  border-radius: 3rem;
+	font-size: .9rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1rem;
+  gap: .9rem;
+  color: white;
+  background: linear-gradient(to right,#4E9F3D,#1E5128);
+  position: relative;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.enterBtn {
+	background: linear-gradient(to right,#4E9F3D,#1E5128);
+}
+
+.submit-btn span {
+  position: absolute;
+  right: .3rem;
+	font-size: 1rem;
+	color: #191A19;
+  background: #eee;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  transition: all .5s ease;
+}
+
+.submit-btn:hover span {
+  width: calc(7rem - (.3rem)*2);
+}
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/
