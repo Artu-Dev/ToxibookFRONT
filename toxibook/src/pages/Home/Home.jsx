@@ -41,9 +41,9 @@ const Home = () => {
     <>
       {/* <Navbar/> */}
       <section className="homeContainer">
-        {token &&
-          <CreatePost />
-        }
+        <CreatePost />
+        {/* {token &&
+        } */}
         <div className="posts-container">
           {postList &&
             postList.map((item) => (

@@ -28,6 +28,16 @@
 	cursor: pointer;
 }
 
+.select-privatePost.public {
+	border: 2px solid #4E9F3D;
+	color: #eee;
+}
+
+.select-privatePost.private {
+	border: 2px solid #c6c2ce;
+	color: #c6c2ce;
+}
+
 .select-privatePost:hover {
 	background: #0000005d
 }
@@ -35,6 +45,13 @@
 .select-privatePost:focus {
 	border: 2px solid #4E9F3D;
 	outline: none;
+}
+
+.select-privatePost.private:focus {
+	border: 2px solid #DA0037;
+}
+.select-privatePost.private:hover {
+	border: 2px solid #DA0037;
 }
 
 .postPerms {
@@ -125,6 +142,49 @@
 
 .createPost-topArea textarea:focus {
 	outline: 2px solid #4E9F3D;
+}
+
+.images-container {
+	margin-top: .5rem;
+	display: flex;
+	gap: .5rem;
+	overflow-x: auto;
+	list-style: none;
+	background: #0505057a;
+	border-radius: .4rem;
+	padding: .5rem;
+}
+
+.images-container li {
+	position: relative;
+}
+
+.images-container img {
+	height: 120px;
+	aspect-ratio: 1/1;
+	object-fit: contain;
+	border-radius: .5rem;
+	background: #c6c2ce;
+}
+
+.images-container i {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: .5rem .7rem;
+	cursor: pointer;
+	color: #fff;
+	filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.384));
+	transition: ease .3s;
+}
+
+.images-container li:has(i:hover) > img {
+	opacity: .5;
+}
+
+.images-container i:hover {
+	color: #DA0037;
+	scale: 1.1;
 }
 
 .createPost-bottomArea {
