@@ -28,11 +28,6 @@
 	cursor: pointer;
 }
 
-.select-privatePost.public {
-	border: 2px solid #4E9F3D;
-	color: #eee;
-}
-
 .select-privatePost.private {
 	border: 2px solid #c6c2ce;
 	color: #c6c2ce;
@@ -45,6 +40,10 @@
 .select-privatePost:focus {
 	border: 2px solid #4E9F3D;
 	outline: none;
+}
+.select-privatePost.public:hover {
+	border: 2px solid #4E9F3D;
+	color: #eee;
 }
 
 .select-privatePost.private:focus {

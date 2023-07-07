@@ -54,6 +54,7 @@ const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
 	function readAndPreviewImages(imageList) {
 		if (!(/\.(jpe?g|png|gif)$/i.test(imageList.name))) {
 			alert("formato invalido")
+			return false;
 		}
 		const reader = new FileReader();
 		reader.onload = function() {
@@ -64,10 +65,8 @@ const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
 	}
 
 	function removeImage(index) {
-		setImagesList(prev => prev.splice(index, 1));
+		setImagesList(prev => prev.filter((_, i) => i !== index));
 	}
-
-	console.log(imagesList);
 
 	return (
     <div className="createPostContainer">
@@ -129,6 +128,7 @@ const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
             id="imageInput"
             ref={imageFileInputRef}
             multiple={true}
+						accept="image/*"
             onInput={() => handleSelectImages(imageFileInputRef.current)}
           />
           <label htmlFor="imageInput">

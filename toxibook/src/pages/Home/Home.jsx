@@ -39,11 +39,9 @@ const Home = () => {
 
   return (
     <>
-      {/* <Navbar/> */}
+      <Navbar/>
       <section className="homeContainer">
         <CreatePost />
-        {/* {token &&
-        } */}
         <div className="posts-container">
           {postList &&
             postList.map((item) => (

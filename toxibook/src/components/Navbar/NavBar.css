@@ -1,54 +1,74 @@
-.navbar-container {
-  background: #050505;
-  padding: .1rem 0;
+.tabs {
   display: flex;
-  align-items: center;
-  justify-content: center;
   position: fixed;
+  left: 0;
+  justify-content: center;
+  gap: 1rem;
   width: 100%;
+  padding: 0.75rem;
   z-index: 999;
 }
 
-.navbar-postTypes {
-  width: 80%;
+.tabs * {
+  z-index: 2;
+}
+
+.navbar-container input[type="radio"] {
+  display: none;
+}
+
+.tab {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 2rem;
+  height: 2rem;
+  width: 6rem;
+  color: #eee;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: color 0.15s ease-in;
 }
 
-.navbar-postTypes a {
-  opacity: .7;
-  position: relative;
-  top: .1rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-decoration: none;
+.navbar-container input[type="radio"]:checked + label {
+  color: #D8E9A8;
 }
 
-.navbar-postTypes .trending {
-  color: #DA0037;
-}
-.navbar-postTypes .latest {
-  color: #2e67b2;
-}
-
-.navbar-postTypes .trending.selected {
-  opacity: 1;
-  text-shadow: 0 0 15px #da003777;
-}
-.navbar-postTypes .latest.selected {
-  opacity: 1;
-  text-shadow: 0 0 15px #2e67b294;
+.navbar-container input[type="radio"]:checked + label > .notification {
+  background-color: #4E9F3D;
+  color: #fff;
+  margin: 0px;
 }
 
-.navbar-profile {
-  padding-top: .2rem;
+.navbar-container input[id="radio-1"]:checked ~ .glider {
+  transform: translateX(-60%);
 }
 
-.profile-picture {
-  height: 2.2rem;
-  width: 2.2rem;
-  object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.452);
+.navbar-container input[id="radio-2"]:checked ~ .glider {
+  transform: translateX(60%);
 }
+
+.glider {
+  position: absolute;
+  display: flex;
+  height: 1.9rem;
+  width: 5.8rem;
+  background-color: #1E5128;
+  z-index: 1;
+  border-radius: 99px;
+  transition: 0.25s ease-out;
+}
+
+@media (max-width: 700px) {
+ 
+  .tabs {
+    /* transform: scale(0.6); */
+  }
+}
+
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

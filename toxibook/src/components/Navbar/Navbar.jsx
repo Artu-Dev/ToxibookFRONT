@@ -5,14 +5,13 @@ import './NavBar.css';
 const Navbar = () => {
   return (
     <nav className="navbar-container">
-      <div className="navbar-postTypes">
-        <Link to={"#"} className="trending selected">Trending</Link>
-        <Link to={"#"} className="latest">Latest</Link>
-      </div>
-
-      <div className="navbar-profile">
-        <img className="profile-picture" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY6UiaZQxZ2DIDpK3L5autlrvi6y1Eg_5c9Gj9QCYq9w&s" alt="" />
-      </div>
+        <div className="tabs">
+          <input type="radio" id="radio-1" name="tabs" defaultChecked={true}/>
+          <label className="tab" htmlFor="radio-1">Trending</label>
+          <input type="radio" id="radio-2" name="tabs"/>
+          <label className="tab" htmlFor="radio-2">Latest</label>
+          <span className="glider"></span>
+        </div>
     </nav>
   )
 }
