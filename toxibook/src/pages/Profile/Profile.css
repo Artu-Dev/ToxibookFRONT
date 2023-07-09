@@ -1,0 +1,163 @@
+.profilePage-container {
+	display: flex;
+	flex-direction: column;
+	background: #050505;
+}
+
+.profileDatas-container {
+  color: #eee;
+}
+
+.profile-top-container {
+	position: relative;
+}
+
+.profile-banner {
+	position: relative;
+	height: 10rem;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	outline: 4px solid #191A19;
+}
+
+.profile-banner::after {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(to top, #0000008c, #00000000 30%);
+}
+
+.profile-banner i {
+	position: absolute;
+	right: 1.5rem;
+	top: 1rem;
+	font-size: 1rem;
+	color: #191A19;
+	background: #eee;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: 2rem;
+	display: grid;
+	place-items: center;
+	cursor: pointer;
+	transition: ease .3s;
+}
+
+.profile-banner i:hover {
+	color: #1E5128;
+	transform: scale(1.2);
+}
+
+.profile-picture {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	height: 5rem;
+	width: 5rem;
+	border-radius: 50%;
+	outline: 4px solid #191A19;
+	z-index: 1;
+	position: absolute;
+	bottom: -2rem;
+	left: 1.5rem;
+}
+
+.profile-picture i {
+	opacity: 0;
+	cursor: pointer;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	color: #eee;
+	transition: ease .3s;
+	font-size: 0;
+}
+
+.profile-picture:hover i {
+	opacity: 1;
+	font-size: 1.5rem;
+}
+
+.profile-bottom-cotainer {
+	padding: 1rem;
+	padding-top: 2.5rem;
+	padding-bottom: 1.5rem;
+	background: #050505;
+	position: relative;
+}
+
+.profile-bottom-cotainer button {
+	position: absolute;
+  right: 1rem;
+	top: 2.7rem;
+	padding: .5rem 1.5rem;
+	padding-right: 2.5rem;
+	border-radius: 2rem;
+	border: 2px solid #4E9F3D;
+	background: none;
+	color: #4E9F3D;
+}
+
+.profile-bottom-cotainer button span {
+	position: absolute;
+	top: .4rem;
+	right: 1rem;
+	font-size: 1rem;
+}
+
+.userInfo-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.userInfo-name {
+	font-size: 1.4rem;
+	color: #eee;
+}
+
+.userInfo-tag {
+	font-size: .8rem;
+	font-weight: normal;
+	color: #4E9F3D;
+}
+
+.userInfo-bio {
+	border-radius: .3rem;
+}
+
+.userInfo-bio p {
+	color: #c7c7c7;
+	max-width: 320px;
+	font-size: .85rem;
+}
+
+.userInfo-follows {
+	display: flex;
+	gap: 1rem;
+	font-weight: bold;
+	font-size: .9rem;
+}
+
+.userInfo-follows span {
+	font-weight: normal;
+}
+
+.profile-posts {
+	border-top: 2px solid #1E5128;
+}
+
+
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/
