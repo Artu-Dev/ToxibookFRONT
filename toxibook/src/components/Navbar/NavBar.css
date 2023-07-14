@@ -4,10 +4,11 @@
   position: fixed;
   left: 0;
   gap: 1rem;
-  width: 100%;
   padding: 0.5rem;
-  z-index: 999;
+  z-index: 1;
   padding-bottom: 1rem;
+  width: 100%;
+  border-radius: 0 0 .7rem .7rem;
 }
 
 .navBar-container * {
@@ -45,7 +46,8 @@
 .glider {
   position: absolute;
   display: flex;
-  height: 1.9rem;
+  height: .3rem;
+  bottom: .7rem;
   width: 5.8rem;
   background-color: #1E5128;
   z-index: 1;
@@ -53,6 +55,19 @@
   transition: 0.25s ease-out;
 }
 
+@media (min-width: 550px) {	
+  .tab {
+    font-size: 1.1rem;
+    width: 7.2rem;
+  }
+  .navBar-container input[id="radio-1"]:checked ~ .glider {
+    transform: translateX(-70%);
+  }
+  
+  .navBar-container input[id="radio-2"]:checked ~ .glider {
+    transform: translateX(70%);
+  }
+}
 
 /* 
 #D8E9A8

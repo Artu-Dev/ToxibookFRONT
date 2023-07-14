@@ -12,3 +12,14 @@ html, body {
 #root {
   height: 100%;
 }
+
+.centerFlex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+::selection {
+  background: #1E5128;
+  color: #D8E9A8;
+}

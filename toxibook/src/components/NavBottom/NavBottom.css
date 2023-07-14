@@ -58,3 +58,9 @@
 .nav-items li:hover p{
   color: #DA0037;
 }
+
+@media (min-width: 550px) {	
+  .navBottom-container {
+    display: none;
+  }
+}

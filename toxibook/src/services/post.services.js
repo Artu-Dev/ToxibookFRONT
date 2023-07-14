@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = "http://localhost:1234"
+// const baseURL = "http://localhost:1234"
+const baseURL = "https://toxibook-backend.onrender.com"
 
 export const createPostService = async (token, data) => {
   try {
@@ -46,7 +47,7 @@ export const likePostService = async (id, token) => {
     {
       headers: { Authorization: `Bearer ${token}` }
     });
-    
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error)

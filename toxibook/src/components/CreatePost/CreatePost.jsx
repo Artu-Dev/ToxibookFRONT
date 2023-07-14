@@ -3,11 +3,11 @@ import UserContainer from "../Layout/UserContainer/UserContainer";
 
 import {BsImageFill, BsTrash2Fill} from "react-icons/bs";
 import {HiPaperAirplane} from "react-icons/hi2";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Button } from "../Layout/Button/Button";
 import { createPostService } from "../../services/post.services";
 
-const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
+const CreatePost = ({userPFP, tag, username, verified, isShareOf, isCommentOf}) => {
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
 	const [imagesList, setImagesList] = useState([]);
@@ -16,6 +16,7 @@ const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
 	const textAreaRef = useRef();
 	const isPrivateSelectRef = useRef();
 	const imageFileInputRef = useRef();
+
 
 	function autoGrow() {
 		textAreaRef.current.style.height = "5px";
@@ -72,15 +73,13 @@ const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
     <div className="createPostContainer">
       <div className="createPost-topArea">
         <UserContainer
-          userPFP={
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY6UiaZQxZ2DIDpK3L5autlrvi6y1Eg_5c9Gj9QCYq9w&s"
-          }
-          tag={"cadrado"}
-          username={"O cadrado!!"}
-          verified={true}
+          userPFP={userPFP}
+          tag={tag}
+          username={username}
+          verified={verified}
         />
 
-        <div className="postConfigs">
+        <div className="postConfigs centerFlex">
           <select
             className={`select-privatePost ${isPrivatePost}`}
             onChange={() => setIsPrivatePost(isPrivateSelectRef.current.value)}
@@ -110,7 +109,7 @@ const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
       {imagesList.length !== 0 && (
         <ul className="images-container">
           {imagesList.map((img, index) =>
-						<li>
+						<li key={index}>
 							<img src={img} alt="#" />
 							<i onClick={() => removeImage(index)}>
 								<BsTrash2Fill />
@@ -121,7 +120,7 @@ const CreatePost = ({textContent, imageContent, isShareOf, isCommentOf}) => {
         </ul>
       )}
 
-      <div className="createPost-bottomArea">
+      <div className="createPost-bottomArea centerFlex">
         <span className="uploadImage">
           <input
             type="file"

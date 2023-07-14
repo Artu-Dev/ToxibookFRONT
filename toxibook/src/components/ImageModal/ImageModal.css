@@ -1,0 +1,22 @@
+.imageModal-container {
+	background: rgba(0, 0, 0, 0.9);
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	cursor: default;
+}
+
+.image-container img{
+	cursor: pointer;
+	max-width: 100%;
+	min-height: 400px;
+	max-height: 500px;
+	object-fit: contain;
+}

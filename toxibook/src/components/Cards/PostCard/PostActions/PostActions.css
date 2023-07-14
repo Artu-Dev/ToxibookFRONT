@@ -54,6 +54,26 @@
   color: #DA0037;
 }
 
+@media (min-width: 550px) {	
+  .bottomPost-container ul {
+    padding-top: 1.5rem;
+  }
+  
+  .bottomPost-container ul li {
+    gap: .45rem;
+    font-size: 1.1rem;
+  }
+
+  .bottomPost-container ul li i {
+    margin-bottom: .1rem;
+  }
+  
+  .postActions-like i {
+    margin-bottom: 0rem;
+    font-size: 1.4rem;
+  }
+}
+
 /* 
 #D8E9A8
 #4E9F3D

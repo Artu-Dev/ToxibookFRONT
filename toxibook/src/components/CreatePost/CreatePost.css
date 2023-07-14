@@ -1,9 +1,11 @@
 .createPostContainer {
 	max-width: 100%;
-	padding: 1rem;
+	padding: 1rem .5rem;
 	background: #141514;
 	border-radius: .5rem;
 	margin-bottom: 1rem;
+	max-width: 600px;
+	width: 100%;
 }
 
 .createPost-topArea {
@@ -13,15 +15,14 @@
 }
 
 .postConfigs {
-	display: flex;
-	align-items: center;
+	padding-top: .3rem;
 	gap: .8rem;
 	justify-content: space-between;
 }
 
 .select-privatePost {
 	background: none;
-	padding: .5rem 1.5rem;
+	padding: .3rem .8rem;
 	border: 2px solid #F2ECFF;
 	color: #F2ECFF;
 	border-radius: 2rem;
@@ -60,8 +61,8 @@
 }
 
 .postPerms input {
-	height: 1.2rem;
-	width: 1.2rem;
+	height: 1rem;
+	width: 1rem;
 	margin: 5px;
 	display: inline-block;
 	appearance: none;
@@ -115,7 +116,7 @@
 .postPerms label {
 	color: #eee;
 	font-weight: bold;
-	font-size: .9rem;
+	font-size: .8rem;
 	cursor: pointer;
 }
 
@@ -159,7 +160,7 @@
 }
 
 .images-container img {
-	height: 120px;
+	height: 100px;
 	aspect-ratio: 1/1;
 	object-fit: contain;
 	border-radius: .5rem;
@@ -187,8 +188,6 @@
 }
 
 .createPost-bottomArea {
-	display: flex;
-	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
 	padding: 0 .8rem;
@@ -212,7 +211,52 @@
 }
 
 
+@media (min-width: 540px) {	
+	.createPostContainer {
+		padding: 1rem 1.5rem;
+	}
+	
+	.createPost-topArea {
+		gap: .8rem;
+	}
+	
+	.postConfigs {
+		padding-top: 0;
+	}
+	
+	.select-privatePost {
+		padding: .5rem 1.6rem;
+	}
+	
+	.postPerms input {
+		height: 1.3rem;
+		width: 1.3rem;
+	}
+	
+	.postPerms input::after {
+		top: 43%;
+		left: 18%;
+	}
+	
+	.postPerms label {
+		font-size: .9rem;
+	}
+	
+	.images-container img {
+		height: 120px;
+	}
+	
+	.createPost-bottomArea {
+		gap: 1rem;
+		padding: 0 .8rem;
+		padding-top: .5rem;
+	}
+	
+	.uploadImage label {
+		font-size: 1.3rem;
+	}
 
+}
 
 /* 
 #D8E9A8

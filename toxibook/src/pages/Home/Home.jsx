@@ -11,7 +11,9 @@ const Home = () => {
   // const [user, setUser] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const token = localStorage.getItem("AuthToken");
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("User"));
+
+  console.log(user);
 
   useEffect(() => {
     async function fetchPost() {
@@ -41,7 +43,12 @@ const Home = () => {
     <>
       <Navbar/>
       <section className="homeContainer">
-        <CreatePost />
+        <CreatePost
+          tag={user?.tag}
+          username={user?.username}
+          userPFP={user?.profileImg}
+          verified={user?.verified}
+        />
         <div className="posts-container">
           {postList &&
             postList.map((item) => (
