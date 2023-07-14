@@ -8,12 +8,10 @@ import CreatePost from "../../components/CreatePost/CreatePost";
 
 const Home = () => {
   const [postList, setPostList] = useState([]);
-  // const [user, setUser] = useState([]);
+  const [user, setUser] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const token = localStorage.getItem("AuthToken");
-  const user = JSON.parse(localStorage.getItem("User"));
-
-  console.log(user);
+  const userLocalStorage = JSON.parse(localStorage.getItem("User"));
 
   useEffect(() => {
     async function fetchPost() {
@@ -27,13 +25,16 @@ const Home = () => {
     }
     async function fetchUser() {
       try {
-        const user = await getTrendingService(token);
-        setUser(user);
+        alert("ihgu")
+        // const user = await getTrendingService(token);
+        // setUser(user);
       } catch (error) {
         console.log(error);
       }
     }
 
+    setUser(userLocalStorage);
+    if(!userLocalStorage) fetchUser();
     fetchPost();
   }, [])
   
@@ -43,12 +44,16 @@ const Home = () => {
     <>
       <Navbar/>
       <section className="homeContainer">
-        <CreatePost
-          tag={user?.tag}
-          username={user?.username}
-          userPFP={user?.profileImg}
-          verified={user?.verified}
-        />
+        {user &&
+          <CreatePost
+            setPostList={(post) => setPostList(prev => [post,...prev])}
+            token={token}
+            tag={user?.tag}
+            username={user?.username}
+            userPFP={user?.profileImg}
+            verified={user?.verified}
+          />
+        }
         <div className="posts-container">
           {postList &&
             postList.map((item) => (

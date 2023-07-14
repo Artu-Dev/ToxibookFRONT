@@ -15,9 +15,9 @@ export const loginAuthService = async (email, password) => {
   }
 }
 
-export const getUserService = async (token) => {
+export const getUserService = async (token, userID) => {
   try {
-    const response = await axios.get(`${baseURL}/post/trending`,
+    const response = await axios.get(`${baseURL}/user/${userID}`,
     {
       headers: { Authorization: `Bearer ${token}` }
     });

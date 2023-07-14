@@ -18,15 +18,15 @@ const PostCard = ({ user, id, post, permissions, type, liked }) => {
 
   const [showImageModal, setShowImageModal] = useState(false);
   const [postLiked, setPostLiked] = useState(liked);
-  const [totalLikes, setTotalLikes] = useState(0);
-  const [totalShares, setTotalShares] = useState(0);
-  const [totalComments, setTotalComments] = useState(0);
+  const [totalLikes, setTotalLikes] = useState(post.totalLikes);
+  const [totalShares, setTotalShares] = useState(post.totalShares);
+  const [totalComments, setTotalComments] = useState(post.totalComments);
 
-  useEffect(() => {
-    setTotalLikes(post.totalLikes);
-    setTotalShares(post.totalShares);
-    setTotalComments(post.totalComments);
-  }, []);
+  // useEffect(() => {
+  //   setTotalLikes(post.totalLikes);
+  //   setTotalShares(post.totalShares);
+  //   setTotalComments(post.totalComments);
+  // }, []);
 
   function handleClick(postId) {
     navigate(`/post/${postId}`);
@@ -41,15 +41,18 @@ const PostCard = ({ user, id, post, permissions, type, liked }) => {
     handleClick(isCommentId);
   }
 
-  function handleLikePost(event) {
+  async function handleLikePost(event) {
     event.stopPropagation();
+    const likeResponse = await likePostService(post._id, token);
     setPostLiked(!postLiked);
-    if (postLiked) {
-      setTotalLikes((prev) => prev - 1);
-    } else {
-      setTotalLikes((prev) => prev + 1);
-    }
-    likePostService(post._id, token);
+    setTotalLikes(likeResponse.totalLikes);
+
+    
+    // if (postLiked) {
+    //   setTotalLikes((prev) => prev - 1);
+    // } else {
+    //   setTotalLikes((prev) => prev + 1);
+    // }
   }
 
   function handleImageClick(event) {

@@ -75,19 +75,17 @@
 	position: absolute;
 	bottom: -2rem;
 	left: 1.5rem;
-	overflow: hidden;
-	background: #D8E9A8;
-	background-repeat: no-repeat;
-	background-position: center;
+	background: #D8E9A8 url("https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg") no-repeat center;
 	background-size: cover;
 }
 
 .profile-picture-img {
-	object-fit: contain;
+	object-fit: cover;
 	height: 100%;
-	aspect-ratio: 1/1;
 	width: 100%;
+	aspect-ratio: 1/1;
 	border-radius: 50%;
+	outline: 4px solid #191A19;
 }
 
 .profile-picture-container input[type="file"] {
@@ -125,8 +123,8 @@
 
 .profile-infoBtn {
 	position: absolute;
-  right: 1.5rem;
-	top: 2.2rem;
+  right: 1rem;
+	top: .5rem;
 	padding: .5rem 1.5rem;
 	padding-right: 2.5rem;
 	border-radius: 2rem;
@@ -149,8 +147,8 @@
 
 .profile-infoBtn span {
 	position: absolute;
-	/* top: .45rem;
-	right: 1rem; */
+	top: .45rem;
+	right: 1rem;
 	font-size: 1.1rem;
 }
 
@@ -166,8 +164,18 @@
 }
 
 .userInfo-name {
-	font-size: 1.4rem;
+	font-size: 1.3rem;
 	color: #eee;
+	width: fit-content;
+	position: relative;
+}
+
+.userInfo-name span {
+	position: absolute;
+	right: -1.5rem;
+	top: .1rem;
+	font-size: 1.2rem;
+	color: #4E9F3D;
 }
 
 .userInfo-tag {
@@ -276,10 +284,16 @@
 	}
 	
 	.userInfo-name {
-		font-size: 2rem;
+		font-size: 1.6rem;
 		color: #eee;
 	}
 	
+	.userInfo-name span {
+		right: -1.8rem;
+		top: .2rem;
+		font-size: 1.4rem;
+	}
+
 	.userInfo-tag {
 		font-size: 1rem;
 	}

@@ -7,12 +7,11 @@ import { useCallback, useRef, useState } from "react";
 import { Button } from "../Layout/Button/Button";
 import { createPostService } from "../../services/post.services";
 
-const CreatePost = ({userPFP, tag, username, verified, isShareOf, isCommentOf}) => {
+const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isCommentOf, setPostList}) => {
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
 	const [imagesList, setImagesList] = useState([]);
 
-	const user = localStorage.getItem("User");
 	const textAreaRef = useRef();
 	const isPrivateSelectRef = useRef();
 	const imageFileInputRef = useRef();
@@ -23,7 +22,7 @@ const CreatePost = ({userPFP, tag, username, verified, isShareOf, isCommentOf}) 
 		textAreaRef.current.style.height = (textAreaRef.current.scrollHeight) + "px";
 	}
 
-	function handleClickBtn() {
+	async function handleClickBtn() {
 		// textContent,
 		// imageContent,
 		// isCommentOf,
@@ -31,7 +30,6 @@ const CreatePost = ({userPFP, tag, username, verified, isShareOf, isCommentOf}) 
 
 		// canComment,
 		// privatePost,
-		const token = localStorage.getItem("AuthToken");
 		const data = {
 			textContent: textAreaRef.current.value,
 			isCommentOf,
@@ -39,9 +37,11 @@ const CreatePost = ({userPFP, tag, username, verified, isShareOf, isCommentOf}) 
 			canComment: allowComments,
 			privatePost: isPrivateSelectRef.current.value === "private"
 		}
-
+		console.log(data);
 		try {
-			createPostService(token, data);
+			const post = await createPostService(token, data);
+			setPostList(post);
+			console.log(post);
 		} catch (err) {
 			console.log(err);
 		}

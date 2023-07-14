@@ -5,8 +5,8 @@ const baseURL = "https://toxibook-backend.onrender.com"
 
 export const createPostService = async (token, data) => {
   try {
-    const response = await axios.post(`${baseURL}/post/trending`,
-    {data},
+    const response = await axios.post(`${baseURL}/post`,
+    data,
     {
       headers: { Authorization: `Bearer ${token}` }
     });

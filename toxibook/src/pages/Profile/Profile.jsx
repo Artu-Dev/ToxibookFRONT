@@ -1,13 +1,22 @@
 import "./Profile.css";
 import { HiUserAdd, HiUserRemove } from "react-icons/hi";
-import { HiPencilSquare, HiUser } from "react-icons/hi2";
+import { HiPencilSquare } from "react-icons/hi2";
 import Navbar from "../../components/Navbar/Navbar";
 import PostCard from "../../components/Cards/PostCard/PostCard";
+import Loading from "../../components/Layout/Loading/Loading";
 import { useEffect, useRef, useState } from "react";
 import { CropImage, getCroppedImg } from "../../components/CropImage/CropImage";
+import { useParams } from "react-router-dom";
+import { getUserService } from "../../services/user.services";
+import { MdVerified } from "react-icons/md";
 
-const Profile = ({username, tag, bio, followers, following, bannerImg, profileImg, isYourProfile = true, isFollowing = false}) => {
+const Profile = ({isYourProfile = false, isFollowing = false}) => {
+  const userID = useParams(window.location.href).id;
+  const token = localStorage.getItem("AuthToken")
+
 	const [isFollowingUser, setIsFollowingUser] = useState(isFollowing);
+	const [user, setUser] = useState();
+	const [loading, setLoading] = useState(false);
 
   const [imageFile, setImageFile] = useState(null);
   const [croppedImagePfp, setCroppedImagePfp] = useState(null);
@@ -25,6 +34,12 @@ const Profile = ({username, tag, bio, followers, following, bannerImg, profileIm
 			setCroppedImagePfp(imageFile)
 			setShowCrop(false);
 		}
+    async function fetchUser() {
+      const userResponse = await getUserService(token, userID);
+      setUser(userResponse)
+    }
+    fetchUser();
+
 	}, [croppedArea])
 	
 
@@ -62,7 +77,8 @@ const Profile = ({username, tag, bio, followers, following, bannerImg, profileIm
 		setShowCrop(false);
 		setImageFile(null);
 	}
-	
+
+  if(!user) return <Loading />
 	return (
     <div className="profilePage-container centerFlex">
       <section className="profileDatas-container">
@@ -70,16 +86,15 @@ const Profile = ({username, tag, bio, followers, following, bannerImg, profileIm
           <div
             className="profile-banner"
           >
+            {croppedImageBanner || user?.bannerImg  && (
+              <img
+                className="banner-picture-img"
+                src={croppedImageBanner || user?.bannerImg}
+                alt="profile picture"
+              />
+            )}
             {isYourProfile && (
               <>
-                {croppedImageBanner && (
-                  <img
-                    className="banner-picture-img"
-                    src={croppedImageBanner}
-                    alt="profile picture"
-                  />
-                )}
-
                 <input
                   id="bannerImgInput"
                   type="file"
@@ -95,18 +110,12 @@ const Profile = ({username, tag, bio, followers, following, bannerImg, profileIm
               </>
             )}
           </div>
-          <div
-            className="profile-picture-container"
-            style={{
-              backgroundImage: `url("https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg")`,
-            }}
-          >
-            {croppedImagePfp && (
+          <div className="profile-picture-container">
+            {croppedImagePfp || user?.profileImg && (
               <img
                 className="profile-picture-img"
-                src={croppedImagePfp}
+                src={croppedImagePfp || user?.profileImg}
                 alt="profile picture"
-                onClick={handleImageClick}
               />
             )}
 
@@ -128,24 +137,24 @@ const Profile = ({username, tag, bio, followers, following, bannerImg, profileIm
         <div className="profile-bottom-cotainer">
           <div className="userInfo-container">
             <div className="userInfo-username">
-              <h1 className="userInfo-name">Cadrado</h1>
-              <h2 className="userInfo-tag">@Cadrado</h2>
+              <h1 className="userInfo-name">{user?.username} 
+                {Boolean(user?.verified) &&
+                  <span><MdVerified /></span>
+                }
+              </h1>
+              <h2 className="userInfo-tag">@{user?.tag}</h2>
             </div>
 
             <div className="userInfo-bio">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi
-                nulla totam animi inventore, eveniet quae maiores laborum.
-                Quidem, earum?
-              </p>
+              <p>{user?.bio}</p>
             </div>
 
             <div className="userInfo-follows">
               <p>
-                1.211 <span>Seguindo</span>
+                {user?.followInfo.totalFollowing} <span>Seguindo</span>
               </p>
               <p>
-                332.594 <span>Seguidores</span>
+                {user?.followInfo.totalFollowers} <span>Seguidores</span>
               </p>
             </div>
           </div>
@@ -179,143 +188,7 @@ const Profile = ({username, tag, bio, followers, following, bannerImg, profileIm
 				/>
       </section>
       <section className="profile-posts">
-        <PostCard
-          liked={true}
-          post={{
-            _id: { $oid: "647b74bd6d566dbf0cbe869c" },
-            user: { $oid: "64782ff407f14a9bbf4ca2d6" },
-            textContent: "publico e nao pode comentar",
-            imageContent:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY6UiaZQxZ2DIDpK3L5autlrvi6y1Eg_5c9Gj9QCYq9w&s",
-            totalShares: 5,
-            likesList: ["64782ff407f14a9bbf4ca2d6", "649f22789524c6e7e262861f"],
-            totalLikes: 5,
-            totalComments: 0,
-            createdAt: 1685812283004,
-            permissions: { $oid: "647b74bd6d566dbf0cbe86a0" },
-            shares: { $oid: "647b74bd6d566dbf0cbe869e" },
-          }}
-          permissions={{
-            _id: { $oid: "647b74bd6d566dbf0cbe86a0" },
-            post: { $oid: "647b74bd6d566dbf0cbe869c" },
-            canComment: false,
-            privatePost: false,
-          }}
-          user={{
-            _id: { $oid: "64782ff407f14a9bbf4ca2d6" },
-            username: "Cadrado",
-            tag: "Kdrado",
-            bio: "simplesmente o ser mais perfeito dessa rede social",
-            email: "cadrado@penis.com",
-            password:
-              "$2a$10$ErS7EDr6KGWNIi9Okyvk3uUGSYf8F5nRObc886kQGgtDaTLdijN8q",
-            createdAt: { $date: { $numberLong: "1685598188197" } },
-            followInfo: { $oid: "64782ff507f14a9bbf4ca2d8" },
-            posts: [
-              { $oid: "6478306b07f14a9bbf4ca2e2" },
-              { $oid: "6478de3c4f1167f8dd1fdccd" },
-              { $oid: "647b74bd6d566dbf0cbe869c" },
-              { $oid: "647b74cd6d566dbf0cbe86a8" },
-              { $oid: "647b74d96d566dbf0cbe86b4" },
-              { $oid: "647b74e66d566dbf0cbe86c0" },
-              { $oid: "647ba45ea5a6a7e73c4c3f5c" },
-              { $oid: "647bc2472d0b1ff3c97bb71b" },
-            ],
-            profileImg:
-              "https://i.pinimg.com/236x/0d/09/03/0d09039b4b211bf12d90722fd2405258.jpg",
-          }}
-        />
-        <PostCard
-          liked={true}
-          post={{
-            _id: { $oid: "647b74bd6d566dbf0cbe869c" },
-            user: { $oid: "64782ff407f14a9bbf4ca2d6" },
-            textContent: "publico e nao pode comentar",
-            imageContent: "https://cdn.wallpapersafari.com/62/48/4KQeDu.png",
-            isCommentOf: {
-              id: "64782ff407f14a9bbf4ca2d6",
-              user: { tag: "tagname" },
-            },
-            totalShares: 5,
-            likesList: ["64782ff407f14a9bbf4ca2d6", "649f22789524c6e7e262861f"],
-            totalLikes: 5,
-            totalComments: 0,
-            createdAt: 1685812283004,
-            permissions: { $oid: "647b74bd6d566dbf0cbe86a0" },
-            shares: { $oid: "647b74bd6d566dbf0cbe869e" },
-          }}
-          permissions={{
-            _id: { $oid: "647b74bd6d566dbf0cbe86a0" },
-            post: { $oid: "647b74bd6d566dbf0cbe869c" },
-            canComment: true,
-            privatePost: false,
-          }}
-          user={{
-            _id: { $oid: "64782ff407f14a9bbf4ca2d6" },
-            username: "Cadrado",
-            tag: "Kdrado",
-            bio: "simplesmente o ser mais perfeito dessa rede social",
-            email: "cadrado@penis.com",
-            createdAt: { $date: { $numberLong: "1685598188197" } },
-            followInfo: { $oid: "64782ff507f14a9bbf4ca2d8" },
-            posts: [
-              { $oid: "6478306b07f14a9bbf4ca2e2" },
-              { $oid: "6478de3c4f1167f8dd1fdccd" },
-              { $oid: "647b74bd6d566dbf0cbe869c" },
-              { $oid: "647b74cd6d566dbf0cbe86a8" },
-              { $oid: "647b74d96d566dbf0cbe86b4" },
-              { $oid: "647b74e66d566dbf0cbe86c0" },
-              { $oid: "647ba45ea5a6a7e73c4c3f5c" },
-              { $oid: "647bc2472d0b1ff3c97bb71b" },
-            ],
-            profileImg:
-              "https://i.pinimg.com/236x/0d/09/03/0d09039b4b211bf12d90722fd2405258.jpg",
-          }}
-        />
-        <PostCard
-          liked={true}
-          post={{
-            _id: { $oid: "647b74bd6d566dbf0cbe869c" },
-            user: { $oid: "64782ff407f14a9bbf4ca2d6" },
-            textContent: "publico e nao pode comentar",
-            totalShares: 5,
-            likesList: ["64782ff407f14a9bbf4ca2d6", "649f22789524c6e7e262861f"],
-            totalLikes: 5,
-            totalComments: 0,
-            createdAt: 1685812283004,
-            permissions: { $oid: "647b74bd6d566dbf0cbe86a0" },
-            shares: { $oid: "647b74bd6d566dbf0cbe869e" },
-          }}
-          permissions={{
-            _id: { $oid: "647b74bd6d566dbf0cbe86a0" },
-            post: { $oid: "647b74bd6d566dbf0cbe869c" },
-            canComment: false,
-            privatePost: false,
-          }}
-          user={{
-            _id: { $oid: "64782ff407f14a9bbf4ca2d6" },
-            username: "Cadrado",
-            tag: "Kdrado",
-            bio: "simplesmente o ser mais perfeito dessa rede social",
-            email: "cadrado@penis.com",
-            password:
-              "$2a$10$ErS7EDr6KGWNIi9Okyvk3uUGSYf8F5nRObc886kQGgtDaTLdijN8q",
-            createdAt: { $date: { $numberLong: "1685598188197" } },
-            followInfo: { $oid: "64782ff507f14a9bbf4ca2d8" },
-            posts: [
-              { $oid: "6478306b07f14a9bbf4ca2e2" },
-              { $oid: "6478de3c4f1167f8dd1fdccd" },
-              { $oid: "647b74bd6d566dbf0cbe869c" },
-              { $oid: "647b74cd6d566dbf0cbe86a8" },
-              { $oid: "647b74d96d566dbf0cbe86b4" },
-              { $oid: "647b74e66d566dbf0cbe86c0" },
-              { $oid: "647ba45ea5a6a7e73c4c3f5c" },
-              { $oid: "647bc2472d0b1ff3c97bb71b" },
-            ],
-            profileImg:
-              "https://i.pinimg.com/236x/0d/09/03/0d09039b4b211bf12d90722fd2405258.jpg",
-          }}
-        />
+        
       </section>
 
       {showCrop && (
