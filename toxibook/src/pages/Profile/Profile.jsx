@@ -9,6 +9,7 @@ import { CropImage, getCroppedImg } from "../../components/CropImage/CropImage";
 import { useParams } from "react-router-dom";
 import { getUserService } from "../../services/user.services";
 import { MdVerified } from "react-icons/md";
+import { getPostsByUserService } from "../../services/post.services";
 
 const Profile = ({isYourProfile = false, isFollowing = false}) => {
   const userID = useParams(window.location.href).id;
@@ -16,6 +17,7 @@ const Profile = ({isYourProfile = false, isFollowing = false}) => {
 
 	const [isFollowingUser, setIsFollowingUser] = useState(isFollowing);
 	const [user, setUser] = useState();
+	const [posts, setPosts] = useState([]);
 	const [loading, setLoading] = useState(false);
 
   const [imageFile, setImageFile] = useState(null);
@@ -42,6 +44,14 @@ const Profile = ({isYourProfile = false, isFollowing = false}) => {
 
 	}, [croppedArea])
 	
+  useEffect(() => {
+    async function fetchPosts() {
+      const postsResponse = await getPostsByUserService(token, userID);
+      setPosts(postsResponse);
+      console.log(posts);
+    };
+    fetchPosts();
+  }, [])
 
 	async function showCroppedImage() {
 		const imageCropped = await getCroppedImg(imageFile, croppedAreaPixels)
@@ -188,7 +198,16 @@ const Profile = ({isYourProfile = false, isFollowing = false}) => {
 				/>
       </section>
       <section className="profile-posts">
-        
+        {posts &&
+          posts.map((post, index) => (
+            <PostCard 
+              key={index}
+              permissions={post.permissions}
+              post={post}
+              user={post.user}
+            />
+          ))
+        }
       </section>
 
       {showCrop && (

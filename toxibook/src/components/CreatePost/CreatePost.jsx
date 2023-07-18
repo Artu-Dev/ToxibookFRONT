@@ -7,7 +7,7 @@ import { useCallback, useRef, useState } from "react";
 import { Button } from "../Layout/Button/Button";
 import { createPostService } from "../../services/post.services";
 
-const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isCommentOf, setPostList}) => {
+const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isCommentOf, setPostList, id}) => {
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
 	const [imagesList, setImagesList] = useState([]);
@@ -73,6 +73,7 @@ const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isComme
     <div className="createPostContainer">
       <div className="createPost-topArea">
         <UserContainer
+					id={id}
           userPFP={userPFP}
           tag={tag}
           username={username}

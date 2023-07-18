@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import PostActions from "./postActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 
-const PostCard = ({ user, id, post, permissions, type, liked }) => {
+const PostCard = ({ user, post, permissions, type, liked }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("AuthToken");
 
@@ -22,11 +22,6 @@ const PostCard = ({ user, id, post, permissions, type, liked }) => {
   const [totalShares, setTotalShares] = useState(post.totalShares);
   const [totalComments, setTotalComments] = useState(post.totalComments);
 
-  // useEffect(() => {
-  //   setTotalLikes(post.totalLikes);
-  //   setTotalShares(post.totalShares);
-  //   setTotalComments(post.totalComments);
-  // }, []);
 
   function handleClick(postId) {
     navigate(`/post/${postId}`);
@@ -67,6 +62,7 @@ const PostCard = ({ user, id, post, permissions, type, liked }) => {
     >
       <div className="topPost-container">
         <UserContainer
+          id={user._id}
           userPFP={user.profileImg}
           username={user.username}
           tag={user.tag}
@@ -117,6 +113,7 @@ const PostCard = ({ user, id, post, permissions, type, liked }) => {
             postText={post.isShareOf.textContent}
             postImg={post.isShareOf.imageContent}
             postId={post.isShareOf._id}
+            userId={post.isShareOf.user._id}
           />
         )}
 

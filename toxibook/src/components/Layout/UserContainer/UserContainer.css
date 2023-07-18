@@ -1,3 +1,7 @@
+.userContainer-link {
+  text-decoration: none;
+}
+
 .userContainer {
   display: flex;
   width: fit-content;

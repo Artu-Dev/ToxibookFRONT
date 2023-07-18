@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import PostCard from "../../components/Cards/PostCard/PostCard";
-import PostMin from "../../components/Cards/PostMin/PostMin";
 import "./Home.css";
 import { getTrendingService } from "../../services/post.services";
 import Navbar from "../../components/Navbar/Navbar";
 import CreatePost from "../../components/CreatePost/CreatePost";
+import Loading from "../../components/Layout/Loading/Loading";
 
 const Home = () => {
   const [postList, setPostList] = useState([]);
@@ -17,6 +17,7 @@ const Home = () => {
     async function fetchPost() {
       try {
         const posts = await getTrendingService(token);
+        console.log(posts);
         setPostList(posts.posts);
         setLikedPosts(posts.likedPostsIds);
       } catch (error) {
@@ -40,6 +41,7 @@ const Home = () => {
   
   // console.log(postList);
 
+  if(postList.length === 0) return <Loading/>
   return (
     <>
       <Navbar/>
@@ -52,6 +54,7 @@ const Home = () => {
             username={user?.username}
             userPFP={user?.profileImg}
             verified={user?.verified}
+            id={user?._id}
           />
         }
         <div className="posts-container">

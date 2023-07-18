@@ -28,6 +28,18 @@ export const getTrendingService = async (token) => {
   }
 } 
 
+export const getPostsByUserService = async (token, id) => {
+  try {
+    const response = await axios.get(`${baseURL}/post/user/${id}`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error)
+  }
+} 
+
 export const getPostByIdService = async (id, token) => {
   try {
     const response = await axios.get(`${baseURL}/post/${id}`,
