@@ -1,0 +1,40 @@
+.messageBar {
+	position: fixed;
+	z-index: 3;
+	width: 100%;
+	padding-top: 1.5rem;
+}
+
+.messageBar p {
+	background: #e93131;
+	color: #191A19;
+	padding: .6rem 2.5rem;
+	font-weight: bold;
+	border-radius: .5rem;
+	position: relative;
+	box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.messageBar p::after {
+	content: "";
+	width: 100%;
+	height: 3px;
+	background-color: #f0f8ff;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	animation: slider 5s forwards linear;
+}
+
+@keyframes slider {
+	from {width: 100%;}
+	to {width: 0%;}
+}
+
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

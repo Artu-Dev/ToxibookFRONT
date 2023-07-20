@@ -3,15 +3,15 @@ import UserContainer from "../Layout/UserContainer/UserContainer";
 
 import {BsImageFill, BsTrash2Fill} from "react-icons/bs";
 import {HiPaperAirplane} from "react-icons/hi2";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../Layout/Button/Button";
 import { createPostService } from "../../services/post.services";
 
-const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isCommentOf, setPostList, id}) => {
+const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, user, type}) => {
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
 	const [imagesList, setImagesList] = useState([]);
-
+	
 	const textAreaRef = useRef();
 	const isPrivateSelectRef = useRef();
 	const imageFileInputRef = useRef();
@@ -27,12 +27,9 @@ const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isComme
 		// imageContent,
 		// isCommentOf,
 		// isShareOf,
-
-		// canComment,
-		// privatePost,
 		const data = {
 			textContent: textAreaRef.current.value,
-			isCommentOf,
+			isCommentOf: isCommentOfID,
 			isShareOf,
 			canComment: allowComments,
 			privatePost: isPrivateSelectRef.current.value === "private"
@@ -70,16 +67,15 @@ const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isComme
 	}
 
 	return (
-    <div className="createPostContainer">
+    <div className={`createPostContainer ${type}`}>
       <div className="createPost-topArea">
         <UserContainer
-					id={id}
-          userPFP={userPFP}
-          tag={tag}
-          username={username}
-          verified={verified}
+					id={user._id}
+          username={user.username}
+          tag={user.tag}
+          userPFP={user.profileImg}
+          verified={user?.verified}
         />
-
         <div className="postConfigs centerFlex">
           <select
             className={`select-privatePost ${isPrivatePost}`}
@@ -99,7 +95,11 @@ const CreatePost = ({token, userPFP, tag, username, verified, isShareOf, isComme
             <label htmlFor="input-allowComments">Comentários</label>
           </span>
         </div>
-
+				{isCommentOf && 
+					<div className="typeOfPost">
+						<p className="isCommentOf">Responder a: @{isCommentOf}</p>
+					</div>
+				}
         <textarea
           placeholder="Oque esta rolando?"
           onInput={autoGrow}

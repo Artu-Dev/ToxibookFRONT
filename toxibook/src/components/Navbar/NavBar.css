@@ -5,10 +5,11 @@
   left: 0;
   gap: 1rem;
   padding: 0.5rem;
-  z-index: 1;
   padding-bottom: 1rem;
   width: 100%;
   border-radius: 0 0 .7rem .7rem;
+  background: #0505058f;
+  z-index: 2;
 }
 
 .navBar-container * {

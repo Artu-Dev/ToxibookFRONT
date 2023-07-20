@@ -1,11 +1,21 @@
 .createPostContainer {
-	max-width: 100%;
-	padding: 1rem .5rem;
+	padding: 1rem 1rem;
 	background: #141514;
 	border-radius: .5rem;
 	margin-bottom: 1rem;
+	max-width: 100%;
 	max-width: 600px;
 	width: 100%;
+}
+
+.createPostContainer.reply {
+	border-radius: 0;
+}
+
+.isCommentOf {
+	color: #4E9F3D;
+	font-size: .8rem;
+	padding-left: .5rem;
 }
 
 .createPost-topArea {
@@ -220,6 +230,10 @@
 		gap: .8rem;
 	}
 	
+	.isCommentOf {
+		font-size: .9rem;
+	}
+
 	.postConfigs {
 		padding-top: 0;
 	}

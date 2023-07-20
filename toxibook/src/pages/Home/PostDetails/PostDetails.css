@@ -1,0 +1,6 @@
+.PostDetails-Container {
+	flex-direction: column;
+	background: #000000;
+	min-height: 100vh;
+	justify-content: start;
+}

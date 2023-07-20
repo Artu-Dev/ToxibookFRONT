@@ -8,7 +8,7 @@ import { formateDate1 } from "../../../functions/FormateDate";
 
 import "./PostCard.css";
 import { likePostService } from "../../../services/post.services";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PostActions from "./postActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 

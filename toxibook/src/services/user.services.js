@@ -28,13 +28,9 @@ export const getUserService = async (token, userID) => {
 }
 
 export const isLoggedInService = async (token) => {
-  try {
-    const response = await axios.get(`${baseURL}/user/isLogged`,
-    {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message || error)
-  }
+  const response = await axios.get(`${baseURL}/user/isLogged`,
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response?.data;
 }
