@@ -10,15 +10,16 @@ import { useParams } from "react-router-dom";
 import { getUserService } from "../../services/user.services";
 import { MdVerified } from "react-icons/md";
 import { getPostsByUserService } from "../../services/post.services";
+import { renderPosts } from "../../functions/globalFunctions";
 
-const Profile = ({isYourProfile = false, isFollowing = false}) => {
+const Profile = ({isYourProfile = true, isFollowing = false}) => {
   const userID = useParams(window.location.href).id;
   const token = localStorage.getItem("AuthToken")
 
 	const [isFollowingUser, setIsFollowingUser] = useState(isFollowing);
 	const [user, setUser] = useState();
 	const [posts, setPosts] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
   const [imageFile, setImageFile] = useState(null);
   const [croppedImagePfp, setCroppedImagePfp] = useState(null);
@@ -36,12 +37,6 @@ const Profile = ({isYourProfile = false, isFollowing = false}) => {
 			setCroppedImagePfp(imageFile)
 			setShowCrop(false);
 		}
-    async function fetchUser() {
-      const userResponse = await getUserService(token, userID);
-      setUser(userResponse)
-    }
-    fetchUser();
-
 	}, [croppedArea])
 	
   useEffect(() => {
@@ -49,9 +44,16 @@ const Profile = ({isYourProfile = false, isFollowing = false}) => {
       const postsResponse = await getPostsByUserService(token, userID);
       setPosts(postsResponse);
       console.log(posts);
+      setLoading(false)
     };
+    async function fetchUser() {
+      const userResponse = await getUserService(token, userID);
+      setUser(userResponse)
+    }
+    
     fetchPosts();
-  }, [])
+    fetchUser();
+  }, []);
 
 	async function showCroppedImage() {
 		const imageCropped = await getCroppedImg(imageFile, croppedAreaPixels)
@@ -93,9 +95,7 @@ const Profile = ({isYourProfile = false, isFollowing = false}) => {
     <div className="profilePage-container centerFlex">
       <section className="profileDatas-container">
         <div className="profile-top-container">
-          <div
-            className="profile-banner"
-          >
+          <div className="profile-banner">
             {croppedImageBanner || user?.bannerImg  && (
               <img
                 className="banner-picture-img"
@@ -198,16 +198,7 @@ const Profile = ({isYourProfile = false, isFollowing = false}) => {
 				/>
       </section>
       <section className="profile-posts">
-        {posts &&
-          posts.map((post, index) => (
-            <PostCard 
-              key={index}
-              permissions={post.permissions}
-              post={post}
-              user={post.user}
-            />
-          ))
-        }
+        {posts && renderPosts(posts, [], loading)}
       </section>
 
       {showCrop && (

@@ -3,9 +3,10 @@ import "./InputComponent.css"
 
 const InputComponent = forwardRef((props, ref) => {
   return (
-    <span className="inputComponent" htmlFor={props.id} onChange={props.onInput}>
+    <span className="inputComponent" htmlFor={props.id}>
       <p>{props.text}</p>
       <input 
+        onChange={props.onInput}
         id={props.id}
         maxLength={props.maxLength}
         min={props.min}

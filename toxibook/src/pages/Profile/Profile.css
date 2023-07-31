@@ -1,7 +1,9 @@
 .profilePage-container {
 	flex-direction: column;
+	justify-content: start;
   width: 100%;
 	background: #191A19;
+	min-height: 100vh;
 }
 
 .profileDatas-container {
@@ -226,6 +228,7 @@
 
 .cropImage-container button {
 	padding: .5rem 1rem;
+	position: relative;
 }
 
 @media (min-width: 550px) {	

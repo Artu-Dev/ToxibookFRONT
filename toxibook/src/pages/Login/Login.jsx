@@ -1,6 +1,6 @@
 import {FaArrowRight, FaLock, FaUser} from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import "./Login.css"
 import InputComponent from "../../components/Layout/InputComponent/InputComponent";
@@ -10,13 +10,26 @@ import backgroundImg from "../../img/pexels-codioful-(formerly-gradienta)-698498
 import { Button } from "../../components/Layout/Button/Button";
 import { isLoggedInService, loginAuthService } from "../../services/user.services";
 
+// import { createUser,  } from "../../functions/LoginFunctions";
+import { AuthUserContext } from "../../contexts/AuthUser";
+
 const Login = () => {
-  const emailInput = useRef();
-  const passwordInput = useRef();
   const redirect = useNavigate();
 
   const [message, setMessage] = useState(false);
   const [isLaoding, setIsLoading] = useState(false);
+  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState(null);
+  
+  
+  const {signInUser, createUser, signed} = useContext(AuthUserContext);
+
+  async function handleSignUp() {
+    await createUser(email, password)
+  } 
+  async function handleLogIn() {
+    await signInUser(email, password)
+  } 
 
   function removeMessage() {
     setTimeout(() => {
@@ -26,19 +39,13 @@ const Login = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const email = emailInput.current.value;
-    const password = passwordInput.current.value;
     setIsLoading(true);
-
     try {
-      const response = await loginAuthService(email, password);
-      console.log(response);
-
-      localStorage.setItem("AuthToken", response.token);
-      localStorage.setItem("User", JSON.stringify(response.userData));
-      redirect("/");
+      const responseToken = await loginAuthService(email, password);
+      localStorage.setItem("AuthToken", responseToken);
     } catch (error) {
         console.log(error);
+        localStorage.clear();
         setIsLoading(false);
         
         if(error.response) setMessage(String(error.response.data.message));
@@ -70,6 +77,7 @@ const Login = () => {
     checkLogin();
   }, [])
 
+  if(signed) return <Navigate to={"/"}/>
   return (
     <main className="login-container">
       {
@@ -84,16 +92,16 @@ const Login = () => {
           <h1>Entrar</h1>
           <form onSubmit={handleSubmit}>
             <InputComponent 
+              onInput={(e) => setEmail(e.target.value)}
               type="email"
               text="Email"
-              ref={emailInput}
               icon={<FaUser/>}
               required={true}
-            />
+              />
             <InputComponent 
+              onInput={(e) => setPassword(e.target.value)}
               type="password"
               text="Senha"
-              ref={passwordInput}
               icon={<FaLock/>}
               required={true}
             />
@@ -103,7 +111,7 @@ const Login = () => {
               icon={<FaArrowRight/>}
               loading={isLaoding}
             />
-            <a className="cadastro">Criar uma conta</a>
+            <a className="cadastro" onClick={handleSignUp}>Criar uma conta</a>
           </form>
         </div>
       </section>

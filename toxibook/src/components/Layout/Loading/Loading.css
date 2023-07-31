@@ -1,7 +1,6 @@
 .loading-container {
     background: rgba(0, 0, 0, 0.37);
     height: 5rem;
-    position: fixed;
     left: 0;
     top: 0;
     height: 100%;
@@ -9,6 +8,7 @@
     display: grid;
     place-items: center;
     z-index: 9999;
+    padding: 2rem;
 }
 
 .loading-container svg {

@@ -1,9 +1,9 @@
 import {VscLoading} from "react-icons/vsc"
 import "./Loading.css";
 
-const Loading = () => {
+const Loading = ({position = "fixed"}) => {
   return (
-    <span className="loading-container">
+    <span style={{position: position}} className="loading-container">
       <VscLoading/>
     </span>
   )
