@@ -10,6 +10,8 @@
 
 .createPostContainer.reply {
 	border-radius: 0;
+	position: fixed;
+	bottom: -1rem;
 }
 
 .isCommentOf {
@@ -134,7 +136,11 @@
 	opacity: .7;
 }
 
-.createPost-topArea textarea {
+.textArea-container {
+	position: relative;
+}
+
+.textArea-container textarea {
 	resize: none;
 	min-width: 100%;
 	max-height: 9rem;
@@ -150,12 +156,29 @@
 	transition: outline ease .3s;
 }
 
-.createPost-topArea textarea:focus {
+.textArea-container textarea:focus {
 	outline: 2px solid #4E9F3D;
 }
 
+.dragArea {
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	border-radius: .3rem;
+	background: #4d9f3dda;
+	color: #F2ECFF;
+	font-size: 1.1rem;
+	font-weight: bolder;
+}
+
+.dragArea.dragReject {
+	background: #da0037e0;
+}
+
 .images-container {
-	margin-top: .5rem;
+	margin-top: .1rem;
 	display: flex;
 	gap: .5rem;
 	overflow-x: auto;
@@ -175,9 +198,21 @@
 	object-fit: contain;
 	border-radius: .5rem;
 	background: #c6c2ce;
+	transition: .3s;
 }
 
-.images-container i {
+.images-container:has(.circularProgressbar) img {
+	opacity: .4;
+}
+
+.images-container .circularProgressbar {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+} 
+
+.images-container .trashIcon {
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -188,11 +223,11 @@
 	transition: ease .3s;
 }
 
-.images-container li:has(i:hover) > img {
-	opacity: .5;
+.images-container li:has(.trashIcon:hover) > img {
+	opacity: .3;
 }
 
-.images-container i:hover {
+.images-container .trashIcon:hover {
 	color: #DA0037;
 	scale: 1.1;
 }
@@ -202,6 +237,10 @@
 	gap: 1rem;
 	padding: 0 .8rem;
 	padding-top: .5rem;
+}
+
+.uploadImage {
+	width: 100%;
 }
 
 .uploadImage input {

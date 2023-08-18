@@ -9,7 +9,6 @@ import Navbar from "../../components/Navbar/Navbar";
 import CreatePost from "../../components/CreatePost/CreatePost";
 import Loading from "../../components/Layout/Loading/Loading";
 import Message from "../../components/Layout/Message/Message";
-import { Navigate } from "react-router-dom";
 
 const Home = () => {
   const [messageType, setMessageType] = useState("error");
@@ -76,23 +75,22 @@ const Home = () => {
     ));
   }
 
+  function onChangeNavbar(fetchFunc) {
+    setIsLoading(true)
+    setPostList([]);
+    fetchFunc();
+  }
+
   useEffect(() => {
-    setIsLoading(true);
-    if (showTrendingPosts) {
-      setPostList([]);
-      fetchTrendingPost();
-    } else {
-      setPostList([]);
-      fetchLatestPost();
-    }
-  }, [showTrendingPosts]);
+    fetchTrendingPost();
+  }, []);
 
   return (
     <>
       {message && <Message hideMessage={() => setMessage(null)} text={message} type={messageType} />}
       <Navbar
-        showTrendingPosts={showTrendingPosts}
-        setShowTrendingPosts={(e) => setShowTrendingPosts(e)}
+        onOption1={() => onChangeNavbar(fetchTrendingPost)}
+        onOption2={() => onChangeNavbar(fetchLatestPost)}
       />
       <section className="homeContainer">
         <CreatePost

@@ -61,7 +61,10 @@ export async function getCroppedImg(imageSrc, pixelCrop) {
 
 }
 
-export const CropImage = ({imageSrc, setCroppedAreaPixels, setCroppedArea, aspect}) => {
+export const CropImage = ({imageFile, aspect, onFinish, onCancel}) => {
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState({ width: 0, height: 1 });
+  const [croppedArea, setCroppedArea] = useState({ width: 0, height: 1 });
+
 	const [crop, setCrop] = useState({x: 0, y: 0});
 	const [zoom, setZoom] = useState(1);
 
@@ -69,20 +72,33 @@ export const CropImage = ({imageSrc, setCroppedAreaPixels, setCroppedArea, aspec
 		setCroppedArea(croppedArea)
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
+	
+  async function showCroppedImage() {
+    const imageCropped = await getCroppedImg(imageFile, croppedAreaPixels);
+    onFinish(imageCropped);
+  }
 
 	return (
-		<Cropper
-			image={imageSrc}
-			transform={[
-				`translate(${crop.x}px, ${crop.y}px)`,
-				`scale(${zoom})`,
-			].join(' ')}
-			crop={crop}
-			zoom={zoom}
-			aspect={aspect}
-			onCropChange={setCrop}
-			onCropComplete={onCropComplete}
-			onZoomChange={setZoom}
-		/>
+		<>
+			<button style={{ zIndex: 1 }} onClick={showCroppedImage}>
+				finish
+			</button>
+			<button style={{ zIndex: 1 }} onClick={onCancel}>
+				Cancel
+			</button>
+			<Cropper
+				image={imageFile}
+				transform={[
+					`translate(${crop.x}px, ${crop.y}px)`,
+					`scale(${zoom})`,
+				].join(' ')}
+				crop={crop}
+				zoom={zoom}
+				aspect={aspect}
+				onCropChange={setCrop}
+				onCropComplete={onCropComplete}
+				onZoomChange={setZoom}
+			/>
+		</>
 	)
 }

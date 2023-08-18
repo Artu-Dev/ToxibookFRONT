@@ -1,21 +1,20 @@
 import { Link } from "react-router-dom";
-import "./UserContainer.css"
-
 import {MdVerified} from "react-icons/md";
 
-const UserContainer = ({userPFP, username, tag, verified, id}) => {
+const UserContainer = ({user, verified}) => {
+  if(!user || !!user.length) return 
   return (
-    <Link to={`/profile/${id}`} className="userContainer-link" onClick={(e) => e.stopPropagation()}>
+    <Link to={`/profile/${user._id}`} className="userContainer-link" onClick={(e) => e.stopPropagation()}>
       <div className="userContainer">
-        <img src={userPFP} alt="user profile picture" />
+        <img src={user.profileImg} alt="user profile picture" />
         <span>
-          <p className={`username ${verified ? "verified" : ""}`}>
-            {username}
+          <p className={`username ${user?.verified ? "verified" : ""}`}>
+            {user.username}
             {verified &&
               <span><MdVerified /></span>
             }
           </p>
-          <p className="tag">{tag}</p>
+          <p className="tag">{user.tag}</p>
         </span>
       </div>
     </Link>

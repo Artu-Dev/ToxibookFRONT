@@ -20,10 +20,12 @@ const ImageModal = ({imageSrc, setShowImageModal}) => {
 
 	function handleContainerClick(event) {
 		event.stopPropagation();
+    event.preventDefault();
 		setShowImageModal();
 	}
 	function handeImageClick(event) {
 		event.stopPropagation();
+    event.preventDefault();
 	}
 
 	return (

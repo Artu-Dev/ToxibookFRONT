@@ -54,8 +54,6 @@
 	border-radius: 2rem;
 	cursor: pointer;
 	z-index: 1;
-  display: grid;
-  place-items: center;
 	transition: ease .3s;
 }
 
@@ -106,8 +104,6 @@
 	color: #eee;
 	transition: ease .3s;
 	font-size: 0;
-  display: grid;
-  place-items: center;
 }
 
 .profile-picture-container:hover label {

@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { isLoggedInService, loginAuthService } from "../services/user.services";
 
 export const AuthUserContext = createContext({});
 export const UserContext = createContext({})
@@ -9,51 +10,38 @@ export const AuthUserProvider = ({children}) => {
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		const loadStoreAuth = () => {
-			const storageToken = localStorage.getItem("@AuthFirebase:token");
-			const storageUser = localStorage.getItem("@AuthFirebase:user");
-			if(storageToken && storageUser) {
-				setUser(storageUser);
-			}
-		}
-		loadStoreAuth();
-	}, [])
+    async function checkLogin() {      
+      try {
+				const token = localStorage.getItem("AuthToken");
+        const user = JSON.parse(localStorage.getItem("User"));
+        if(!user || !token) return
+        await isLoggedInService(token);
+				setUser(user);
+      } catch (error) {;
+				console.log(error);
+				localStorage.clear()
+      }
+    }
+    checkLogin();
+  }, [])
 	
 
-	function createUser(email, password) {
-		createUserWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-				const user = userCredential.user;
-				const token = userCredential.user.accessToken;
-
-				localStorage.setItem("@AuthFirebase:token", token);
-				localStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
-				
-				setUser(user);
-				console.log(userCredential);
-			})
-			.catch((error) => {
-				localStorage.clear();
-				console.log(error);
-			});
+	async function createUser(username, email, password, bio, tag, profileImg, bannerImg) {
+		try {
+			const {token, user} = await loginAuthService(email, password);
+			localStorage.setItem("token", token);
+			localStorage.setItem("user", user);
+		} catch (error) {
+			console.log(error);
+			localStorage.clear();
+		}
 	}
 	
-	function signInUser(email, password) {
-		signInWithEmailAndPassword(auth, email, password)  
-			.then((userCredential) => {
-				const user = userCredential.user;
-				const token = userCredential.user.accessToken;
-				
-				localStorage.setItem("@AuthFirebase:token", token);
-				localStorage.setItem("@AuthFirebase:user", JSON.stringify(user));
-
-				setUser(user);
-				console.log(userCredential);
-			})
-			.catch((error) => {
-				localStorage.clear();
-				console.log(error);
-			});
+	async function signInUser(email, password) {
+		const {token, user} = await loginAuthService(email, password);
+		localStorage.setItem("AuthToken", token);
+		localStorage.setItem("User", JSON.stringify(user));
+		setUser(user);
 	}
 
 	function signOut(){

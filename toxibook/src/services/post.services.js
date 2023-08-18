@@ -1,14 +1,22 @@
 import axios from 'axios';
 
+export const api = axios.create({
+  baseURL: "http://localhost:1234"
+})
+
 const baseURL = "http://localhost:1234"
 // const baseURL = "https://toxibook-backend.onrender.com"
 
-export const createPostService = async (token, data) => {
+export const createPostService = async (token, data, id, cb) => {
   try {
     const response = await axios.post(`${baseURL}/post`,
     data,
     {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
+      onUploadProgress: e => {
+        const progress = parseInt(Math.round((e.loaded * 100) / e.total));
+        cb(id, {progress,}) // fazer o media progress ficar para o post
+      }
     });
     return response.data;
   } catch (error) {
@@ -39,8 +47,11 @@ export const getLatestPostService = async (token) => {
 } 
 
 export const getPostsByUserService = async (token, id) => {
-
   return await handleGetFunctions(`${baseURL}/post/user/${id}`, token);
+} 
+
+export const getReplysByUserService = async (token, id) => {
+  return await handleGetFunctions(`${baseURL}/post/user/reply/${id}`, token);
 } 
 
 export const getPostByIdService = async (id, token) => {
@@ -52,6 +63,5 @@ async function handleGetFunctions(url, token) {
   {
     headers: { Authorization: `Bearer ${token}` }
   });
-  console.log(response.data);
   return response.data;
 }

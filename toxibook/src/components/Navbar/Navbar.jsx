@@ -1,21 +1,29 @@
 import { Link } from "react-router-dom";
 import "./NavBar.css";
+import { useState } from "react";
 
 const Navbar = ({
   radio1 = "Trending",
   radio2 = "Latest",
   position,
   background,
-  setShowTrendingPosts,
-  showTrendingPosts,
+  onOption1,
+  onOption2
 }) => {
+  const [showTrendingPosts, setShowTrendingPosts] = useState(true);
+
+  function handleOpt1(onOptionFunc) {
+    setShowTrendingPosts(!showTrendingPosts);
+    onOptionFunc();
+  }
+
   return (
     <nav
       className="navBar-container"
       style={{ position: position, backgroundColor: background }}
     >
       <input
-        onChange={() => setShowTrendingPosts(true)}
+        onChange={() => handleOpt1(onOption1)}
         type="radio"
         id="radio-1"
         name="tabs"
@@ -25,7 +33,7 @@ const Navbar = ({
         {radio1}
       </label>
       <input
-        onChange={() => setShowTrendingPosts(false)}
+        onChange={() => handleOpt1(onOption2)}
         type="radio"
         id="radio-2"
         name="tabs"

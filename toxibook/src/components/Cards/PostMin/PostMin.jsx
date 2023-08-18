@@ -4,33 +4,32 @@ import UserContainer from '../../Layout/UserContainer/UserContainer'
 
 import "./PostMin.css"
 
-const PostMin = ({username, tag, userPFP, date, postText, postImg, postId, userId}) => {
+const PostMin = ({post, user}) => {
   const navigate = useNavigate(); 
 
   function handleClickMinPost(event) {
     event.stopPropagation();
-    navigate(`/post/${postId}`)
+    event.preventDefault();
+    navigate(`/post/${post._id}`)
   }
 
   return (
-    <div className="postMin-container" onClick={(event) => handleClickMinPost(event)}>
+    <div className="postMin-container" onClick={handleClickMinPost}>
       <div className="postMin-top">
         <UserContainer 
-          id={userId}
-          userPFP={userPFP}
-          username={username}
-          tag={tag}
+          user={user}
+          verified={user?.verified}
         />
-        <p>{formateDate1(date)}</p>
+        <p>{formateDate1(post.createdAt)}</p>
       </div>
       <div 
         className="postMin-content"
       >
-        {postText &&
-          <p>{postText}</p>
+        {post.textContent &&
+          <p>{post.textContent}</p>
         }
-        {postImg &&
-          <img src={postImg} alt="post"/>
+        {post.imageContent &&
+          <img src={post.imageContent} alt="post"/>
         }
       </div>
     </div>

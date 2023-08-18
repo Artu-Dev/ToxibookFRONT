@@ -1,5 +1,5 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import UserContainer from "../../Layout/UserContainer/UserContainer";
 import PostMin from "../PostMin/PostMin";
@@ -7,28 +7,17 @@ import PostMin from "../PostMin/PostMin";
 import { formateDate1 } from "../../../functions/FormateDate";
 
 import "./PostCard.css";
-import { likePostService } from "../../../services/post.services";
 import { useState } from "react";
 import PostActions from "./postActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 
-const PostCard = ({ user, post, permissions, type, liked }) => {
+const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("AuthToken");
 
   const [showImageModal, setShowImageModal] = useState(false);
-  const [postLiked, setPostLiked] = useState(liked);
-  const [totalLikes, setTotalLikes] = useState(post.totalLikes);
-  const [totalShares, setTotalShares] = useState(post.totalShares);
-  const [totalComments, setTotalComments] = useState(post.totalComments);
-
 
   function handleClick(postId) {
     navigate(`/post/${postId}`);
-  }
-
-  function handleClickPost(postId) {
-    handleClick(postId);
   }
 
   function handleClickIsCommentOf(event, isCommentId) {
@@ -36,36 +25,17 @@ const PostCard = ({ user, post, permissions, type, liked }) => {
     handleClick(isCommentId);
   }
 
-  async function handleLikePost(event) {
-    event.stopPropagation();
-    const likeResponse = await likePostService(post._id, token);
-    setPostLiked(!postLiked);
-    setTotalLikes(likeResponse.totalLikes);
-
-    
-    // if (postLiked) {
-    //   setTotalLikes((prev) => prev - 1);
-    // } else {
-    //   setTotalLikes((prev) => prev + 1);
-    // }
-  }
-
   function handleImageClick(event) {
     event.stopPropagation();
+    event.preventDefault();
     setShowImageModal(true);
-  }
+  } 
 
   return (
-    <article
-      className={`postContainer ${type}`}
-      onClick={() => handleClickPost(post._id)}
-    >
+    <article className={`postContainer ${type}`}>
       <div className="topPost-container">
         <UserContainer
-          id={user._id}
-          userPFP={user.profileImg}
-          username={user.username}
-          tag={user.tag}
+          user={user}
           verified={user?.verified}
         />
         <div className="infoContainer">
@@ -75,7 +45,7 @@ const PostCard = ({ user, post, permissions, type, liked }) => {
           </i>
         </div>
       </div>
-      <div className="postContent">
+      <Link to={`/post/${post._id}`} className="postContent">
         {post.isCommentOf && (
           <span
             className="isComment"
@@ -103,30 +73,23 @@ const PostCard = ({ user, post, permissions, type, liked }) => {
             )}
           </>
         )}
-
-        {post.isShareOf && (
-          <PostMin
-            username={post.isShareOf.user.username}
-            tag={post.isShareOf.user.tag}
-            userPFP={post.isShareOf.user.profileImg}
-            date={post.isShareOf.createdAt}
-            postText={post.isShareOf.textContent}
-            postImg={post.isShareOf.imageContent}
-            postId={post.isShareOf._id}
-            userId={post.isShareOf.user._id}
-          />
-        )}
-
-        <PostActions
-          postLiked={postLiked}
-          onClick={(e) => handleLikePost(e)}
-          totalComments={totalComments}
-          totalLikes={totalLikes}
-          totalShares={totalShares}
-          canComment={permissions.canComment}
-          privatePost={permissions.privatePost}
+      </Link>
+      {post.isShareOf && (
+        <PostMin
+          date={post.isShareOf.createdAt}
+          postText={post.isShareOf.textContent}
+          postImg={post.isShareOf.imageContent}
+          postId={post.isShareOf._id}
+          
+          post={post.isShareOf}
+          user={user}
         />
-      </div>
+      )}
+      <PostActions
+        liked={liked}
+        post={post}
+        permissions={permissions}
+      />
     </article>
   );
 };

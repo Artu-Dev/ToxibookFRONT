@@ -1,10 +1,12 @@
 import "./Message.css"; 
 
-const Message = ({text, type, hideMessage}) => {
+const Message = ({text, type = "error", hideMessage}) => {
 	return (
-		<div className={`messageBar centerFlex ${type}`}>
-			<p>{text}</p>
-			<span onClick={hideMessage}>X</span>
+		<div className={`messageBarContainer centerFlex ${type}`}>
+			<div className="messageBar">
+				<p>{text}</p>
+				<span onClick={hideMessage}>X</span>
+			</div>
 		</div>
 	)
 }

@@ -12,23 +12,18 @@ import { isLoggedInService, loginAuthService } from "../../services/user.service
 
 // import { createUser,  } from "../../functions/LoginFunctions";
 import { AuthUserContext } from "../../contexts/AuthUser";
+import Message from "../../components/Layout/Message/Message";
 
 const Login = () => {
-  const redirect = useNavigate();
-
   const [message, setMessage] = useState(false);
   const [isLaoding, setIsLoading] = useState(false);
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
   
-  
   const {signInUser, createUser, signed} = useContext(AuthUserContext);
 
   async function handleSignUp() {
     await createUser(email, password)
-  } 
-  async function handleLogIn() {
-    await signInUser(email, password)
   } 
 
   function removeMessage() {
@@ -41,47 +36,27 @@ const Login = () => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const responseToken = await loginAuthService(email, password);
-      localStorage.setItem("AuthToken", responseToken);
+      await signInUser(email, password);
     } catch (error) {
         console.log(error);
-        localStorage.clear();
         setIsLoading(false);
         
         if(error.response) setMessage(String(error.response.data.message));
 
         if(error.message === "Network Error"){
-          setMessage("Erro de conexão!");
+          setMessage("Erro de conexão! verifique sua conexão com a internet!!");
+          return
         }
         
         removeMessage();
     }
   }
 
-  useEffect(() => {
-    async function checkLogin() {      
-      try {
-        const token = localStorage.getItem("AuthToken");
-        const user = JSON.parse(localStorage.getItem("User"));
-        if(!user || !token) return
-
-        await isLoggedInService(token);
-        redirect("/");
-      } catch (error) {
-        localStorage.removeItem("AuthToken");
-        localStorage.removeItem("User");
-        setMessage(error.message);
-        removeMessage();
-      }
-    }
-    checkLogin();
-  }, [])
-
   if(signed) return <Navigate to={"/"}/>
   return (
     <main className="login-container">
       {
-        message && <p>{message}</p>
+        message && <Message text={message} hideMessage={() => setMessage(null)}></Message>
       }
       <section>
         <div className="login-secondary">
@@ -111,7 +86,7 @@ const Login = () => {
               icon={<FaArrowRight/>}
               loading={isLaoding}
             />
-            <a className="cadastro" onClick={handleSignUp}>Criar uma conta</a>
+            <a className="cadastro" onClick={() => alert("ainda nao")}>Criar uma conta</a>
           </form>
         </div>
       </section>

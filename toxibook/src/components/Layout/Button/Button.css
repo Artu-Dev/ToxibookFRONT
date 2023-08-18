@@ -1,6 +1,6 @@
-
 .submit-btn {
-  width: 7rem;
+  width: 100%;
+  max-width: 7rem;
   height: 2.5rem;
   border-radius: 3rem;
 	font-size: .9rem;
@@ -15,6 +15,10 @@
   position: relative;
   cursor: pointer;
   font-weight: 600;
+}
+
+.submit-btn:disabled {
+  cursor: progress;
 }
 
 .enterBtn {
@@ -36,9 +40,27 @@
   transition: all .5s ease;
 }
 
-.submit-btn:hover span {
+.submit-btn:hover span, .loading {
   width: calc(7rem - (.3rem)*2);
 }
+
+.submit-btn .loading {
+  width: calc(7rem - (.3rem)*2);
+}
+.loading svg {
+  font-size: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 /* 
 #D8E9A8

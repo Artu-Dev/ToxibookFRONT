@@ -6,8 +6,8 @@
   margin-bottom: .5rem;
   border-bottom: 2px solid #333;
   border-bottom: 2px solid #da003783;
+  border-radius: .5rem;
   position: relative;
-  cursor: pointer;
   transition: ease .3s;
   width: 100%;
   max-width: 600px;
@@ -73,7 +73,6 @@
   position: relative;
   width: fit-content;
   bottom: -.5rem;
-
   cursor: pointer;
 }
 
@@ -85,11 +84,15 @@
   content: "@";
 }
 
+.postContent {
+  text-decoration: none;
+  color: inherit;
+}
+
 .postContent > p {
   padding: .8rem .3rem;
   padding-bottom: .5rem;
   font-size: 1.3rem;
-  cursor: pointer;
 }
 
 .postContent:has(img) > p {
@@ -144,7 +147,7 @@
     background: #191A19;
     align-self: center;
     aspect-ratio: 1 / 1;
-    max-height: 25rem;
+    max-height: 30rem;
     height: fit-content;
     max-width: 700px;
   }

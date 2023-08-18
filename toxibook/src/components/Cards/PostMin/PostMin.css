@@ -47,3 +47,10 @@
   border-radius: .5rem;
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.404);
 }
+
+
+@media (min-width: 550px) {
+  .postMin-container {
+    margin-left: 4rem;
+  }
+}
