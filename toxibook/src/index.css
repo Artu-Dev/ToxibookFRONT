@@ -24,3 +24,10 @@ html, body {
   background: #1E5128;
   color: #D8E9A8;
 }
+
+.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 .05em 0 .1em;
+  vertical-align: -0.1em;
+}

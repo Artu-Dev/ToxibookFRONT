@@ -65,7 +65,6 @@ const PostDetails = () => {
         permissions={post.permissions}
         user={post.user}
       />
-      {comments && renderComments()}
       {post?.permissions.canComment &&
         <CreatePost 
           type={"reply"}
@@ -75,6 +74,7 @@ const PostDetails = () => {
           isCommentOfID={post._id}
         />
       }
+      {comments && renderComments()}
     </div>
   )
 }

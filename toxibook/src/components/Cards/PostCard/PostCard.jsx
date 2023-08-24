@@ -7,12 +7,14 @@ import PostMin from "../PostMin/PostMin";
 import { formateDate1 } from "../../../functions/FormateDate";
 
 import "./PostCard.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PostActions from "./postActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
+import twemoji from "twemoji";
 
 const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
   const navigate = useNavigate();
+  const postRef = useRef();
 
   const [showImageModal, setShowImageModal] = useState(false);
 
@@ -22,6 +24,7 @@ const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
 
   function handleClickIsCommentOf(event, isCommentId) {
     event.stopPropagation();
+    event.preventDefault();
     handleClick(isCommentId);
   }
 
@@ -30,9 +33,12 @@ const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
     event.preventDefault();
     setShowImageModal(true);
   } 
+  useEffect(() => {
+    twemoji.parse(postRef.current);
+  }, [])
 
   return (
-    <article className={`postContainer ${type}`}>
+    <article ref={postRef} className={`postContainer ${type}`}>
       <div className="topPost-container">
         <UserContainer
           user={user}

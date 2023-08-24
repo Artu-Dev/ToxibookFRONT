@@ -1,0 +1,88 @@
+.editProfileModal {
+	position: fixed;
+	z-index: 99;
+	background: #000000d0;
+	width: 100%;
+	height: 100%;
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.editProfileContainer {
+	background: aliceblue;
+	border-radius: .4rem;
+	padding: 3rem 1rem;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	max-width: 500px;
+	width: 100%;
+}
+
+.closeBtn {
+	padding: 1rem;
+	font-size: 1.7rem;
+	right: 0;
+	top: 0;
+	position: absolute;
+	cursor: pointer;
+	transition: ease .3s;
+}
+
+.closeBtn:hover {
+	scale: 1.1;
+	color: #191A19;
+}
+
+.editProfileTitle {
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+.editProfileTitle h1 {
+	font-size: 2rem;
+	color: #191A19;
+}
+
+.editProfileTitle h2 {
+	font-size: 1rem;
+	color: #5a5a5a;
+}
+
+.editProfileForm {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+	padding: 0 1rem;
+}
+
+.editProfileForm input[type="file"]{
+	display: none;
+}
+
+.editProfileButtons {
+	margin-top: 1rem;
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+}
+
+.editProfileButtons button {
+	background: none;
+	border: none;
+	font-size: 1rem;
+	font-weight: bold;
+	color: #191A19;
+	cursor: pointer;
+}
+
+.editProfileButtons button:hover {
+	color: #2e5e24;
+}
+
+.editProfileButtons button:last-child:hover {
+	color: #c42424;
+}

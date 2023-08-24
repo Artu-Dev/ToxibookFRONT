@@ -11,6 +11,7 @@
   gap: .5rem;
   font-size: 1rem;
   color: #d3d3d3;
+  cursor: pointer;
 }
 
 .bottomPost-container ul li i {

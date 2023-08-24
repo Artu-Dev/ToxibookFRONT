@@ -1,12 +1,13 @@
 import "./Profile.css";
-import { HiUserAdd, HiUserRemove } from "react-icons/hi";
+import { HiArrowLeft, HiUserAdd, HiUserRemove } from "react-icons/hi";
 import { HiPencilSquare } from "react-icons/hi2";
 import Navbar from "../../components/Navbar/Navbar";
 import Loading from "../../components/Layout/Loading/Loading";
 import { useEffect, useRef, useState } from "react";
-import { CropImage, getCroppedImg } from "../../components/CropImage/CropImage";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { CropImage } from "../../components/CropImage/CropImage";
+import { useNavigate, useParams } from "react-router-dom";
 import {
+  updateUserDatasService,
   followUserService,
   getUserService,
 } from "../../services/user.services";
@@ -16,10 +17,13 @@ import { renderPosts } from "../../functions/globalFunctions";
 import { filesize } from "filesize";
 import { uniqueId } from "lodash";
 import { ImageEditorInput } from "../../components/ImageEditorInput/ImageEditorInput";
+import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
+import Message from "../../components/Layout/Message/Message";
 
 const Profile = () => {
   const userID = useParams(window.location.href).id;
   const token = localStorage.getItem("AuthToken");
+  const user = JSON.parse(localStorage.getItem("User"));
 
   const [isYourProfile, setIsYourProfile] = useState(false);
   const [isFollowingUser, setIsFollowingUser] = useState(false);
@@ -28,44 +32,44 @@ const Profile = () => {
   const [userProfile, setUserProfile] = useState();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const [imageFile, setImageFile] = useState(null);
-  const [croppedImagePfp, setCroppedImagePfp] = useState(null);
-  const [croppedImageBanner, setCroppedImageBanner] = useState(null);
   const [showCrop, setShowCrop] = useState(false);
   const [aspect, setAspect] = useState(1 / 1);
 
-  const inputImagePfp = useRef();
+  const inputImagePfp = useRef(); 
   const inputImageBannerRef = useRef();
-  const user = JSON.parse(localStorage.getItem("User"));
-  const redirect = useNavigate()
+  const redirect = useNavigate();
 
-
-  useEffect(() => {
-    async function fetchUser() {
-      const userResponse = await getUserService(token, userID);
-
-      setIsFollowingUser(userResponse.followInfo.followers.includes(user?._id));
-      setIsYourProfile(user?._id === userID);
-
-      setTotalFollowers(userResponse?.followInfo.totalFollowers);
-      setTotalFollowing(userResponse?.followInfo.totalFollowing);
-
-      setUserProfile(userResponse);
-    }
-
-    fetchPosts();
+  useEffect(() => {   
+    setIsYourProfile(user?._id === userID);
+    fetchPostOrReply();
     fetchUser();
-  }, []);
+  }, [userID]); 
+  
+  async function fetchUser() {
+    const userResponse = await getUserService(token, userID);
+    updateProfileInfos(userResponse);
+  }
 
-  async function fetchPosts() {
-    const postsResponse = await getPostsByUserService(token, userID);
-    setPosts(postsResponse);
-    setLoading(false);
+  function updateProfileInfos(userData) {
+    setTotalFollowers(userData?.followInfo.totalFollowers);
+    setTotalFollowing(userData?.followInfo.totalFollowing);
+    setUserProfile(userData);
+    setIsFollowingUser(userData.followInfo.followers.includes(user?._id));
   }
   
-  async function fetchReply() {
-    const postsResponse = await getReplysByUserService(token, userID);
+  async function fetchPostOrReply(latest = false) {
+    setLoading(true);
+
+    let postsResponse;
+    if(latest) {
+      postsResponse = await getReplysByUserService(token, userID);
+    } else {
+      postsResponse = await getPostsByUserService(token, userID);
+    }
+    
     setPosts(postsResponse);
     setLoading(false);
   }
@@ -121,25 +125,51 @@ const Profile = () => {
     }
   }
 
-  function handleFinishCrop(image) {
-    if(aspect === 1 / 1) setCroppedImagePfp(image)
-    else setCroppedImageBanner(image)
+  async function handleFinishCrop(image) {
+    const data = new FormData();
+    if(aspect === 1/1) {
+      data.append("profileImg", image);
+    } else {
+      data.append("bannerImg", image);
+    }
+
+    for (let entry of data.entries()) {
+      console.log(entry);
+    }
+
+    const newUser = await updateUserDatasService(token, user._id, data);
+    localStorage.setItem("User", JSON.stringify(newUser));
+    handleCloseCrop();
+    updateProfileInfos(newUser);
+  }
+
+  function handleBack() {
+    redirect("/");
   }
 
   if (!userProfile) return <Loading />;
   return (
     <div className="profilePage-container centerFlex">
+      {showEditModal &&
+        <EditProfileModal
+          onUpdateDatas={(data) => setUserProfile(data)}
+          closeModal={() => setShowEditModal(false)}
+        />
+      }
+      {/* <Message /> */}
       <section className="profileDatas-container">
+        <span className="backbutton" onClick={handleBack}>
+          <HiArrowLeft/>
+        </span>
         <div className="profile-top-container">
           <div className="profile-banner">
-            {croppedImageBanner &&
-              (userProfile?.bannerImg && (
+            {userProfile?.bannerImg && (
                 <img
                   className="banner-picture-img"
-                  src={croppedImageBanner || userProfile?.bannerImg}
+                  src={userProfile?.bannerImg}
                   alt="profile picture"
                 />
-              ))}
+              )}
             {isYourProfile && (
               <ImageEditorInput
                 id={"bannerImgInput"}
@@ -149,14 +179,13 @@ const Profile = () => {
             )}
           </div>
           <div className="profile-picture-container">
-            {croppedImagePfp &&
-              (userProfile?.profileImg && (
+            {userProfile?.profileImg &&  (
                 <img
                   className="profile-picture-img"
-                  src={croppedImagePfp || userProfile?.profileImg}
+                  src={userProfile?.profileImg}
                   alt="profile picture"
                 />
-              ))}
+              )}
 
             {isYourProfile && (
               <ImageEditorInput
@@ -194,7 +223,7 @@ const Profile = () => {
             </div>
           </div>
           {isYourProfile ? (
-            <button className="profile-infoBtn edit">
+            <button className="profile-infoBtn edit" onClick={() => setShowEditModal(true)}>
               Editar Perfil
               <span>
                 <HiPencilSquare />
@@ -214,8 +243,8 @@ const Profile = () => {
           )}
         </div>
         <Navbar
-          onOption1={() => fetchPosts()}
-          onOption2={() => fetchReply()}
+          onOption1={() => fetchPostOrReply()}
+          onOption2={() => fetchPostOrReply(true)}
           radio1={"Posts"}
           radio2={"Respostas"}
           position={"relative"}
@@ -229,6 +258,7 @@ const Profile = () => {
       {showCrop && (
         <div className="cropImage-container">
           <CropImage
+            imageName={user.tag}
             onCancel={() => handleCloseCrop()}
             onFinish={handleFinishCrop}
             imageFile={imageFile?.preview}

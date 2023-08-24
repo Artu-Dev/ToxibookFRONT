@@ -26,6 +26,14 @@
 	background: #1E5128;
 }
 
+.backbutton {
+	position: absolute;
+	z-index: 1;
+	font-size: 1.5rem;
+	padding: 1rem;
+	cursor: pointer;
+}
+
 .profile-banner .banner-picture-img {
 	border-radius: 0;
 	height: 100%;

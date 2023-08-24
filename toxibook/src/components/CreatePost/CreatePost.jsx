@@ -1,23 +1,28 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
-import { BsImageFill, BsTrash2Fill } from "react-icons/bs";
+import React, { useRef, useState, useContext } from "react";
+import { BsTrash2Fill } from "react-icons/bs";
 import { HiPaperAirplane } from "react-icons/hi2";
-import { entries, uniqueId } from "lodash";
+import { uniqueId } from "lodash";
 import { filesize } from "filesize";
 import { CircularProgressbar } from "react-circular-progressbar";
 
-import { UserContext, AuthUserContext } from "../../contexts/AuthUser";
-import { api, createPostService } from "../../services/post.services";
+import { AuthUserContext } from "../../contexts/AuthUser";
+import { createPostService } from "../../services/post.services";
 import UserContainer from "../Layout/UserContainer/UserContainer";
 import { Button } from "../Layout/Button/Button";
 import Dropzone from "react-dropzone";
 
+import {BiSmile} from "react-icons/bi";
+import {MdImage} from "react-icons/md";
+
+import EmojiPicker from "emoji-picker-react"
+
 import "./CreatePost.css";
 
-
 const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, type}) => {
-	const [textContent, setTextContent] = useState(null);
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
+  const [mediaState, setMediaState] = useState([]);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   
   const { signed } = useContext(AuthUserContext);
 
@@ -25,12 +30,9 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
 	const textAreaRef = useRef();
 	const inputImageReg = useRef();
 
-  const [mediaState, setMediaState] = useState([]);
-
   const user = JSON.parse(localStorage.getItem("User"));
   
 	function autoGrow() {
-    setTextContent(textAreaRef.current.value)
 		textAreaRef.current.style.height = "5px";
 		textAreaRef.current.style.height = (textAreaRef.current.scrollHeight) + "px";
 	}
@@ -54,7 +56,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
     appendDataIfValid(data, "privatePost", isPrivateSelectRef.current.value === "private");
     appendDataIfValid(data, "isShareOf", isShareOf);
     appendDataIfValid(data, "isCommentOf", isCommentOfID);
-    appendDataIfValid(data, "textContent", textContent);
+    appendDataIfValid(data, "textContent", textAreaRef.current.value);
     if(!!Object.keys(mediaState).length) {
       data.append("imageContent", mediaState?.imageFile, mediaState?.name);
     }
@@ -206,19 +208,36 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
       {renderImages()}
 
       <div className="createPost-bottomArea centerFlex">
-        <span className="uploadImage">
-          <input
-            type="file"
-            id="imageInput"
-            ref={inputImageReg}
-            multiple={false}
-            accept="image/*"
-            onInput={(e) => handleProcessImageFiles(e.target.files)}
-          />
-          <label htmlFor="imageInput">
-            <BsImageFill />
-          </label>
-        </span>
+        <div className="icons-container">
+          <span className="uploadImage">
+            <label htmlFor="imageInput">
+              <input
+                type="file"
+                id="imageInput"
+                ref={inputImageReg}
+                multiple={false}
+                accept="image/*"
+                onInput={(e) => handleProcessImageFiles(e.target.files)}
+              />
+              <MdImage />
+            </label>
+          </span>
+
+          <span className="emojiIcon">
+            <BiSmile
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            />
+          </span>
+          {showEmojiPicker && (
+            <EmojiPicker
+              theme="dark"
+              width={300}
+              emojiStyle="twitter"
+              lazyLoadEmojis={true}
+              onEmojiClick={(e) => textAreaRef.current.value = textAreaRef.current.value.concat(" ", e.emoji)}
+            />
+          )}
+        </div>
 
         <Button
           onClickBtn={() => handleUploadPost()}

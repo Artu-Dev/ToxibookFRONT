@@ -10,7 +10,7 @@ const createImg = async (url) => {
 	})
 }
 
-export async function getCroppedImg(imageSrc, pixelCrop) {
+export async function getCroppedImg(imageSrc, pixelCrop, imageName) {
 	const image = await createImg(imageSrc)
 	const canvas = document.createElement('canvas')
 	const ctx = canvas.getContext('2d')
@@ -54,14 +54,16 @@ export async function getCroppedImg(imageSrc, pixelCrop) {
 	// return canvas.toDataURL('image/jpeg');
 
 	return new Promise((resolve, reject) => {
-		canvas.toBlob((file) => {
-			resolve(URL.createObjectURL(file))
+		canvas.toBlob((blob) => {
+			const fileName = `${imageName}${Date.now()}`;
+			const file = new File([blob], fileName, { type: "image/jpeg" });
+			resolve(file)
 		}, "image/jpeg");
 	})
 
 }
 
-export const CropImage = ({imageFile, aspect, onFinish, onCancel}) => {
+export const CropImage = ({imageFile, aspect, onFinish, onCancel, imageName}) => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState({ width: 0, height: 1 });
   const [croppedArea, setCroppedArea] = useState({ width: 0, height: 1 });
 
@@ -74,7 +76,7 @@ export const CropImage = ({imageFile, aspect, onFinish, onCancel}) => {
   }, []);
 	
   async function showCroppedImage() {
-    const imageCropped = await getCroppedImg(imageFile, croppedAreaPixels);
+    const imageCropped = await getCroppedImg(imageFile, croppedAreaPixels, imageName);
     onFinish(imageCropped);
   }
 

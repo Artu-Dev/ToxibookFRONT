@@ -10,8 +10,7 @@
 
 .createPostContainer.reply {
 	border-radius: 0;
-	position: fixed;
-	bottom: -1rem;
+	margin-bottom: 0;
 }
 
 .isCommentOf {
@@ -214,7 +213,7 @@
 
 .images-container .trashIcon {
 	position: absolute;
-	right: 0;
+	right: .5rem;
 	top: 0;
 	padding: .5rem .7rem;
 	cursor: pointer;
@@ -239,9 +238,33 @@
 	padding-top: .5rem;
 }
 
-.uploadImage {
+.icons-container {
 	width: 100%;
+	display: flex;
+	gap: 1rem;
+	position: relative;
 }
+
+.icons-container span {
+	display: flex;
+	background: none;
+	border: none;
+	color: #eee;
+	font-size: 1.3rem;
+	cursor: pointer;
+}
+
+.emojiIcon {
+	position: relative;
+	z-index: 2;
+}
+
+.icons-container .EmojiPickerReact {
+	position: absolute !important;
+	left: -1.6rem;
+	top: 3rem;
+	z-index: 2;
+} 
 
 .uploadImage input {
 	display: none;
@@ -253,12 +276,34 @@
 	cursor: pointer;
 	transition: ease .3s;
 	display: flex;
+	position: relative;
+	z-index: 0;
 }
 
 .uploadImage label:hover {
 	color: #4E9F3D;
 }
 
+.uploadImage label::before,
+.icons-container span::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	height: 2rem;
+	width: 2rem;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	background:#323432;
+	border-radius: 50%;
+	opacity: 0;
+	transition: ease .2s;
+}
+
+.uploadImage label:hover::before,
+.icons-container span:hover::before	{
+	opacity: 1;
+}
 
 @media (min-width: 540px) {	
 	.createPostContainer {

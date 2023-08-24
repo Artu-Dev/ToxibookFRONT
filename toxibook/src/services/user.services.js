@@ -19,6 +19,14 @@ export const getUserService = async (token, userID) => {
   return response.data;
 }
 
+export const updateUserDatasService = async (token, userID, data) => {
+  const response = await axios.patch(`${baseURL}/user/update/${userID}`,data,
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+}
+
 export const followUserService = async (token, userID) => {
   const response = await axios.patch(`${baseURL}/user/follow/${userID}`,{},
   {
