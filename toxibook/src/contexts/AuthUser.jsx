@@ -44,14 +44,14 @@ export const AuthUserProvider = ({children}) => {
 		setUser(user);
 	}
 
-	function signOut(){
+	function logOut(){
 		localStorage.clear();
 		setUser(null);
 		return <Navigate to={"/"}/>
 	}
 
 	return (
-		<AuthUserContext.Provider value={{signInUser, createUser, signOut, signed: !!user}}>
+		<AuthUserContext.Provider value={{signInUser, createUser, logOut, signed: !!user}}>
 			{children}
 		</AuthUserContext.Provider>
 	)

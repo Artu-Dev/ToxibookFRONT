@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
 import { BsTrash2Fill } from "react-icons/bs";
 import { HiPaperAirplane } from "react-icons/hi2";
 import { uniqueId } from "lodash";
@@ -28,7 +28,8 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
 
 	const isPrivateSelectRef = useRef();
 	const textAreaRef = useRef();
-	const inputImageReg = useRef();
+	const inputImageRef = useRef();
+	const emojiPickerRef = useRef();
 
   const user = JSON.parse(localStorage.getItem("User"));
   
@@ -69,7 +70,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
 			setPostList(post);
       setMediaState([]);
       textAreaRef.current.value = null;
-      inputImageReg.current.value = null
+      inputImageRef.current.value = null
 		} catch (err) {
 			console.log(err);
 		}
@@ -104,7 +105,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
 	function removeImage(index) {
 		// setMediaState(prev => prev.filter((_, i) => i !== index));
     
-    inputImageReg.current.value = null
+    inputImageRef.current.value = null
 		setMediaState([]);
 	}
 
@@ -141,6 +142,21 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
       </>
     );
   }
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if(emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)){
+        setShowEmojiPicker(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [])
+  
 
 	if(!signed) return 
 	return (
@@ -214,7 +230,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
               <input
                 type="file"
                 id="imageInput"
-                ref={inputImageReg}
+                ref={inputImageRef}
                 multiple={false}
                 accept="image/*"
                 onInput={(e) => handleProcessImageFiles(e.target.files)}
@@ -223,20 +239,20 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
             </label>
           </span>
 
-          <span className="emojiIcon">
+          <span className="emojiIcon" ref={emojiPickerRef}>
             <BiSmile
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
             />
+            {showEmojiPicker && (
+              <EmojiPicker
+                theme="dark"
+                width={300}
+                emojiStyle="twitter"
+                lazyLoadEmojis={true}
+                onEmojiClick={(e) => textAreaRef.current.value = textAreaRef.current.value.concat(" ", e.emoji)}
+              />
+            )}
           </span>
-          {showEmojiPicker && (
-            <EmojiPicker
-              theme="dark"
-              width={300}
-              emojiStyle="twitter"
-              lazyLoadEmojis={true}
-              onEmojiClick={(e) => textAreaRef.current.value = textAreaRef.current.value.concat(" ", e.emoji)}
-            />
-          )}
         </div>
 
         <Button

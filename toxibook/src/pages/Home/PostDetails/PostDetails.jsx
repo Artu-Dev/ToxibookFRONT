@@ -7,6 +7,8 @@ import { getPostByIdService } from "../../../services/post.services";
 import Loading from "../../../components/Layout/Loading/Loading" 
 import CreatePost from "../../../components/CreatePost/CreatePost";
 import "./PostDetails.css"
+import { AlertBox } from "../../../components/AlertBox/AlertBox";
+import { MdComment, MdLock } from "react-icons/md";
 
 const PostDetails = () => {
   const [post, setPost] = useState(null);
@@ -42,7 +44,23 @@ const PostDetails = () => {
     fetchPostById();
   }, [id]);
 
-  function renderComments() { 
+  function renderComments() {
+    if(!post?.permissions.canComment) {
+      return <AlertBox
+        theme={"alert"}
+        icon={<MdLock/>}
+        text={"Uh-oh! Parece que os comentários estão desativados pelo autor deste post."}
+      />
+    }
+
+    if(!comments.length) {
+      return <AlertBox
+        theme={"green"}
+        icon={<MdComment/>}
+        text={"Vazio por aqui! Parece que ainda não há comentários neste post."}
+      />
+    }
+
     return comments.map(({post, isLiked}) => (
       <PostCard 
         key={post._id}

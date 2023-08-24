@@ -1,0 +1,56 @@
+.alertBox-container {
+	display: flex;
+	background: #0f100f;
+	border-radius: .5rem;
+	padding: 1rem;
+	margin: 0 .5rem;
+	margin-top: .5rem;
+	max-width: 600px;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+.alert {
+	background: #615226;
+	opacity: .8;
+}
+.green {
+	background: #D8E9A8;
+	opacity: .8;
+}
+
+.alertBox-icon {
+	color: #ececec;
+	margin-right: .8rem;
+	padding-top: .1rem;
+	font-size: 1.4rem;
+}
+
+.alert .alertBox-icon {
+	color: #FFD700;
+}
+.green .alertBox-icon {
+	color: #4E9F3D;
+}
+
+.alertBox-content h1 {
+	font-size: 1rem;
+	line-height: 1.3rem;
+	color: #d4d0d0;
+}
+
+.alert .alertBox-content h1 {
+	color: #FFECB3;
+}
+.green .alertBox-content h1 {
+	color: #1E5128;
+}
+
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

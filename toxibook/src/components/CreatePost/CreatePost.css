@@ -9,7 +9,6 @@
 }
 
 .createPostContainer.reply {
-	border-radius: 0;
 	margin-bottom: 0;
 }
 
@@ -261,7 +260,7 @@
 
 .icons-container .EmojiPickerReact {
 	position: absolute !important;
-	left: -1.6rem;
+	left: -3.9rem;
 	top: 3rem;
 	z-index: 2;
 } 
