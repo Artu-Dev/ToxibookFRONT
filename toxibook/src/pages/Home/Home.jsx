@@ -9,6 +9,8 @@ import Navbar from "../../components/Navbar/Navbar";
 import CreatePost from "../../components/CreatePost/CreatePost";
 import Loading from "../../components/Layout/Loading/Loading";
 import Message from "../../components/Layout/Message/Message";
+import { NavSide } from "../../components/NavSide/NavSide";
+import { renderPosts } from "../../functions/globalFunctions";
 
 const Home = () => {
   const [messageType, setMessageType] = useState("error");
@@ -16,7 +18,6 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [postList, setPostList] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
-  const [showTrendingPosts, setShowTrendingPosts] = useState(true);
 
   const token = localStorage.getItem("AuthToken");
 
@@ -67,7 +68,7 @@ const Home = () => {
       <PostCard
         key={item._id}
         id={item._id}
-        user={item.user}
+        postUser={item.user}
         post={item}
         permissions={item.permissions}
         liked={likedPosts.find((post) => post._id === item._id)}
@@ -92,15 +93,18 @@ const Home = () => {
         onOption1={() => onChangeNavbar(fetchTrendingPost)}
         onOption2={() => onChangeNavbar(fetchLatestPost)}
       />
-      <section className="homeContainer">
-        <CreatePost
-          setPostList={(post) => setPostList((prev) => [post, ...prev])}
-          token={token}
-        />
-        <div className="posts-container">
-          {renderPostCards()}
-        </div>
-      </section>
+      <div className="homeContainer">
+        <NavSide/>
+        <section className="home">
+          <CreatePost
+            setPostList={(post) => setPostList((prev) => [post, ...prev])}
+            token={token}
+          />
+          <div className="posts-container">
+            {renderPosts(postList, likedPosts, isLoading)}
+          </div>
+        </section>
+      </div>
     </>
   );
 };

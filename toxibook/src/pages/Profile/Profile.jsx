@@ -19,18 +19,20 @@ import { uniqueId } from "lodash";
 import { ImageEditorInput } from "../../components/ImageEditorInput/ImageEditorInput";
 import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 import Message from "../../components/Layout/Message/Message";
+import { usePostContext } from "../../contexts/PostContext";
 
 const Profile = () => {
   const userID = useParams(window.location.href).id;
   const token = localStorage.getItem("AuthToken");
   const user = JSON.parse(localStorage.getItem("User"));
 
+  const {posts, setPost} = usePostContext();
+
   const [isYourProfile, setIsYourProfile] = useState(false);
   const [isFollowingUser, setIsFollowingUser] = useState(false);
   const [totalFollowers, setTotalFollowers] = useState(0);
   const [totalFollowing, setTotalFollowing] = useState(0);
   const [userProfile, setUserProfile] = useState();
-  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
 
@@ -62,6 +64,7 @@ const Profile = () => {
   
   async function fetchPostOrReply(latest = false) {
     setLoading(true);
+    setPost([]);
 
     let postsResponse;
     if(latest) {
@@ -70,7 +73,7 @@ const Profile = () => {
       postsResponse = await getPostsByUserService(token, userID);
     }
     
-    setPosts(postsResponse);
+    setPost(postsResponse);
     setLoading(false);
   }
 
@@ -92,7 +95,6 @@ const Profile = () => {
       error: false,
       url: null,
     };
-    console.log(objectFile); 
     setAspect(aspect);
     setImageFile(objectFile);
     setShowCrop(true);
@@ -147,6 +149,36 @@ const Profile = () => {
     redirect("/");
   }
 
+  function renderUserInfo() {
+    return (
+      <div className="userInfo-container">
+        <div className="userInfo-username">
+          <h1 className="userInfo-name">
+            {userProfile?.username}
+            {userProfile?.verified && (
+              <span>
+                <MdVerified />
+              </span>
+            )}
+          </h1>
+          <h2 className="userInfo-tag">@{userProfile?.tag}</h2>
+        </div>
+        <div className="userInfo-bio">
+          <p>{userProfile?.bio}</p>
+        </div>
+        <div className="userInfo-follows">
+          <p>
+            {totalFollowing} <span>Seguindo</span>
+          </p>
+          <p>
+            {totalFollowers} <span>Seguidores</span>
+          </p>
+        </div>
+      </div>
+    );
+  } 
+
+
   if (!userProfile) return <Loading />;
   return (
     <div className="profilePage-container centerFlex">
@@ -158,9 +190,11 @@ const Profile = () => {
       }
       {/* <Message /> */}
       <section className="profileDatas-container">
+
         <span className="backbutton" onClick={handleBack}>
           <HiArrowLeft/>
         </span>
+
         <div className="profile-top-container">
           <div className="profile-banner">
             {userProfile?.bannerImg && (
@@ -198,30 +232,8 @@ const Profile = () => {
         </div>
 
         <div className="profile-bottom-cotainer">
-          <div className="userInfo-container">
-            <div className="userInfo-username">
-              <h1 className="userInfo-name">
-                {userProfile?.username}
-                {userProfile?.verified && (
-                  <span>
-                    <MdVerified />
-                  </span>
-                )}
-              </h1>
-              <h2 className="userInfo-tag">@{userProfile?.tag}</h2>
-            </div>
-            <div className="userInfo-bio">
-              <p>{userProfile?.bio}</p>
-            </div>
-            <div className="userInfo-follows">
-              <p>
-                {totalFollowing} <span>Seguindo</span>
-              </p>
-              <p>
-                {totalFollowers} <span>Seguidores</span>
-              </p>
-            </div>
-          </div>
+          {renderUserInfo()}
+
           {isYourProfile ? (
             <button className="profile-infoBtn edit" onClick={() => setShowEditModal(true)}>
               Editar Perfil
@@ -242,6 +254,7 @@ const Profile = () => {
             </label>
           )}
         </div>
+
         <Navbar
           onOption1={() => fetchPostOrReply()}
           onOption2={() => fetchPostOrReply(true)}
@@ -250,9 +263,11 @@ const Profile = () => {
           position={"relative"}
           background={"#050505"}
         />
+
       </section>
+
       <section className="profile-posts">
-        {posts && renderPosts(posts, [], loading)}
+        {posts && renderPosts(posts, [], loading, null)}
       </section>
 
       {showCrop && (

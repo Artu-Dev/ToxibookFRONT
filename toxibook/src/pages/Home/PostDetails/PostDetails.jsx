@@ -9,6 +9,7 @@ import CreatePost from "../../../components/CreatePost/CreatePost";
 import "./PostDetails.css"
 import { AlertBox } from "../../../components/AlertBox/AlertBox";
 import { MdComment, MdLock } from "react-icons/md";
+import {NavSide} from "../../../components/NavSide/NavSide";
 
 const PostDetails = () => {
   const [post, setPost] = useState(null);
@@ -66,7 +67,7 @@ const PostDetails = () => {
         key={post._id}
         post={post}
         permissions={post.permissions}
-        user={post.user}
+        postUser={post.user}
         type={"comment"}
         liked={isLiked === post._id}
       />
@@ -77,11 +78,12 @@ const PostDetails = () => {
   if(!post) return <p>Post não encontrado!</p>
   return (
     <div className="PostDetails-Container centerFlex">
+      <NavSide/>
       <PostCard 
         liked={isLiked}
         post={post}
         permissions={post.permissions}
-        user={post.user}
+        postUser={post.user}
       />
       {post?.permissions.canComment &&
         <CreatePost 

@@ -1,5 +1,5 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import UserContainer from "../../Layout/UserContainer/UserContainer";
 import PostMin from "../PostMin/PostMin";
@@ -11,12 +11,18 @@ import { useEffect, useRef, useState } from "react";
 import PostActions from "./postActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 import twemoji from "twemoji";
+import { PostOptions } from "../../PostOptions/PostOptions";
 
-const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
+const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wordSearch}) => {
   const navigate = useNavigate();
   const postRef = useRef();
+  const textContentRef = useRef();
+  const postOptionContainerRef = useRef();
+
+  const user = JSON.parse(localStorage.getItem("User"));
 
   const [showImageModal, setShowImageModal] = useState(false);
+  const [showPostOptions, setShowPostOptions] = useState(false);
 
   function handleClick(postId) {
     navigate(`/post/${postId}`);
@@ -33,22 +39,51 @@ const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
     event.preventDefault();
     setShowImageModal(true);
   } 
+
+  function boldTextContent() {
+    const regex = new RegExp(wordSearch, "i");
+    const newText = textContentRef.current.textContent.replace(regex, match => `<b>${match}</b>`);
+    textContentRef.current.innerHTML = newText;
+  }
+
   useEffect(() => {
     twemoji.parse(postRef.current);
+    if(wordSearch) boldTextContent();
+
+    function handleClickOutside(event) {
+      if(postOptionContainerRef.current && !postOptionContainerRef.current.contains(event.target)){
+        setShowPostOptions(false);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+    
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, [])
 
   return (
     <article ref={postRef} className={`postContainer ${type}`}>
       <div className="topPost-container">
         <UserContainer
-          user={user}
-          verified={user?.verified}
+          user={postUser}
+          verified={postUser?.verified}
         />
         <div className="infoContainer">
           <p>{formateDate1(post.createdAt)}</p>
-          <i>
-            <BsThreeDotsVertical />
-          </i>
+          <span ref={postOptionContainerRef}>
+            <span onClick={() => setShowPostOptions(!showPostOptions)} ><BsThreeDotsVertical /></span>
+            {showPostOptions &&
+              <PostOptions
+                postId={post._id}
+                isYourPost={post.user._id === user._id}
+                onClose={() => setShowPostOptions(!showPostOptions)}
+              />
+            }
+          </span>
+
+
         </div>
       </div>
       <Link to={`/post/${post._id}`} className="postContent">
@@ -62,12 +97,12 @@ const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
             Respondendo a: <span>{post.isCommentOf.user.tag}</span>
           </span>
         )}
-        <p>{post.textContent}</p>
+        <p ref={textContentRef}>{post.textContent}</p>
         {post.imageContent && (
           <>
             <img
               src={post.imageContent}
-              alt={`imagem de ${user.username}`}
+              alt={`imagem de ${postUser.username}`}
               onClick={handleImageClick}
               loading="lazy"
             />
@@ -88,7 +123,7 @@ const PostCard = ({ user, post, permissions, type = "normalPost", liked }) => {
           postId={post.isShareOf._id}
           
           post={post.isShareOf}
-          user={user}
+          user={postUser}
         />
       )}
       <PostActions

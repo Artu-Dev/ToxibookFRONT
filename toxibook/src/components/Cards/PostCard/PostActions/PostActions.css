@@ -1,3 +1,7 @@
+.bottomPost-container {
+  text-decoration: none;
+}
+
 .bottomPost-container ul {
   display: flex;
   justify-content: space-evenly;

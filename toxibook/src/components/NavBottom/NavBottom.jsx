@@ -7,15 +7,15 @@ import { useContext } from 'react';
 import { AuthUserContext } from '../../contexts/AuthUser';
 
 const NavBottom = () => {
-	const navigate = useNavigate();
+	const redirect = useNavigate();
   const {signed, logOut} = useContext(AuthUserContext);
 
   function handleLogout() {
-    if(!signed) return navigate("/login");
+    if(!signed) return redirect("/login");
     const userResponse = confirm("Deseja mesmo deslogar de sua conta Toxibook?");
     if(!userResponse) return;
     logOut();
-    navigate("/login");
+    redirect("/login");
   }
 
   return (

@@ -4,7 +4,7 @@ import { TbRadioactiveFilled } from 'react-icons/tb';
 import "./PostActions.css";
 import { AuthUserContext } from '../../../../contexts/AuthUser';
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { likePostService } from '../../../../services/post.services';
 
 const PostActions = ({liked, post, permissions}) => {
@@ -19,6 +19,7 @@ const PostActions = ({liked, post, permissions}) => {
 
 
 	async function handleLikePost(event) {
+    event.preventDefault();
     event.stopPropagation();
     if(!signed) return navigate("/login")
 
@@ -45,7 +46,7 @@ const PostActions = ({liked, post, permissions}) => {
 
 
 	return (
-		<div className="bottomPost-container">
+		<Link to={`/post/${post._id}`} className="bottomPost-container">
 			<ul>
 				<li className="postActions-like" onClick={handleLikePost}>
 					<i className={postLiked ? "selected" : ""}>
@@ -70,7 +71,7 @@ const PostActions = ({liked, post, permissions}) => {
 					</li>
 				)}
 			</ul>
-		</div>
+		</Link>
   );
 }
 

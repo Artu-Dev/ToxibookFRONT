@@ -58,6 +58,23 @@ export const getPostByIdService = async (id, token) => {
   return await handleGetFunctions(`${baseURL}/post/${id}`, token);
 } 
 
+export const deletePostService = async (id, token) => {
+  const response = await axios.delete(`${baseURL}/post/delete/${id}`, 
+  {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return response.data;
+} 
+
+export const getPostBySearchService = async (param, token) => {
+    const response = await axios.get(`${baseURL}/post/search`, 
+    {
+      params: {searchParam: param},
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  return response.data;
+} 
+
 async function handleGetFunctions(url, token) {
   const response = await axios.get(url, 
   {

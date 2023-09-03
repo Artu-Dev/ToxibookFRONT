@@ -1,0 +1,96 @@
+.searchPage-container {
+	background: #000;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.searchContainer {
+	max-width: 600px;
+	width: 100%;
+	padding: .6rem 0rem;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.backButton {
+	color: #e7e7e7;
+	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 1rem;
+	cursor: pointer;
+	transition: ease .3s;
+}
+.backButton:hover {
+	color: #4E9F3D;
+}
+
+.searchBar {
+	width: 100%;
+	max-width: 450px;
+	margin-right: 1rem;
+	background: #e7e7e7;
+	border-radius: 3rem;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.searchBar button {
+	border: none;
+	background: none;
+	font-size: 1.6rem;
+	height: 1.6rem;
+	padding-right: 1.5rem;
+	color: #0c0d0c;
+	cursor: pointer;
+	transition: ease .3s;
+}
+
+.searchBar button:hover {
+	color: #4E9F3D;
+}
+
+.searchBar input{
+	border: none;
+	outline: none;
+	width: 100%;
+	padding: .5rem 1.5rem;
+	font-size: 1.3rem;
+	background: none;
+}
+
+.postsContainer {
+	min-height: calc(100vh - 3.8rem);
+	width: 100%;
+	max-width: 600px;
+	padding: .5rem;
+	padding-bottom: 4rem;
+	border-left: 1px solid #222;
+	border-right: 1px solid #222;
+}
+
+
+@media (min-width: 550px) {
+	.backButton {
+		font-size: 1.8rem;
+	}
+	.searchBar button {
+		font-size: 1.7rem;
+		height: 1.7rem;
+	}
+	.searchBar input{
+		font-size: 1.4rem;
+	}
+}
+
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

@@ -27,6 +27,11 @@
 	font-size: 1.4rem;
 }
 
+.alertBox-content {
+	display: flex;
+	align-items: center;
+}
+
 .alert .alertBox-icon {
 	color: #FFD700;
 }

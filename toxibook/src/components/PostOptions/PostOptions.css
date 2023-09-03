@@ -1,0 +1,50 @@
+.postOptions-container {
+	position: absolute;
+	right: 100%;
+	z-index: 2;
+	background: #e7e7e7;
+	color: #0f100f;
+	border-radius: .4rem 0 .4rem .4rem;
+	box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.2);
+}	
+
+.postOptions-list {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	font-size: 1rem;
+}
+
+.postOptions-list li {
+	cursor: pointer;
+	transition: ease .3s;
+	font-weight: bold;
+	color: #0f100f;
+	white-space: nowrap;
+	padding: .7rem 1.5rem;
+	border-radius: .4rem 0 .4rem .4rem;
+}
+
+.postOptions-list li input {
+	display: none;
+}
+
+.postOptions-list li:hover {
+	color: #9a0027;
+	background: #191a1928;
+	border-radius: 0;
+}
+.postOptions-list li:first-child:hover {
+	color: #1E5128;
+}
+
+
+/* 
+#e7e7e7
+#D8E9A8
+#4E9F3D
+#1E5128
+#da0037
+#191A19 
+#0f100f
+*/

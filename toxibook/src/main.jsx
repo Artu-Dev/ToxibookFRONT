@@ -13,6 +13,7 @@ import Home from './pages/Home/Home.jsx'
 import PostDetails from './pages/Home/PostDetails/PostDetails.jsx'
 import Login from './pages/Login/Login.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import { AuthUserProvider } from './contexts/AuthUser.jsx'
 
 const router = createBrowserRouter([
@@ -24,10 +25,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home/>
       },
-      // {
-      //   path: "/trending",
-      //   element: <Home/>
-      // },
+      {
+        path: "/search",
+        element: <SearchPage/>
+      },
       // {
       //   path: "/profile/:id",
       //   element: <Home/>
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         path: "/post/:id",
         element: <PostDetails/>
       },
+      {
+        path: "/profile/:id",
+        element: <Profile />
+      },
       // {
       //   path: "/post/edit/:id",
       //   element: <Home/>
@@ -50,10 +55,6 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />
   },
-  {
-    path: "/profile/:id",
-    element: <Profile />
-  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
