@@ -1,11 +1,11 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { BsTrash2Fill } from "react-icons/bs";
 import { HiPaperAirplane } from "react-icons/hi2";
 import { uniqueId } from "lodash";
 import { filesize } from "filesize";
 import { CircularProgressbar } from "react-circular-progressbar";
 
-import { AuthUserContext } from "../../contexts/AuthUser";
+import { useUserContext } from "../../contexts/AuthUser";
 import { createPostService } from "../../services/post.services";
 import UserContainer from "../Layout/UserContainer/UserContainer";
 import { Button } from "../Layout/Button/Button";
@@ -17,6 +17,7 @@ import {MdImage} from "react-icons/md";
 import EmojiPicker from "emoji-picker-react"
 
 import "./CreatePost.css";
+import { usePostContext } from "../../contexts/PostContext";
 
 const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, type}) => {
 	const [allowComments, setAllowComments] = useState(true);
@@ -24,7 +25,9 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
   const [mediaState, setMediaState] = useState([]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   
-  const { signed } = useContext(AuthUserContext);
+  
+  const {createPost} = usePostContext()
+  const { signed } = useUserContext();
 
 	const isPrivateSelectRef = useRef();
 	const textAreaRef = useRef();
@@ -67,7 +70,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
     try {
 			const post = await createPostService(token, data, mediaState?.id, updateMediaProgress);
 
-			setPostList(post);
+			createPost(post);
       setMediaState([]);
       textAreaRef.current.value = null;
       inputImageRef.current.value = null
@@ -101,7 +104,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
     setMediaState(objectFile);
     // setMediaState((prevFilesState) => [...prevFilesState, uploadedFile]);
 	}
-  // console.log(mediaState);
+  
 	function removeImage(index) {
 		// setMediaState(prev => prev.filter((_, i) => i !== index));
     

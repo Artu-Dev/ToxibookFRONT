@@ -2,14 +2,14 @@ import { FaComments, FaShareAlt } from 'react-icons/fa';
 import { TbRadioactiveFilled } from 'react-icons/tb';
 
 import "./PostActions.css";
-import { AuthUserContext } from '../../../../contexts/AuthUser';
-import { useContext, useState } from 'react';
+import { useUserContext } from '../../../../contexts/AuthUser';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { likePostService } from '../../../../services/post.services';
 
 const PostActions = ({liked, post, permissions}) => {
 	const navigate = useNavigate();
-	const {signed} = useContext(AuthUserContext);
+	const {signed} = useUserContext();
   const token = localStorage.getItem("AuthToken");
 
   const [totalLikes, setTotalLikes] = useState(post.totalLikes);

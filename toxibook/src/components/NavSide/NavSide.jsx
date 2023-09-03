@@ -2,14 +2,12 @@ import { HiBell, HiHome, HiSearch } from 'react-icons/hi';
 import { IoExit, IoPerson } from 'react-icons/io5';
 import "./NavSide.css";
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthUserContext } from '../../contexts/AuthUser';
+import {  useUserContext } from '../../contexts/AuthUser';
 
 export const NavSide = () => {
 	const redirect = useNavigate()
   const user = JSON.parse(localStorage.getItem("User"));
-	const {signed, logOut} = useContext(AuthUserContext);
-  
+	const {signed, logOut} = useUserContext();
 
 	function handleRedirectProfile() {
 		if(user?._id) {
@@ -20,7 +18,7 @@ export const NavSide = () => {
 	}
 
   function handleLogout() {
-    if(!signed) return navigate("/login");
+    if(!signed) return redirect("/login");
     const userResponse = confirm("Deseja mesmo deslogar de sua conta Toxibook?");
     if(!userResponse) return;
     logOut();

@@ -1,10 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { isLoggedInService, loginAuthService } from "../services/user.services";
 
 export const AuthUserContext = createContext({});
 export const UserContext = createContext({})
 
+export const useUserContext = () => {
+	return useContext(AuthUserContext)
+}
 
 export const AuthUserProvider = ({children}) => {
 	const [user, setUser] = useState(null);

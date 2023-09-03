@@ -3,12 +3,11 @@ import { IoExit } from 'react-icons/io5'
 import { Link, useNavigate } from 'react-router-dom';
 
 import "./NavBottom.css";
-import { useContext } from 'react';
-import { AuthUserContext } from '../../contexts/AuthUser';
+import { useUserContext } from '../../contexts/AuthUser';
 
 const NavBottom = () => {
 	const redirect = useNavigate();
-  const {signed, logOut} = useContext(AuthUserContext);
+  const {signed, logOut} = useUserContext();
 
   function handleLogout() {
     if(!signed) return redirect("/login");

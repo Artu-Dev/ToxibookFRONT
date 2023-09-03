@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import PostCard from "../../components/Cards/PostCard/PostCard";
 import "./Home.css";
 import {
   getLatestPostService,
@@ -7,24 +6,24 @@ import {
 } from "../../services/post.services";
 import Navbar from "../../components/Navbar/Navbar";
 import CreatePost from "../../components/CreatePost/CreatePost";
-import Loading from "../../components/Layout/Loading/Loading";
 import Message from "../../components/Layout/Message/Message";
 import { NavSide } from "../../components/NavSide/NavSide";
 import { renderPosts } from "../../functions/globalFunctions";
+import { usePostContext } from "../../contexts/PostContext";
 
 const Home = () => {
   const [messageType, setMessageType] = useState("error");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [postList, setPostList] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
 
   const token = localStorage.getItem("AuthToken");
+  const {posts, setPost} = usePostContext();
 
   async function fetchTrendingPost() {
     try {
       const { posts, likedPostsIds } = await getTrendingService(token);
-      setPostList(posts);
+      setPost(posts);
       setLikedPosts(likedPostsIds);
       setIsLoading(false);
     } catch (error) {
@@ -36,7 +35,7 @@ const Home = () => {
   async function fetchLatestPost() {
     try {
       const { posts, likedPostsIds } = await getLatestPostService(token);
-      setPostList(posts);
+      setPost(posts);
       setLikedPosts(likedPostsIds);
       setIsLoading(false);
     } catch (error) {
@@ -59,26 +58,9 @@ const Home = () => {
     }, 10000);
   }
 
-  function renderPostCards() {
-    if(isLoading) return  <Loading position={"block"}/> 
-
-    if(postList.length === 0) return <p>Nenhuma postagem encontrado!</p>
-
-    return postList.map((item) => (
-      <PostCard
-        key={item._id}
-        id={item._id}
-        postUser={item.user}
-        post={item}
-        permissions={item.permissions}
-        liked={likedPosts.find((post) => post._id === item._id)}
-      />
-    ));
-  }
-
   function onChangeNavbar(fetchFunc) {
     setIsLoading(true)
-    setPostList([]);
+    setPost([]);
     fetchFunc();
   }
 
@@ -97,11 +79,11 @@ const Home = () => {
         <NavSide/>
         <section className="home">
           <CreatePost
-            setPostList={(post) => setPostList((prev) => [post, ...prev])}
+            setPostList={(post) => setPost((prev) => [post, ...prev])}
             token={token}
           />
           <div className="posts-container">
-            {renderPosts(postList, likedPosts, isLoading)}
+            {renderPosts(posts, likedPosts, isLoading)}
           </div>
         </section>
       </div>

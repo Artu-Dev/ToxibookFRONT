@@ -1,5 +1,5 @@
 import {FaArrowRight, FaLock, FaUser} from "react-icons/fa";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import "./Login.css"
@@ -8,10 +8,8 @@ import InputComponent from "../../components/Layout/InputComponent/InputComponen
 import toxibookLogo1 from "../../img/toxibookLogo2.webp"
 import backgroundImg from "../../img/pexels-codioful-(formerly-gradienta)-6984989.webp"
 import { Button } from "../../components/Layout/Button/Button";
-import { isLoggedInService, loginAuthService } from "../../services/user.services";
 
-// import { createUser,  } from "../../functions/LoginFunctions";
-import { AuthUserContext } from "../../contexts/AuthUser";
+import { useUserContext } from "../../contexts/AuthUser";
 import Message from "../../components/Layout/Message/Message";
 
 const Login = () => {
@@ -20,7 +18,7 @@ const Login = () => {
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
   
-  const {signInUser, createUser, signed} = useContext(AuthUserContext);
+  const {signInUser, createUser, signed} = useUserContext();
 
   async function handleSignUp() {
     await createUser(email, password)
