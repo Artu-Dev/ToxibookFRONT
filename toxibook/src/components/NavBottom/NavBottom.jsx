@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import "./NavBottom.css";
 import { useUserContext } from '../../contexts/AuthUser';
 
-const NavBottom = () => {
+export const NavBottom = () => {
 	const redirect = useNavigate();
   const {signed, logOut} = useUserContext();
 
