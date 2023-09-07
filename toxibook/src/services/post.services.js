@@ -1,11 +1,8 @@
 import axios from 'axios';
 
-export const api = axios.create({
-  baseURL: "http://localhost:1234"
-})
+// const baseURL = "http://localhost:1234"
+const baseURL = "https://toxibook-backend.onrender.com"
 
-const baseURL = "http://localhost:1234"
-// const baseURL = "https://toxibook-backend.onrender.com"
 
 export const createPostService = async (token, data, id, cb) => {
   try {

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css' 
-import "react-circular-progressbar/dist/styles.css";
+import "./components/circularProgessbar/styles.css";
 import "./components/Layout/UserContainer/UserContainer.css"
 
 import {
@@ -29,14 +29,6 @@ const router = createBrowserRouter([
         path: "/search",
         element: <SearchPage/>
       },
-      // {
-      //   path: "/profile/:id",
-      //   element: <Home/>
-      // },
-      // {
-      //   path: "/profile/edit/:id",
-      //   element: <Home/>
-      // },
       {
         path: "/post/:id",
         element: <PostDetails/>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const baseURL = "http://localhost:1234"
-// const baseURL = "https://toxibook-backend.onrender.com"
+// const baseURL = "http://localhost:1234"
+const baseURL = "https://toxibook-backend.onrender.com"
 
 
 export const loginAuthService = async (email, password) => {
