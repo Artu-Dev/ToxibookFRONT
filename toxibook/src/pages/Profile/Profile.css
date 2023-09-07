@@ -187,7 +187,7 @@
 .userInfo-tag {
 	font-size: .8rem;
 	font-weight: normal;
-	color: hsl(0, 0%, 40%);
+	color: #666666;
 }
 
 .userInfo-bio {
@@ -229,10 +229,60 @@
 	top: 0;
 }
 
-.cropImage-container button {
-	padding: .5rem 1rem;
-	position: relative;
+.cropImage-area {
+	height: 60%;
+	width: 100%;
+	outline: .2rem solid #4E9F3D;
+	background: #0505058f;
 }
+
+.cropImage-area > div {
+	display: block;
+	position: relative;
+	height: 100%;
+	max-width: 100%;
+}
+
+.cropImage-options {
+	background: #050505;
+	width: 100%;
+	height: 40%;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 1rem;
+	padding-top: 2rem;
+	z-index: 1;
+}
+
+.cropImage-options button {
+	padding: .5rem 1.5rem;
+	background: none;
+	color: #4E9F3D;
+	border: 3px solid #eee;
+	border: none;
+	font-weight: 600;
+	font-size: 1.3rem;
+	border-radius: 2rem;
+	cursor: pointer;
+	transition: ease .3s;
+}
+
+.cropImage-options button:hover {
+	color: #2aa512;
+}
+
+.cropImage-options .cancelButton {
+	background: none;
+	color: #666;
+}
+
+.cropImage-options .cancelButton:hover {
+	color: #DA0037;
+}
+
+
 
 @media (min-width: 550px) {	
 	.profile-banner {

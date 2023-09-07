@@ -82,25 +82,29 @@ export const CropImage = ({imageFile, aspect, onFinish, onCancel, imageName}) =>
 
 	return (
 		<>
-			<button style={{ zIndex: 1 }} onClick={showCroppedImage}>
-				finish
-			</button>
-			<button style={{ zIndex: 1 }} onClick={onCancel}>
-				Cancel
-			</button>
-			<Cropper
-				image={imageFile}
-				transform={[
-					`translate(${crop.x}px, ${crop.y}px)`,
-					`scale(${zoom})`,
-				].join(' ')}
-				crop={crop}
-				zoom={zoom}
-				aspect={aspect}
-				onCropChange={setCrop}
-				onCropComplete={onCropComplete}
-				onZoomChange={setZoom}
-			/>
+			<div className="cropImage-area">
+				<Cropper
+					image={imageFile}
+					transform={[
+						`translate(${crop.x}px, ${crop.y}px)`,
+						`scale(${zoom})`,
+					].join(' ')}
+					crop={crop}
+					zoom={zoom}
+					aspect={aspect}
+					onCropChange={setCrop}
+					onCropComplete={onCropComplete}
+					onZoomChange={setZoom}
+				/>
+			</div>
+			<div className="cropImage-options">
+				<button className="cancelButton" onClick={onCancel}>
+					Cancelar
+				</button>
+				<button onClick={showCroppedImage}>
+					Pronto
+				</button>
+			</div>
 		</>
 	)
 }

@@ -5,7 +5,7 @@ import Loading from "../components/Layout/Loading/Loading";
 export function renderPosts(posts, likedPosts = [], isLoading, wordSearch) {
 	
 	if(isLoading) return  <Loading position={"block"}/> 
-
+	
 	if(posts.length === 0) return <AlertBox text={"Nenhum Post encontrado"} icon={"?"} theme={"alert"}/>
 
 	return posts.map((item) => (

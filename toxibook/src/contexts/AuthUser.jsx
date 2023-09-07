@@ -17,12 +17,15 @@ export const AuthUserProvider = ({children}) => {
       try {
 				const token = localStorage.getItem("AuthToken");
         const user = JSON.parse(localStorage.getItem("User"));
-        if(!user || !token) return
+        if(!user || !token) {
+					setUser(null);
+					return
+				}
         await isLoggedInService(token);
 				setUser(user);
       } catch (error) {;
 				console.log(error);
-				localStorage.clear()
+				// localStorage.clear()
       }
     }
     checkLogin();
