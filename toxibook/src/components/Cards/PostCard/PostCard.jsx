@@ -8,7 +8,7 @@ import { formateDate1 } from "../../../functions/FormateDate";
 
 import "./PostCard.css";
 import { useEffect, useRef, useState } from "react";
-import PostActions from "./postActions/PostActions";
+import PostActions from "./PostActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 import twemoji from "twemoji";
 import { PostOptions } from "../../PostOptions/PostOptions";
