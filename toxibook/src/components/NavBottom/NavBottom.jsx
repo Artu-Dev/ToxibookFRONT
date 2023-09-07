@@ -51,5 +51,3 @@ export const NavBottom = () => {
     </nav>
   )
 }
-
-export default NavBottom
