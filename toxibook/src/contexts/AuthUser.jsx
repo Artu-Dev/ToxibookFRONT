@@ -16,16 +16,18 @@ export const AuthUserProvider = ({children}) => {
     async function checkLogin() {      
       try {
 				const token = localStorage.getItem("AuthToken");
-        const user = JSON.parse(localStorage.getItem("User"));
-        if(!user || !token) {
+        if(!token) {
 					setUser(null);
 					return
 				}
-        await isLoggedInService(token);
-				setUser(user);
-      } catch (error) {;
-				console.log(error);
-				// localStorage.clear()
+        const userData = await isLoggedInService(token);
+				localStorage.setItem("User", JSON.stringify(userData));
+				setUser(userData);
+      } catch (error) {
+				console.log(error)
+				if(error.response.status === 401) {
+					localStorage.clear()
+				}
       }
     }
     checkLogin();
@@ -36,7 +38,7 @@ export const AuthUserProvider = ({children}) => {
 		try {
 			const {token, user} = await loginAuthService(email, password);
 			localStorage.setItem("token", token);
-			localStorage.setItem("user", user);
+			localStorage.setItem("User", user);
 		} catch (error) {
 			console.log(error);
 			localStorage.clear();
