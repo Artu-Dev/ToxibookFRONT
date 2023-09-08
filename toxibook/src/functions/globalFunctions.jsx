@@ -1,13 +1,27 @@
+import { useState } from "react";
 import { AlertBox } from "../components/AlertBox/AlertBox";
 import PostCard from "../components/Cards/PostCard/PostCard";
 import Loading from "../components/Layout/Loading/Loading";
+import { MdComment } from "react-icons/md";
 
-export function renderPosts(posts, likedPosts = [], isLoading, wordSearch) {
+export function renderPosts(posts, isLoading, wordSearch, isComment) {
+	let icon, text, theme;
 	
 	if(isLoading) return  <Loading position={"block"}/> 
+	if(posts.length === 0) {
+		if(isComment){ 
+			text = "Vazio por aqui! Parece que ainda não há comentários neste post.";
+			icon = <MdComment/>;
+			theme = "alert";
+		} else {
+			text = "Nenhum Post encontrado";
+			icon = "?"
+			theme = "alert";
+		}
+		
+		return <AlertBox text={text} icon={icon} theme={theme}/>
+	} 
 	
-	if(posts.length === 0) return <AlertBox text={"Nenhum Post encontrado"} icon={"?"} theme={"alert"}/>
-
 	return posts.map((item) => (
 		<PostCard
 			wordSearch={wordSearch}
@@ -16,7 +30,7 @@ export function renderPosts(posts, likedPosts = [], isLoading, wordSearch) {
 			postUser={item.user}
 			post={item}
 			permissions={item.permissions}
-			liked={likedPosts.find((likedId) => likedId === item._id)}
+			liked={item.liked}
 		/>
 	));
 }

@@ -44,7 +44,6 @@ const PostActions = ({liked, post, permissions}) => {
 		}
   }
 
-
 	return (
 		<Link to={`/post/${post._id}`} className="bottomPost-container">
 			<ul>

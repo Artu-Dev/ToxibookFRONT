@@ -10,7 +10,7 @@ export const PostProvider = ({children}) => {
 	const [posts, setPosts] = useState([]);
 
 	const createPost = (newPost) => {
-		setPosts([newPost, ...posts]);
+		setPosts(prev => [newPost, ...prev]);
 	}
 
 	const setPost = (newPost) => {

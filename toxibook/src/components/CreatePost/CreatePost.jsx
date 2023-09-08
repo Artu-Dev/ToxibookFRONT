@@ -26,7 +26,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   
   
-  const {createPost} = usePostContext()
+  const { createPost } = usePostContext()
   const { signed } = useUserContext();
 
 	const isPrivateSelectRef = useRef();
@@ -49,14 +49,14 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
   }
 
   function appendDataIfValid(data, key, value) {
-    if (value && value.length) {
+    if (value !== undefined && value !== null && (Array.isArray(value) ? value.length > 0 : true)) {
       data.append(key, value);
     }
   }
 
 	async function handleUploadPost() {
     const data = new FormData();
-    appendDataIfValid(data, "canComment", allowComments);
+    appendDataIfValid(data, "canComment", allowComments); 
     appendDataIfValid(data, "privatePost", isPrivateSelectRef.current.value === "private");
     appendDataIfValid(data, "isShareOf", isShareOf);
     appendDataIfValid(data, "isCommentOf", isCommentOfID);
@@ -64,20 +64,27 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
     if(!!Object.keys(mediaState).length) {
       data.append("imageContent", mediaState?.imageFile, mediaState?.name);
     }
+    
     // for (let entry of data.entries()) {
     //   console.log(entry);
     // }
+
     try {
 			const post = await createPostService(token, data, mediaState?.id, updateMediaProgress);
-
+      console.log(post)
+      // setPostList(posts)
+      clearCreatePostInputs();
 			createPost(post);
-      setMediaState([]);
-      textAreaRef.current.value = null;
-      inputImageRef.current.value = null
 		} catch (err) {
 			console.log(err);
 		}
 	}
+
+  function clearCreatePostInputs() {
+    setMediaState([]);
+    textAreaRef.current.value = null;
+    inputImageRef.current.value = null
+  }
 	
 	function handleProcessImageFiles(imagesFiles) {
 		Array.prototype.forEach.call(imagesFiles, processIndividualImage)

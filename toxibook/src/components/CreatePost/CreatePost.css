@@ -255,7 +255,7 @@
 
 .emojiIcon {
 	position: relative;
-	z-index: 2;
+	z-index: 4;
 }
 
 .icons-container .EmojiPickerReact {

@@ -77,7 +77,7 @@ const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wor
             {showPostOptions &&
               <PostOptions
                 postId={post._id}
-                isYourPost={post.user._id === user._id}
+                isYourPost={post.isYourPost}
                 onClose={() => setShowPostOptions(!showPostOptions)}
               />
             }

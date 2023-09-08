@@ -15,16 +15,14 @@ const Home = () => {
   const [messageType, setMessageType] = useState("error");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [likedPosts, setLikedPosts] = useState([]);
 
   const token = localStorage.getItem("AuthToken");
   const {posts, setPost} = usePostContext();
 
   async function fetchTrendingPost() {
     try {
-      const { posts, likedPostsIds } = await getTrendingService(token);
+      const posts = await getTrendingService(token);
       setPost(posts);
-      setLikedPosts(likedPostsIds);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -34,9 +32,8 @@ const Home = () => {
 
   async function fetchLatestPost() {
     try {
-      const { posts, likedPostsIds } = await getLatestPostService(token);
+      const posts = await getLatestPostService(token);
       setPost(posts);
-      setLikedPosts(likedPostsIds);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -79,11 +76,11 @@ const Home = () => {
         <NavSide/>
         <section className="home">
           <CreatePost
-            setPostList={(post) => setPost((prev) => [post, ...prev])}
+            // setPostList={(post) => setPost((prev) => [post, ...prev])}
             token={token}
           />
           <div className="posts-container">
-            {renderPosts(posts, likedPosts, isLoading)}
+            {renderPosts(posts, isLoading)}
           </div>
         </section>
       </div>

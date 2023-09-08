@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const baseURL = "http://localhost:1234"
-const baseURL = "https://toxibook-backend.onrender.com"
+const baseURL = "http://localhost:1234"
+// const baseURL = "https://toxibook-backend.onrender.com"
 
 
 export const createPostService = async (token, data, id, cb) => {
@@ -53,6 +53,10 @@ export const getReplysByUserService = async (token, id) => {
 
 export const getPostByIdService = async (id, token) => {
   return await handleGetFunctions(`${baseURL}/post/${id}`, token);
+} 
+
+export const getCommentsService = async (id, token) => {
+  return await handleGetFunctions(`${baseURL}/post/comments/${id}`, token);
 } 
 
 export const deletePostService = async (id, token) => {

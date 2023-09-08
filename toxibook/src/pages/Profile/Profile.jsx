@@ -267,7 +267,7 @@ const Profile = () => {
       </section>
 
       <section className="profile-posts">
-        {posts && renderPosts(posts, [], loading, null)}
+        {renderPosts(posts, loading)}
       </section>
 
       {showCrop && (
