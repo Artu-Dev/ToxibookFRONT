@@ -7,12 +7,8 @@ import { AuthUserProvider } from './contexts/AuthUser'
 function App() {
   return (
     <>
-      <AuthUserProvider>
-        <PostProvider>
-          <Outlet/>
-          <NavBottom />
-        </PostProvider>
-      </AuthUserProvider>
+      <Outlet/>
+      <NavBottom />
     </>
   )
 }

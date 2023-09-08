@@ -32,7 +32,7 @@ const PostDetails = () => {
         const commentsResponse = await getCommentsService(id, token);
         
         setComments(commentsResponse);
-        setIsLiked(isLiked.length)
+        setIsLiked(isLiked)
         setPost(post);
         setLoading(false);
       } catch (error) {
@@ -58,8 +58,6 @@ const PostDetails = () => {
       {post?.permissions.canComment ?
         <CreatePost 
           type={"reply"}
-          token={token}
-          setPostList={(itemPost) => setComments(prev => [itemPost, ...prev])}
           isCommentOf={post.user.tag}
           isCommentOfID={post._id}
         />

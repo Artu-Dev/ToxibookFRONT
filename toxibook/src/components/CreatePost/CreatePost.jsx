@@ -19,12 +19,11 @@ import EmojiPicker from "emoji-picker-react"
 import "./CreatePost.css";
 import { usePostContext } from "../../contexts/PostContext";
 
-const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, type}) => {
+const CreatePost = ({isShareOf, isCommentOf, isCommentOfID, type}) => {
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
   const [mediaState, setMediaState] = useState([]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  
   
   const { createPost } = usePostContext()
   const { signed } = useUserContext();
@@ -35,6 +34,7 @@ const CreatePost = ({token, isShareOf, isCommentOf, isCommentOfID, setPostList, 
 	const emojiPickerRef = useRef();
 
   const user = JSON.parse(localStorage.getItem("User"));
+  const token = localStorage.getItem("AuthToken");
   
 	function autoGrow() {
 		textAreaRef.current.style.height = "5px";

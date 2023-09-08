@@ -15,6 +15,7 @@ import Login from './pages/Login/Login.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import { AuthUserProvider } from './contexts/AuthUser.jsx'
+import { PostProvider } from './contexts/PostContext.jsx';
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthUserProvider>
-      <RouterProvider router={router} />
+      <PostProvider>
+        <RouterProvider router={router} />
+      </PostProvider>
     </AuthUserProvider>
   </React.StrictMode>,
 )

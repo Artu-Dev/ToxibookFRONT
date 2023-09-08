@@ -75,10 +75,7 @@ const Home = () => {
       <div className="homeContainer">
         <NavSide/>
         <section className="home">
-          <CreatePost
-            // setPostList={(post) => setPost((prev) => [post, ...prev])}
-            token={token}
-          />
+          <CreatePost />
           <div className="posts-container">
             {renderPosts(posts, isLoading)}
           </div>
