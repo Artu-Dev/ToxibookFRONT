@@ -61,7 +61,7 @@ const PostDetails = () => {
         </div>
       </div>
       
-      <div className="posts-container">
+      <div className="PostDetails-post-container">
         <PostCard 
           liked={isLiked}
           post={post}
