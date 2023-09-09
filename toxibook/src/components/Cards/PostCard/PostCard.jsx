@@ -46,8 +46,14 @@ const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wor
     textContentRef.current.innerHTML = newText;
   }
 
+  function formatBreakLines() {
+    const formatedText = textContentRef.current.textContent.replace(/\n/g, "<br>");
+    textContentRef.current.innerHTML = formatedText;
+  }
+
   useEffect(() => {
     twemoji.parse(postRef.current);
+    formatBreakLines()
     if(wordSearch) boldTextContent();
 
     function handleClickOutside(event) {
