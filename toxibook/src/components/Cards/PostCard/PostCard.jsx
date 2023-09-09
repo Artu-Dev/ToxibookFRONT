@@ -12,7 +12,7 @@ import PostActions from "./PostActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 import twemoji from "twemoji";
 import { PostOptions } from "../../PostOptions/PostOptions";
-import { PostText } from "./postText/PostText";
+import { PostText } from "./PostText/PostText";
 
 const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wordSearch}) => {
   const navigate = useNavigate();
