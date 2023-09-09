@@ -5,3 +5,47 @@
 	justify-content: start;
 	padding-bottom: 5rem;
 }
+
+.simpleNavBar {
+	background: #0000008a;
+	backdrop-filter: blur(5px);
+	position: fixed;
+	z-index: 3;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.simpleNavBar > div {
+	display: flex;
+	padding: .5rem;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	width: 100%;
+	max-width: 600px;
+}
+
+.simpleNavBar .backButton {
+	position: absolute;
+	left: 0;
+}
+
+.simpleNavBar .toxibookLogo {
+	max-height: 2rem;
+	object-fit: contain;
+}
+
+.posts-container {
+	padding-top: 3.5rem;
+}
+
+/* 
+#e7e7e7
+#D8E9A8
+#4E9F3D
+#1E5128
+#da0037
+#191A19 
+#0f100f
+*/
