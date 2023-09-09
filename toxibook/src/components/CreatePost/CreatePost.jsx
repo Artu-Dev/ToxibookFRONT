@@ -53,8 +53,14 @@ const CreatePost = ({isShareOf, isCommentOf, isCommentOfID, type}) => {
       data.append(key, value);
     }
   }
-
+  
 	async function handleUploadPost() {
+    const sanitizedText = textAreaRef.current.value.replace(/<[^>]*>/g, "");
+    if(!mediaState.length && !sanitizedText) {
+      alert("Preencha os campos corretamente!")
+      return 
+    } 
+
     const data = new FormData();
     appendDataIfValid(data, "canComment", allowComments); 
     appendDataIfValid(data, "privatePost", isPrivateSelectRef.current.value === "private");

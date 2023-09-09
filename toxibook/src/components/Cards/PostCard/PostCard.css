@@ -92,14 +92,25 @@
   color: inherit;
 }
 
-.postContent > p {
+.postContent .textContainer {
+  overflow: hidden;
   padding: .8rem .3rem;
   padding-bottom: .5rem;
   font-size: 1.3rem;
   color: #e7e7e7;
 }
 
-.postContent:has(img) > p {
+.postContent .readMore {
+  color: #46b130;
+  padding-left: .3rem;
+}
+
+.postContent .readMore:hover {
+  color: #acf39e;
+  padding-left: .3rem;
+}
+
+.postContent:has(img) .textContainer {
   padding-bottom: 1rem;
 }
 
@@ -142,7 +153,7 @@
     padding-left: 3.5rem;
   }
   
-  .postContent > p {
+  .postContent .textContainer {
     padding-bottom: .5rem;
     font-size: 1.4rem;
   }

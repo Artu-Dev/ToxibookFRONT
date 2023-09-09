@@ -12,14 +12,13 @@ import PostActions from "./PostActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 import twemoji from "twemoji";
 import { PostOptions } from "../../PostOptions/PostOptions";
+import { PostText } from "./postText/PostText";
 
 const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wordSearch}) => {
   const navigate = useNavigate();
   const postRef = useRef();
   const textContentRef = useRef();
   const postOptionContainerRef = useRef();
-
-  const user = JSON.parse(localStorage.getItem("User"));
 
   const [showImageModal, setShowImageModal] = useState(false);
   const [showPostOptions, setShowPostOptions] = useState(false);
@@ -38,23 +37,10 @@ const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wor
     event.stopPropagation();
     event.preventDefault();
     setShowImageModal(true);
-  } 
-
-  function boldTextContent() {
-    const regex = new RegExp(wordSearch, "i");
-    const newText = textContentRef.current.textContent.replace(regex, match => `<b>${match}</b>`);
-    textContentRef.current.innerHTML = newText;
-  }
-
-  function formatBreakLines() {
-    const formatedText = textContentRef.current.textContent.replace(/\n/g, "<br>");
-    textContentRef.current.innerHTML = formatedText;
   }
 
   useEffect(() => {
     twemoji.parse(postRef.current);
-    formatBreakLines()
-    if(wordSearch) boldTextContent();
 
     function handleClickOutside(event) {
       if(postOptionContainerRef.current && !postOptionContainerRef.current.contains(event.target)){
@@ -103,7 +89,9 @@ const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wor
             Respondendo a: <span>{post.isCommentOf.user.tag}</span>
           </span>
         )}
-        <p ref={textContentRef}>{post.textContent}</p>
+
+        <PostText text={post.textContent} wordSearch={wordSearch}/>
+
         {post.imageContent && (
           <>
             <img
