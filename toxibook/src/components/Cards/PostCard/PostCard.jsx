@@ -7,14 +7,14 @@ import PostMin from "../PostMin/PostMin";
 import { formateDate1 } from "../../../functions/FormateDate";
 
 import "./PostCard.css";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import PostActions from "./PostActions/PostActions";
 import ImageModal from "../../ImageModal/ImageModal";
 import twemoji from "twemoji";
 import { PostOptions } from "../../PostOptions/PostOptions";
 import { PostText } from "./PostText/PostText";
 
-const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wordSearch}) => {
+const PostCard =  forwardRef(({ postUser, post, permissions, type = "normalPost", liked, wordSearch}, sentinelElementRef) => {
   const navigate = useNavigate();
   const postRef = useRef();
   const textContentRef = useRef();
@@ -57,7 +57,7 @@ const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wor
 
   return (
     <article ref={postRef} className={`postContainer ${type}`}>
-      <div className="topPost-container">
+      <div className="topPost-container" ref={sentinelElementRef}>
         <UserContainer
           user={postUser}
           verified={postUser?.verified}
@@ -127,6 +127,6 @@ const PostCard = ({ postUser, post, permissions, type = "normalPost", liked, wor
       />
     </article>
   );
-};
+});
 
 export default PostCard;

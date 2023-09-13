@@ -18,7 +18,7 @@ export const PostProvider = ({children}) => {
 	}
 
 	const addPost = (newPost) => {
-		setPosts([...posts, newPost]);
+		setPosts([...posts, ...newPost]);
 	}
 
 	const deletePost = (postId) => {

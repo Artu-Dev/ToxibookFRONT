@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./Home.css";
 import {
   getLatestPostService,
@@ -10,19 +10,28 @@ import Message from "../../components/Layout/Message/Message";
 import { NavSide } from "../../components/NavSide/NavSide";
 import { renderPosts } from "../../functions/globalFunctions";
 import { usePostContext } from "../../contexts/PostContext";
+import Loading from "../../components/Layout/Loading/Loading";
+import { AlertBox } from "../../components/AlertBox/AlertBox";
+import { BsXCircleFill } from "react-icons/bs";
 
 const Home = () => {
   const [messageType, setMessageType] = useState("error");
   const [message, setMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  
   const token = localStorage.getItem("AuthToken");
-  const {posts, setPost} = usePostContext();
+  const {posts, setPost, addPost} = usePostContext();
+  const prevPage = useRef(currentPage);
+  const sentinelRef = useRef();
 
   async function fetchTrendingPost() {
     try {
-      const posts = await getTrendingService(token);
-      setPost(posts);
+      const postsRes = await getTrendingService(token, currentPage);
+      setHasMore(!!postsRes.length)
+
+      addPost(postsRes);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -62,8 +71,24 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchTrendingPost();
-  }, []);
+    setIsLoading(true)
+    fetchTrendingPost(); 
+    prevPage.current = currentPage;
+  }, [currentPage])
+  
+
+  const sentinelElementRef = useCallback(node => {
+    if(isLoading) return;
+    if(sentinelRef.current) sentinelRef.current.disconnect();
+
+    sentinelRef.current = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting && hasMore) {
+        setCurrentPage(prev => prev+1);
+      }
+    })
+
+    if(node) sentinelRef.current.observe(node)
+  });
 
   return (
     <>
@@ -77,7 +102,9 @@ const Home = () => {
         <section className="home">
           <CreatePost />
           <div className="posts-container">
-            {renderPosts(posts, isLoading)}
+            {renderPosts(posts, null, null, null, sentinelElementRef)}
+            {isLoading && <Loading position="static"/>}
+            {!hasMore && <AlertBox text={"Não foi possivel carregar mais posts"} icon={<BsXCircleFill/>} theme={""}/>}
           </div>
         </section>
       </div>

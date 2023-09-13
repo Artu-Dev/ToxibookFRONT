@@ -35,8 +35,8 @@ export const likePostService = async (id, token) => {
   }
 } 
 
-export const getTrendingService = async (token) => {
-  return await handleGetFunctions(`${baseURL}/post/trending`, token);
+export const getTrendingService = async (token, page = 1) => {
+  return await handleGetFunctions(`${baseURL}/post/trending?page=${page}`, token);
 } 
 
 export const getLatestPostService = async (token) => {
