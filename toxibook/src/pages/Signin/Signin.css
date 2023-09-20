@@ -1,14 +1,17 @@
-.login-container {
-  height: 100vh;
+.signin-container {
+  height: 100%;
+  min-height: 100vh;
   width: 100%;
   background: linear-gradient(#2C5364, #203A43, #0F2027);
   display: grid;
   place-items: center;
 }
 
-.login-container section {
+.signin-container section {
+  margin: 1rem 0;
   width: 60rem;
-  height: 35rem;
+  max-height: 40rem;
+  height: 100%;
   position: relative;
   display: flex;
   color: #E8E8EA;
@@ -16,14 +19,14 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.login-secondary {
-  width: 50%;
+.signin-secondary {
+  width: 20%;
   height: 100%;
   background: #201f1f;
   border-radius: 2rem 0 0 2rem;
 }
 
-.login-secondary .background-secondary {
+.signin-secondary .background-secondary {
   border-radius: 2rem 0 0 2rem;
   width: 100%;
   height: 100%;
@@ -34,7 +37,7 @@
   user-select: none;
 }
 
-.login-secondary .logo {
+.signin-secondary .logo {
   position: absolute;
   left: 2rem;
   bottom: 1.5rem;
@@ -42,10 +45,10 @@
   filter: drop-shadow(0 0 8px #00000048);
 }
 
-.login-primary {
+.signin-primary {
   background: #0c0d0c;
   border-radius: 0 2rem 2rem 0;
-  width: 50%;
+  width: 80%;
   padding: 5rem 4rem;
   display: flex;
   flex-direction: column;
@@ -53,27 +56,35 @@
   gap: 1rem;
 }
 
-.login-primary h1 {
+.signin-primary h1 {
   width: 100%;
   margin-bottom: 1.5rem;
   font-size: 3rem;
   text-transform: uppercase;
 }
 
-.login-primary form {
+.signin-primary form {
   width: 100%;
   display: flex;
-  gap: 1rem;
+  gap: .5rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.login-primary .botao {
+.signin-primary form .loginDatas {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: .5rem;
+  border: none;
+}
+
+.signin-primary .botao {
   margin-top: 2rem;
 }
 
-.login-primary .cadastro {
+.signin-primary .cadastro {
     margin-top: .5rem;
     background: none;
     color: #E8E8EA;
@@ -83,75 +94,79 @@
     transition: ease .3s;
 }
 
-.login-primary .cadastro:hover {
+.signin-primary .cadastro:hover {
   color: #4E9F3D;
   text-decoration: underline 2px solid #4E9F3D;
 }
 
 @media (max-width: 1024px) {
-  .login-container section {
-    width: 80%;
+  .signin-container section {
+    width: 90%;
+    max-height: 45rem;
+    height: 100%;
   }
 
-  .login-primary h1 {
+  .signin-primary h1 {
     font-size: 2.5rem;
     margin-bottom: 0;
   }
 
-  .login-secondary {
+  .signin-secondary {
     width: 40%;
     height: 100%;
   }
 
-  .login-primary {
+  .signin-primary {
     width: 60%;
     padding: 5rem 2rem;
   }
 
-  .login-primary form .botao {
+  .signin-primary form .botao {
     margin-top: 1rem;
   }
 }
 
 @media (max-width: 768px) {
-  .login-container section {
+  .signin-container section {
     flex-direction: column;
   }
 
-  .login-primary {
+  .signin-primary {
     border-radius: 0 0 2rem 2rem;
     width: 100%;
-    height: 70%;
+    height: 90%;
     padding: 1rem;
   }
   
-  .login-primary form .cadastro{
+  .signin-primary form .cadastro{
     font-size: 1rem;
   }
 
-  .login-primary h1 {
+  .signin-primary h1 {
     font-size: 2rem;
   }
 
-  .login-secondary .logo {
-    top: 6rem;
-    left: 1rem;
-    width: 6rem;
+  .signin-secondary .logo {
+    width: 13rem;
+    top: .6rem;
+    left: initial;
   }
 
-  .login-secondary .background-secondary {
+  .signin-secondary .background-secondary {
     border-radius: 2rem 2rem 0 0;
   }
 
-  .login-secondary {
+  .signin-secondary {
     border-radius: 2rem 2rem 0 0;
     width: 100%;
-    height: 30%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
   }
 }
 
 @media (max-width: 450px) {
-  .login-container section {
+  .signin-container section {
     width: 95%;
   }
 }

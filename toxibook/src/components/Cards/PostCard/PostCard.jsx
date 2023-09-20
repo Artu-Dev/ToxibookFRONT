@@ -14,7 +14,7 @@ import twemoji from "twemoji";
 import { PostOptions } from "../../PostOptions/PostOptions";
 import { PostText } from "./PostText/PostText";
 
-const PostCard =  forwardRef(({ postUser, post, permissions, type = "normalPost", liked, wordSearch}, ref) => {
+const PostCard =  forwardRef(({ postUser, post, onDeletePost, permissions, type = "normalPost", liked, wordSearch}, ref) => {
   const navigate = useNavigate();
   const postRef = useRef();
   const postOptionContainerRef = useRef();
@@ -70,6 +70,7 @@ const PostCard =  forwardRef(({ postUser, post, permissions, type = "normalPost"
                 postId={post._id}
                 isYourPost={post.isYourPost}
                 onClose={() => setShowPostOptions(!showPostOptions)}
+                onDeletePost={onDeletePost}
               />
             }
           </span>

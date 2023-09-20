@@ -15,7 +15,7 @@ import Login from './pages/Login/Login.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import { AuthUserProvider } from './contexts/AuthUser.jsx'
-import { PostProvider } from './contexts/PostContext.jsx';
+import Signin from './pages/Signin/Signin.jsx';
 
 const router = createBrowserRouter([
   {
@@ -56,14 +56,16 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />
   },
+  {
+    path: "/signin",
+    element: <Signin/>
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthUserProvider>
-      <PostProvider>
         <RouterProvider router={router} />
-      </PostProvider>
     </AuthUserProvider>
   </React.StrictMode>,
 )

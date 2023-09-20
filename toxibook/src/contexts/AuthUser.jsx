@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { isLoggedInService, loginAuthService } from "../services/user.services";
+import { createUserService, isLoggedInService, loginAuthService } from "../services/user.services";
 
 export const AuthUserContext = createContext({});
 export const UserContext = createContext({})
@@ -34,15 +34,9 @@ export const AuthUserProvider = ({children}) => {
   }, [])
 	
 
-	async function createUser(username, email, password, bio, tag, profileImg, bannerImg) {
-		try {
-			const {token, user} = await loginAuthService(email, password);
-			localStorage.setItem("token", token);
-			localStorage.setItem("User", user);
-		} catch (error) {
-			console.log(error);
-			localStorage.clear();
-		}
+	async function createUser(username, email, password, tag) {
+		const response = await createUserService(username, email, password, tag);
+		localStorage.setItem("User", JSON.stringify(response));
 	}
 	
 	async function signInUser(email, password) {

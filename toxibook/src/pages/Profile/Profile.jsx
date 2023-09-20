@@ -188,7 +188,7 @@ const Profile = ({replys}) => {
           <h2 className="userInfo-tag">@{userProfile?.tag}</h2>
         </div>
         <div className="userInfo-bio">
-          <p>{userProfile?.bio}</p>
+          <p>{userProfile?.bio || "Sem Bio"}</p>
         </div>
         <div className="userInfo-follows">
           <p>

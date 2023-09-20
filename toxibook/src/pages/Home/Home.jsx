@@ -81,6 +81,12 @@ const Home = ({latest}) => {
     resetPosts();
   }, [location])
 
+
+  function deletePost(id) {
+    console.log(id)
+    setPosts(prev => prev.filter(post => post._id !== id));
+  }
+
   return (
     <>
       {message && <Message hideMessage={() => setMessage(null)} text={message} type={messageType} />}

@@ -2,7 +2,7 @@ import { AlertBox } from "../components/AlertBox/AlertBox";
 import PostCard from "../components/Cards/PostCard/PostCard";
 import { MdComment } from "react-icons/md";
 
-export function renderPosts(posts, wordSearch, isComment, loading) {
+export function renderPosts(posts, wordSearch, isComment, loading, onDeletePost) {
 	let icon, text, theme;
 	
 	if(posts.length === 0 && !loading) {
@@ -29,6 +29,7 @@ export function renderPosts(posts, wordSearch, isComment, loading) {
 			post={item}
 			permissions={item.permissions}
 			liked={item.liked}
+			onDeletePost={onDeletePost}
 		/>
 	);
 }

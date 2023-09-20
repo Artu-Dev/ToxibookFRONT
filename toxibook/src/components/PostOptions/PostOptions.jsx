@@ -1,11 +1,8 @@
-import { usePostContext } from "../../contexts/PostContext";
 import { deletePostService } from "../../services/post.services";
 import "./PostOptions.css";
 
-export const PostOptions = ({onClose, isYourPost, postId}) => {
+export const PostOptions = ({onClose, isYourPost, postId, onDeletePost}) => {
 	const token = localStorage.getItem("AuthToken");
-  const {deletePost} = usePostContext();
-
 
 	function handleCopyLink(e) {
 		e.preventDefault();
@@ -22,7 +19,7 @@ export const PostOptions = ({onClose, isYourPost, postId}) => {
 
 		try {
 			await deletePostService(postId, token)
-			deletePost(postId);
+			onDeletePost(postId);
 		} catch (error) {
 			console.log(error)
 		}

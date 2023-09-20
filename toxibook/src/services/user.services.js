@@ -1,12 +1,19 @@
 import axios from 'axios';
 
-// const baseURL = "http://localhost:1234" 
-const baseURL = "https://toxibook-backend.onrender.com"
+const baseURL = "http://localhost:1234" 
+// const baseURL = "https://toxibook-backend.onrender.com"
 
 
 export const loginAuthService = async (email, password) => {
   const response = await axios.post(`${baseURL}/login`,
     { email, password }
+  );
+  return response.data;
+}
+
+export const createUserService = async (username, email, password, tag) => {
+  const response = await axios.post(`${baseURL}/user/`,
+    { username, email, password, tag }
   );
   return response.data;
 }

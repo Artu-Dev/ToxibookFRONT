@@ -1,12 +1,12 @@
 import {FaArrowRight, FaLock, FaUser} from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 import "./Login.css"
 import InputComponent from "../../components/Layout/InputComponent/InputComponent";
 
 import toxibookLogo1 from "../../img/toxibookLogo2.webp"
-import backgroundImg from "../../img/pexels-codioful-(formerly-gradienta)-6984989.webp"
+import backgroundImg from "../../img/bg2.webp"
 import { Button } from "../../components/Layout/Button/Button";
 
 import { useUserContext } from "../../contexts/AuthUser";
@@ -84,7 +84,7 @@ const Login = () => {
               icon={<FaArrowRight/>}
               loading={isLaoding}
             />
-            <a className="cadastro" onClick={() => alert("ainda nao")}>Criar uma conta</a>
+            <a className="cadastro" onClick={() => redirect("/signin")}>Criar uma conta</a>
           </form>
         </div>
       </section>

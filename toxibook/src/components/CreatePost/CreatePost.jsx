@@ -17,7 +17,6 @@ import {MdImage} from "react-icons/md";
 import EmojiPicker from "emoji-picker-react"
 
 import "./CreatePost.css";
-import { usePostContext } from "../../contexts/PostContext";
 
 const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts}) => {
 	const [allowComments, setAllowComments] = useState(true);
@@ -25,7 +24,6 @@ const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts})
   const [mediaState, setMediaState] = useState([]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   
-  // const { createPost } = usePostContext()
   const { signed } = useUserContext();
 
 	const isPrivateSelectRef = useRef();

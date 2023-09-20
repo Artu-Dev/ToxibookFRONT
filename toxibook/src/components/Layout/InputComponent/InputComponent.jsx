@@ -6,6 +6,7 @@ const InputComponent = forwardRef((props, ref) => {
     <span className="inputComponent" htmlFor={props.id}>
       <p>{props.text}</p>
       <input 
+        name={props.name}
         onChange={props.onInput}
         id={props.id}
         maxLength={props.maxLength}
