@@ -54,8 +54,7 @@ const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts})
   
 	async function handleUploadPost() {
     const sanitizedText = textAreaRef.current.value.replace(/<[^>]*>/g, "");
-
-    if(!mediaState && !sanitizedText) {
+    if(!mediaState?.imageFile && !sanitizedText) {
       alert("Preencha os campos corretamente!")
       return 
     } 
