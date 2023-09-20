@@ -21,7 +21,7 @@ import "./CreatePost.css";
 const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts}) => {
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
-  const [mediaState, setMediaState] = useState([]);
+  const [mediaState, setMediaState] = useState(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   
   const { signed } = useUserContext();
@@ -54,7 +54,8 @@ const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts})
   
 	async function handleUploadPost() {
     const sanitizedText = textAreaRef.current.value.replace(/<[^>]*>/g, "");
-    if(!mediaState.length && !sanitizedText) {
+
+    if(!mediaState && !sanitizedText) {
       alert("Preencha os campos corretamente!")
       return 
     } 
@@ -84,7 +85,7 @@ const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts})
 	}
 
   function clearCreatePostInputs() {
-    setMediaState([]);
+    setMediaState(null);
     textAreaRef.current.value = null;
     inputImageRef.current.value = null
   }
@@ -119,13 +120,13 @@ const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts})
 		// setMediaState(prev => prev.filter((_, i) => i !== index));
     
     inputImageRef.current.value = null
-		setMediaState([]);
+		setMediaState(null);
 	}
 
   function renderImages() { 
     return (
       <>
-        {mediaState.preview && (
+        {mediaState?.preview && (
           <ul className="images-container">
             <li>
               <img src={mediaState.preview} alt="#" />
