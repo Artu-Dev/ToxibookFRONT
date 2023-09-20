@@ -65,7 +65,7 @@ const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts})
     appendDataIfValid(data, "isShareOf", isShareOf);
     appendDataIfValid(data, "isCommentOf", isCommentOfID);
     appendDataIfValid(data, "textContent", textAreaRef.current.value);
-    if(!mediaState?.imageFile) {
+    if(mediaState?.imageFile) {
       data.append("imageContent", mediaState?.imageFile, mediaState?.name);
     }
     
