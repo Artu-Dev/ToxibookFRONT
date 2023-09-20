@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Home = ({latest}) => {
   const [messageType, setMessageType] = useState("error");
   const [message, setMessage] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   
   const token = localStorage.getItem("AuthToken");
   const [posts, setPosts] = useState([]);
@@ -68,6 +68,11 @@ const Home = ({latest}) => {
   }
 
   useEffect(() => {
+    if(currentPage === 0) return
+    resetPosts();
+  }, [location])
+
+  useEffect(() => {
     if(currentPage === 0) {
       setCurrentPage(1)
       return
@@ -76,10 +81,6 @@ const Home = ({latest}) => {
 
     fetchPosts();
   }, [currentPage])
-
-  useEffect(() => {
-    resetPosts();
-  }, [location])
 
 
   function deletePost(id) {
