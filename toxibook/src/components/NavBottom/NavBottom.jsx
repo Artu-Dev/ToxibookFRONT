@@ -1,5 +1,5 @@
 import { HiBell, HiHome, HiPlus, HiSearch } from 'react-icons/hi'
-import { IoExit } from 'react-icons/io5'
+import { IoEnter, IoExit } from 'react-icons/io5'
 import { Link, useNavigate } from 'react-router-dom';
 
 import "./NavBottom.css";
@@ -41,12 +41,21 @@ export const NavBottom = () => {
             <span>Alerts</span>
           </Link>
         </li>
-        <li onClick={handleLogout}>
-          <a>
-            <IoExit/>
-            <span>Exit</span>
-          </a>
-        </li>
+        {signed ? 
+          <li onClick={handleLogout}>
+            <a>
+              <IoExit/>
+              <span>Exit</span>
+            </a>
+          </li>
+          : 
+          <li onClick={redirect("/login")}>
+            <a>
+              <IoEnter/>
+              <span>Entrar</span>
+            </a>
+          </li>
+        }
       </ul>
     </nav>
   )

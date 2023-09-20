@@ -1,6 +1,6 @@
 import {FaArrowRight, FaLock, FaUser} from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import "./Login.css"
 import InputComponent from "../../components/Layout/InputComponent/InputComponent";
@@ -17,12 +17,9 @@ const Login = () => {
   const [isLaoding, setIsLoading] = useState(false);
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
-  
-  const {signInUser, createUser, signed} = useUserContext();
+  const redirect = useNavigate();
 
-  async function handleSignUp() {
-    await createUser(email, password)
-  } 
+  const {signInUser, signed} = useUserContext();
 
   function removeMessage() {
     setTimeout(() => {
