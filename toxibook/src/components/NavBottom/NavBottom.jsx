@@ -49,11 +49,11 @@ export const NavBottom = () => {
             </a>
           </li>
           : 
-          <li onClick={redirect("/login")}>
-            <a>
+          <li>
+            <Link to="/login">
               <IoEnter/>
               <span>Entrar</span>
-            </a>
+            </Link>
           </li>
         }
       </ul>
