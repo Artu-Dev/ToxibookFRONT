@@ -6,6 +6,7 @@ import {getPostBySearchService} from "../../services/post.services";
 import { renderPosts } from "../../functions/globalFunctions";
 import { useNavigate } from "react-router-dom";
 import {NavSide} from "../../components/NavSide/NavSide";
+import Sentinel from "../../components/Sentinel/Sentinel";
 
 const SearchPage = () => {
 	const token = localStorage.getItem("AuthToken");
@@ -14,8 +15,11 @@ const SearchPage = () => {
 	const redirect = useNavigate();
 
 	const [posts, setPosts] = useState(null);
-	const [loading, setLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	
 	const searchInputRef = useRef();
+  const hasMoreRef = useRef(true);
+  const loadingRef = useRef(true);
 
 	function changeUrl(e) {
 		e.preventDefault();
@@ -23,16 +27,21 @@ const SearchPage = () => {
 		redirect(`?t=${encodedValue}`)
 	}
 
-	useEffect(() => {
-		async function fetchSeachPosts() {
-			setLoading(true);
-			const cleanedSearchParam = searchParam.replace(/^"(.*)"$/, '$1');
-			const postsResponse = await getPostBySearchService(cleanedSearchParam, token);
-			setLoading(false);
-			if(!postsResponse.posts.length) setPosts(null);
-			else setPosts(postsResponse);
-		}
+	async function fetchSeachPosts() {
+		loadingRef.current = true
+		const cleanedSearchParam = searchParam.replace(/^"(.*)"$/, '$1');
+		const postsResponse = await getPostBySearchService(cleanedSearchParam, token, currentPage);
 		
+		hasMoreRef.current = postsResponse.length === 10;
+		loadingRef.current = false
+
+		if(!postsResponse.length) setPosts(null);
+		else setPosts(prev => [...prev, ...postsResponse]);
+	}
+
+	useEffect(() => {
+		setCurrentPage(1);
+
 		if(searchParam) {
 			setPosts([]);
 			fetchSeachPosts();
@@ -41,6 +50,12 @@ const SearchPage = () => {
 
 	},[searchParam])
 
+	useEffect(() => {
+		if(currentPage === 1) return;
+		loadingRef.current = true
+		fetchSeachPosts();
+	}, [currentPage])
+
 	return (
     <section className="searchPage-container">
       <NavSide />
@@ -48,6 +63,7 @@ const SearchPage = () => {
         <span className="backButton" onClick={() => redirect("/")}>
           <MdArrowBack />
         </span>
+				
         <form onSubmit={changeUrl} className="searchBar">
           <input placeholder="Pesquisar" ref={searchInputRef} />
           <button type="submit">
@@ -59,13 +75,19 @@ const SearchPage = () => {
       <div className="postsContainer">
         {searchParam ? (
           posts ? (
-            renderPosts(posts.posts, posts.likedPostsIds, loading, searchParam)
+            renderPosts(posts, searchParam, false)
           ) : (
             <AlertBox text={"Nenhum Post encontrado"} icon={"?"} theme={"alert"} />
           )
         ) : (
           <AlertBox text={"Pesquise por postagens"} icon={<MdManageSearch />} />
         )}
+
+				<Sentinel 
+					hasMore={hasMoreRef}
+					loading={loadingRef}
+					incrementPage={() => setCurrentPage(prev => prev+1)}
+				/>
       </div>
     </section>
   );

@@ -14,10 +14,9 @@ import twemoji from "twemoji";
 import { PostOptions } from "../../PostOptions/PostOptions";
 import { PostText } from "./PostText/PostText";
 
-const PostCard =  forwardRef(({ postUser, post, permissions, type = "normalPost", liked, wordSearch}, sentinelElementRef) => {
+const PostCard =  forwardRef(({ postUser, post, permissions, type = "normalPost", liked, wordSearch}, ref) => {
   const navigate = useNavigate();
   const postRef = useRef();
-  const textContentRef = useRef();
   const postOptionContainerRef = useRef();
 
   const [showImageModal, setShowImageModal] = useState(false);
@@ -57,7 +56,7 @@ const PostCard =  forwardRef(({ postUser, post, permissions, type = "normalPost"
 
   return (
     <article ref={postRef} className={`postContainer ${type}`}>
-      <div className="topPost-container" ref={sentinelElementRef}>
+      <div className="topPost-container" ref={ref}>
         <UserContainer
           user={postUser}
           verified={postUser?.verified}

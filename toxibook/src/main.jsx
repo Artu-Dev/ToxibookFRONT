@@ -24,7 +24,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home/>
+        element: <Home latest={false}/>
+      },
+      {
+        path: "/latest",
+        element: <Home latest={true}/>
       },
       {
         path: "/search",
@@ -36,7 +40,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile/:id",
-        element: <Profile />
+        element: <Profile replys={false}/>
+      },
+      {
+        path: "/profile/replys/:id",
+        element: <Profile replys={true}/>
       },
       // {
       //   path: "/post/edit/:id",

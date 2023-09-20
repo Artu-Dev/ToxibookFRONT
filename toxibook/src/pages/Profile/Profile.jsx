@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Loading from "../../components/Layout/Loading/Loading";
 import { useEffect, useRef, useState } from "react";
 import { CropImage } from "../../components/CropImage/CropImage";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   updateUserDatasService,
   followUserService,
@@ -19,36 +19,45 @@ import { uniqueId } from "lodash";
 import { ImageEditorInput } from "../../components/ImageEditorInput/ImageEditorInput";
 import EditProfileModal from "../../components/EditProfileModal/EditProfileModal";
 import Message from "../../components/Layout/Message/Message";
-import { usePostContext } from "../../contexts/PostContext";
+import Sentinel from "../../components/Sentinel/Sentinel";
 
-const Profile = () => {
+const Profile = ({replys}) => {
   const userID = useParams(window.location.href).id;
   const token = localStorage.getItem("AuthToken");
   const user = JSON.parse(localStorage.getItem("User"));
 
-  const {posts, setPost} = usePostContext();
+  const [posts, setPosts] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(0);
   const [isYourProfile, setIsYourProfile] = useState(false);
+
   const [isFollowingUser, setIsFollowingUser] = useState(false);
   const [totalFollowers, setTotalFollowers] = useState(0);
   const [totalFollowing, setTotalFollowing] = useState(0);
   const [userProfile, setUserProfile] = useState();
-  const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
-
+  
   const [imageFile, setImageFile] = useState(null);
   const [showCrop, setShowCrop] = useState(false);
   const [aspect, setAspect] = useState(1 / 1);
-
+  
   const inputImagePfp = useRef(); 
   const inputImageBannerRef = useRef();
   const redirect = useNavigate();
+  const location = useLocation();
+
+  const hasMoreRef = useRef(true);
+  const loadingRef = useRef(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {   
     setIsYourProfile(user?._id === userID);
-    fetchPostOrReply();
     fetchUser();
   }, [userID]); 
+
+  useEffect(() => {
+    resetPosts();
+  }, [location])
   
   async function fetchUser() {
     const userResponse = await getUserService(token, userID);
@@ -61,20 +70,35 @@ const Profile = () => {
     setUserProfile(userData);
     setIsFollowingUser(userData.followInfo.followers.includes(user?._id));
   }
-  
-  async function fetchPostOrReply(latest = false) {
-    setLoading(true);
-    setPost([]);
 
-    let postsResponse;
-    if(latest) {
-      postsResponse = await getReplysByUserService(token, userID);
-    } else {
-      postsResponse = await getPostsByUserService(token, userID);
+  async function fetchPosts() {
+    try {
+      loadingRef.current = true
+      setIsLoading(true)
+  
+      let postsResponse;
+      if(replys) postsResponse = await getReplysByUserService(token, userID, currentPage);
+      else postsResponse = await getPostsByUserService(token, userID, currentPage);
+
+      hasMoreRef.current = postsResponse.length === 10;
+      
+      setPosts(prev => [...prev, ...postsResponse]);
+  
+      loadingRef.current = false
+      setIsLoading(false)
+    } catch (error) {
+      loadingRef.current = false
+      setIsLoading(false)
+      console.log(error)
     }
-    
-    setPost(postsResponse);
-    setLoading(false);
+  }
+
+  function resetPosts() {
+    setPosts([]);
+    hasMoreRef.current = true;
+    loadingRef.current = false;
+    setIsLoading(true)
+    setCurrentPage(0);
   }
 
   function processImage(aspect = 1 / 1, inputRef) {
@@ -178,6 +202,14 @@ const Profile = () => {
     );
   } 
 
+  useEffect(() => {
+    if(currentPage === 0) {
+      setCurrentPage(1);
+      return;
+    };
+    fetchPosts()
+  }, [currentPage])
+
 
   if (!userProfile) return <Loading />;
   return (
@@ -256,8 +288,9 @@ const Profile = () => {
         </div>
 
         <Navbar
-          onOption1={() => fetchPostOrReply()}
-          onOption2={() => fetchPostOrReply(true)}
+          onOption1={() => redirect(`/profile/${userID}`)}
+          onOption2={() => redirect(`/profile/replys/${userID}`)}
+          firstSelected={!replys}
           radio1={"Posts"}
           radio2={"Respostas"}
           position={"relative"}
@@ -267,7 +300,13 @@ const Profile = () => {
       </section>
 
       <section className="profile-posts">
-        {renderPosts(posts, loading)}
+        {renderPosts(posts, null, null, isLoading)}
+        {isLoading && <Loading position="static"/> }
+        <Sentinel
+          hasMore={hasMoreRef}
+          loading={loadingRef}
+          incrementPage={() => setCurrentPage(prev => prev+1)}
+        />
       </section>
 
       {showCrop && (

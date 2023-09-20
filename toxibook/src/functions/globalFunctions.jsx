@@ -1,14 +1,11 @@
-import { useState } from "react";
 import { AlertBox } from "../components/AlertBox/AlertBox";
 import PostCard from "../components/Cards/PostCard/PostCard";
-import Loading from "../components/Layout/Loading/Loading";
 import { MdComment } from "react-icons/md";
 
-export function renderPosts(posts, isLoading, wordSearch, isComment, sentinelElementRef) {
+export function renderPosts(posts, wordSearch, isComment, loading) {
 	let icon, text, theme;
 	
-	if(isLoading) return  <Loading position={"block"}/> 
-	if(posts.length === 0) {
+	if(posts.length === 0 && !loading) {
 		if(isComment){ 
 			text = "Vazio por aqui! Parece que ainda não há comentários neste post.";
 			icon = <MdComment/>;
@@ -22,34 +19,16 @@ export function renderPosts(posts, isLoading, wordSearch, isComment, sentinelEle
 		return <AlertBox text={text} icon={icon} theme={theme}/>
 	} 
 	
-	return posts.map((item, index) => {
-		if(posts.length === index +1) {
-			console.log(item)
-			return (
-				<PostCard
-					ref={sentinelElementRef}
-					wordSearch={wordSearch}
-					key={item._id}
-					id={item._id}
-					postUser={item.user}
-					post={item}
-					permissions={item.permissions}
-					liked={item.liked}
-				/>
-			)
-		}
-		else {
-			return (
-				<PostCard
-					wordSearch={wordSearch}
-					key={item._id}
-					id={item._id}
-					postUser={item.user}
-					post={item}
-					permissions={item.permissions}
-					liked={item.liked}
-				/>
-			)
-		}
-	});
+	return posts.map((item, index) => 
+		<PostCard
+			type={isComment ? "comment" : null}
+			wordSearch={wordSearch}
+			key={item._id}
+			id={item._id}
+			postUser={item.user}
+			post={item}
+			permissions={item.permissions}
+			liked={item.liked}
+		/>
+	);
 }

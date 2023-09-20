@@ -19,13 +19,13 @@ import EmojiPicker from "emoji-picker-react"
 import "./CreatePost.css";
 import { usePostContext } from "../../contexts/PostContext";
 
-const CreatePost = ({isShareOf, isCommentOf, isCommentOfID, type}) => {
+const CreatePost = ({isShareOf, isCommentOfUser, isCommentOfID, type, setPosts}) => {
 	const [allowComments, setAllowComments] = useState(true);
 	const [isPrivatePost, setIsPrivatePost] = useState("public");
   const [mediaState, setMediaState] = useState([]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   
-  const { createPost } = usePostContext()
+  // const { createPost } = usePostContext()
   const { signed } = useUserContext();
 
 	const isPrivateSelectRef = useRef();
@@ -77,10 +77,9 @@ const CreatePost = ({isShareOf, isCommentOf, isCommentOfID, type}) => {
 
     try {
 			const post = await createPostService(token, data, mediaState?.id, updateMediaProgress);
-      console.log(post)
-      // setPostList(posts)
       clearCreatePostInputs();
-			createPost(post);
+			// createPost(post);
+      setPosts(post);
 		} catch (err) {
 			console.log(err);
 		}
@@ -203,9 +202,9 @@ const CreatePost = ({isShareOf, isCommentOf, isCommentOfID, type}) => {
           </span>
         </div>
 
-        {isCommentOf && (
+        {isCommentOfUser && (
           <div className="typeOfPost">
-            <p className="isCommentOf">Responder a: @{isCommentOf}</p>
+            <p className="isCommentOf">Responder a: @{isCommentOfUser}</p>
           </div>
         )}
 

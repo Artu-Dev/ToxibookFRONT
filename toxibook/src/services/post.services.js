@@ -39,24 +39,24 @@ export const getTrendingService = async (token, page = 1) => {
   return await handleGetFunctions(`${baseURL}/post/trending?page=${page}`, token);
 } 
 
-export const getLatestPostService = async (token) => {
-  return await handleGetFunctions(`${baseURL}/post`, token);
+export const getLatestPostService = async (token, page = 1) => {
+  return await handleGetFunctions(`${baseURL}/post?page=${page}`, token);
 } 
 
-export const getPostsByUserService = async (token, id) => {
-  return await handleGetFunctions(`${baseURL}/post/user/${id}`, token);
+export const getPostsByUserService = async (token, id, page = 1) => {
+  return await handleGetFunctions(`${baseURL}/post/user/${id}?page=${page}`, token);
 } 
 
-export const getReplysByUserService = async (token, id) => {
-  return await handleGetFunctions(`${baseURL}/post/user/reply/${id}`, token);
+export const getReplysByUserService = async (token, id, page) => {
+  return await handleGetFunctions(`${baseURL}/post/user/reply/${id}?page=${page}`, token);
 } 
 
 export const getPostByIdService = async (id, token) => {
   return await handleGetFunctions(`${baseURL}/post/${id}`, token);
 } 
 
-export const getCommentsService = async (id, token) => {
-  return await handleGetFunctions(`${baseURL}/post/comments/${id}`, token);
+export const getCommentsService = async (id, token, page) => {
+  return await handleGetFunctions(`${baseURL}/post/comments/${id}?page=${page}`, token);
 } 
 
 export const deletePostService = async (id, token) => {
@@ -67,8 +67,8 @@ export const deletePostService = async (id, token) => {
   return response.data;
 } 
 
-export const getPostBySearchService = async (param, token) => {
-    const response = await axios.get(`${baseURL}/post/search`, 
+export const getPostBySearchService = async (param, token, page) => {
+    const response = await axios.get(`${baseURL}/post/search?page=${page}`, 
     {
       params: {searchParam: param},
       headers: { Authorization: `Bearer ${token}` }

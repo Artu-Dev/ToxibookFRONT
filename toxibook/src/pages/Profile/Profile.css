@@ -215,6 +215,7 @@
 	margin-top: .5rem;
 	width: 100%;
   max-width: 600px;
+	position: relative;
 }
 
 .profile-posts > :first-child {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
 
 import PostCard from "../../../components/Cards/PostCard/PostCard"
@@ -14,26 +14,41 @@ import toxibookLogo from "../../../img/toxibookLogo.webp";
 import { renderPosts } from "../../../functions/globalFunctions";
 import { usePostContext } from "../../../contexts/PostContext";
 import { HiArrowLeft } from "react-icons/hi2";
+import { BsXCircleFill } from "react-icons/bs";
 
 const PostDetails = () => {
   const [post, setPost] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const [commentLoading, setCommentLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  
   const { id } = useParams("id");
   const token = localStorage.getItem("AuthToken");
-  const {posts: comments, setPost: setComments} = usePostContext();
+  const {posts: comments, addPost: addComments} = usePostContext();
 
   const redirect = useNavigate();
+
+  useEffect(() => {
+    async function getComments() {
+      const commentsResponse = await getCommentsService(id, token, currentPage);
+      setHasMore(commentsResponse.length);
+      addComments(commentsResponse);
+      setCommentLoading(false);
+    }
+
+    setCommentLoading(true)
+    getComments();
+  }, [currentPage])
+
 
   useEffect(() => {
     async function fetchPostById() {
       try {
         setLoading(true);
         const {post, isLiked} = await getPostByIdService(id, token);
-        const commentsResponse = await getCommentsService(id, token);
         
-        setComments(commentsResponse);
         setIsLiked(isLiked)
         setPost(post);
         setLoading(false);
@@ -45,6 +60,22 @@ const PostDetails = () => {
 
     fetchPostById();
   }, [id]);
+  
+  const sentinelRef = useRef();
+  const sentinelElementRef = useCallback(node => {
+    if(commentLoading) return;
+    if(sentinelRef.current) sentinelRef.current.disconnect();
+
+    console.log("callback")
+    sentinelRef.current = new IntersectionObserver(entries => {
+      console.log("observer")
+      if(entries[0].isIntersecting && hasMore) {
+        setCurrentPage(prev => prev+1);
+      }
+    })
+
+    if(node) sentinelRef.current.observe(node)
+  }, []);
 
   if (loading) return <Loading />;
   if(!post) return <p>Post não encontrado!</p>
@@ -71,7 +102,7 @@ const PostDetails = () => {
         {post?.permissions.canComment ?
           <CreatePost 
             type={"reply"}
-            isCommentOf={post.user.tag}
+            isCommentOfUser={post.user.tag}
             isCommentOfID={post._id}
           />
           :
@@ -82,9 +113,10 @@ const PostDetails = () => {
           />
         }
         {post?.permissions.canComment &&
-          renderPosts(comments, loading, null, true)
+          renderPosts(comments, null, true, sentinelElementRef)
         }
-        
+        {commentLoading && <Loading position="static"/>}
+        {!hasMore && <AlertBox text={"Não foi possivel carregar mais posts"} icon={<BsXCircleFill/>} theme={""}/>}
       </div>
     </div>
   )

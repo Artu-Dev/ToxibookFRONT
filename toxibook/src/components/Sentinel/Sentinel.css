@@ -1,0 +1,7 @@
+#sentinel {
+	height: 50rem;
+	bottom: 0;
+	position: absolute;
+	z-index: -99;
+	width: 100%;
+}
