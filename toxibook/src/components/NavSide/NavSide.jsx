@@ -1,7 +1,7 @@
 import { HiBell, HiHome, HiSearch } from 'react-icons/hi';
 import { IoEnter, IoExit, IoPerson } from 'react-icons/io5';
 import "./NavSide.css";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {  useUserContext } from '../../contexts/AuthUser';
 
 export const NavSide = () => {
@@ -41,6 +41,7 @@ export const NavSide = () => {
 					<li onClick={() => redirect("/login")}>Entrar<span><IoEnter/></span></li>
 				}
 			</ul>
+			<Link to={"/about"} className="about-button">Sobre</Link>
 		</section>
 	)
 }

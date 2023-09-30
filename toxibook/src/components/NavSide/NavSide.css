@@ -5,6 +5,13 @@
 	top: 5rem;
 }
 
+.navSide-container .about-button {
+	color: #aaa;
+	position: fixed;
+	bottom: 1rem;
+	left: calc(50% - 420px);
+}
+
 .navSide-container ul {
 	list-style: none;
 	display: flex;

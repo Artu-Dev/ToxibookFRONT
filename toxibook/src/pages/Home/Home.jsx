@@ -105,7 +105,7 @@ const Home = ({latest}) => {
 
             {!hasMoreRef.current && <AlertBox text={"Não foi possivel carregar mais posts"} icon={<BsXCircleFill/>} theme={""}/>}
 
-            {loadingRef.current && <Loading position="static"/>}
+            {!loadingRef.current && <Loading position="static"/>}
 
             <Sentinel 
               hasMore={hasMoreRef} 

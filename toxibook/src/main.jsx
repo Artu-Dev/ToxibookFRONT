@@ -17,6 +17,7 @@ import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import { AuthUserProvider } from './contexts/AuthUser.jsx'
 import Signin from './pages/Signin/Signin.jsx';
 import Terms from './pages/Terms/Terms.jsx';
+import About from './pages/About/About.jsx';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         element: <Profile replys={true}/>
       },
     ]
+  },
+  {
+    path: "/about",
+    element: <About />
   },
   {
     path: "/terms",

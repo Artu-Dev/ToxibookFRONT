@@ -1,0 +1,11 @@
+.aboutContainer {
+	background: #eee;
+	height: 100vh;
+	padding: 2rem;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	color: #222;
+	line-height: 1.6;
+}
