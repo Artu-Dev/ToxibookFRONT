@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.TermsContainer {
+	color: #222;
+	background: #eee;
+	font-size: 1rem;
+	height: 100%;
+}
+
+.TermsContent {
+	padding: 3rem 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	max-width: 800px;
+	margin: auto;
+}
+
+.TermsContainer p,
+.TermsContainer h1,
+.TermsContainer h2,
+.TermsContainer li {
+	font-family: 'Roboto', sans-serif;
+}
+
+.TermsContainer p {
+	line-height: 1.6;
+}
+.TermsContainer a {
+	margin-left: .3rem;
+	color: #1E5128;
+	font-weight: bold;
+}
+
+.TermsTitle {
+	font-size: 2em;
+	color: #d70036;
+}
+
+.TermsSubTitle {
+	font-size: 1.2em;
+}
+
+.TermsList {
+	padding-left: 2rem;
+}
+
+/* 
+#D8E9A8
+#4E9F3D
+#1E5128
+#191A19 
+*/

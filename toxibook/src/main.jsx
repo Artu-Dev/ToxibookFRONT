@@ -16,6 +16,7 @@ import Profile from './pages/Profile/Profile.jsx'
 import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import { AuthUserProvider } from './contexts/AuthUser.jsx'
 import Signin from './pages/Signin/Signin.jsx';
+import { Terms } from './pages/Terms/Terms.jsx';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       //   element: <Home/>
       // },
     ]
+  },
+  {
+    path: "/terms",
+    element: <Terms />
   },
   {
     path: "/login",
