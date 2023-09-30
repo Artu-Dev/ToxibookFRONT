@@ -1,7 +1,7 @@
 import React from "react";
 import "./Terms.css";
 
-export const Terms = () => {
+const Terms = () => {
   return (
     <main className="TermsContainer">
       <div className="TermsContent">
@@ -288,3 +288,5 @@ export const Terms = () => {
     </main>
   );
 };
+
+export default Terms;

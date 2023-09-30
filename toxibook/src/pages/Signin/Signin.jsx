@@ -1,6 +1,6 @@
-import {FaArrowRight, FaLock, FaUser} from "react-icons/fa";
-import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import {FaArrowRight, FaHashtag, FaLock, FaUser} from "react-icons/fa";
+import { useRef, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import "./Signin.css"
 import InputComponent from "../../components/Layout/InputComponent/InputComponent";
@@ -11,9 +11,11 @@ import { Button } from "../../components/Layout/Button/Button";
 
 import { useUserContext } from "../../contexts/AuthUser";
 import Message from "../../components/Layout/Message/Message";
+import { MdMail } from "react-icons/md";
 
 const Signin = () => {
   const redirect = useNavigate();
+  const checkTermsRef = useRef();
 
   const [signinState, setSigninState] = useState({
     password: null,
@@ -40,6 +42,10 @@ const Signin = () => {
   }
 
   function isValidDatas() {
+    if(!checkTermsRef.current.checked){
+      alert("Concorde com os Termos e condições de uso para criar uma conta!");
+      throw new Error("Concorde com os Termos e condições de uso para criar uma conta!");
+    }
     if(signinState.password.indexOf(" ") !== -1) {
       alert("A senha não pode conter espaços em branco!");
       throw new Error("A senha não pode conter espaços em branco!");
@@ -52,7 +58,6 @@ const Signin = () => {
       alert("O email não pode conter espaços em branco!");
       throw new Error("O email não pode conter espaços em branco!");
     }
-
 
     if(signinState.password !== signinState.confirmPassword) {
       alert("As senhas não coincidem. Por favor, verifique e tente novamente.");
@@ -150,13 +155,13 @@ const Signin = () => {
         <div className="signin-primary">
           <h1>CRIAR CONTA</h1>
           <form onSubmit={handleSubmit}>
-            <fieldset className="loginDatas">
+            <fieldset className="signinDatas">
               <InputComponent 
                 onInput={(e) => updateSigninState.email(e.target.value)}
                 type="email"
                 text="Email"
                 name="email"
-                icon={<FaUser/>}
+                icon={<MdMail/>}
                 required={true}
                 />
               <InputComponent 
@@ -164,7 +169,7 @@ const Signin = () => {
                 type="email"
                 name="confirmEmail"
                 text="Confirmar Email"
-                icon={<FaUser/>}
+                icon={<MdMail/>}
                 required={true}
                 />
               <InputComponent 
@@ -190,7 +195,7 @@ const Signin = () => {
               type="text"
               text="Tag"
               name="tag"
-              icon={<FaUser/>}
+              icon={<FaHashtag/>}
               required={true}
               />
             <InputComponent 
@@ -201,6 +206,12 @@ const Signin = () => {
               icon={<FaUser/>}
               required={true}
               />
+            
+            <span className="termsInputContainer">
+              <input type="checkbox" id="checkTerms" ref={checkTermsRef}/>
+              <label htmlFor="checkTerms">Concordo com os <Link target="_blank" to={"/terms"}>termos e condições de uso</Link> de Toxibook</label>
+            </span>
+
             <Button
               text="Criar"
               type="enterBtn"

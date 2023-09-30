@@ -25,7 +25,7 @@ const PostDetails = () => {
   const token = localStorage.getItem("AuthToken");
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const redirect = useNavigate();
+  const navigate = useNavigate();
 
   const hasMoreRef = useRef(true);
   const loadingCommentsRef = useRef(false);
@@ -72,7 +72,7 @@ const PostDetails = () => {
 
       <div className="simpleNavBar">
         <div>
-          <div className="backButton" onClick={() => redirect("/")}>
+          <div className="backButton" onClick={() => navigate("..", "..", {relative: "path"})}>
             <HiArrowLeft/>
           </div>
           <img className="toxibookLogo" src={toxibookLogo} alt="toxibook logo" />

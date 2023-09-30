@@ -16,7 +16,7 @@ import Profile from './pages/Profile/Profile.jsx'
 import SearchPage from './pages/SearchPage/SearchPage.jsx';
 import { AuthUserProvider } from './contexts/AuthUser.jsx'
 import Signin from './pages/Signin/Signin.jsx';
-import { Terms } from './pages/Terms/Terms.jsx';
+import Terms from './pages/Terms/Terms.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,16 +41,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile/:id",
-        element: <Profile replys={false}/>
+        element: <Profile replys={false}/>,
       },
       {
         path: "/profile/replys/:id",
         element: <Profile replys={true}/>
       },
-      // {
-      //   path: "/post/edit/:id",
-      //   element: <Home/>
-      // },
     ]
   },
   {
