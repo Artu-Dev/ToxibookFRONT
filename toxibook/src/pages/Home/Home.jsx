@@ -26,6 +26,7 @@ const Home = ({ latest }) => {
   const { 
     posts, 
     isLoading, 
+    setPosts,
     hasMore, 
     error,
     deletePost,
