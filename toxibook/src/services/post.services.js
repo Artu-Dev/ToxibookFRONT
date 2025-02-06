@@ -1,39 +1,64 @@
 import axios from 'axios';
 
-// const baseURL = "http://localhost:1234"
-const baseURL = "https://toxibook-backend.onrender.com"
+// const baseURL = "https://toxibook-backend.onrender.com"
+const baseURL = process.env.REACT_APP_API_URL || "http://localhost:1234";
 
 
-export const createPostService = async (token, data, id, cb) => {
+
+const createApiInstance = (token) => {
+  const instance = axios.create({
+    baseURL,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  instance.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response?.status === 401) {
+        
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
+};
+
+export const createPostService = async (token, data, tempId, progressCallback) => {
   try {
-    const response = await axios.post(`${baseURL}/post`,
-    data,
-    {
-      headers: { Authorization: `Bearer ${token}` },
+    if (!token || !data) throw new Error('Missing required parameters');
+    
+    const api = createApiInstance(token);
+    const response = await api.post('/post', data, {
       onUploadProgress: e => {
-        const progress = parseInt(Math.round((e.loaded * 100) / e.total));
-        cb(id, {progress,}) // fazer o media progress ficar para o post
+        const progress = Math.round((e.loaded * 100) / e.total);
+        progressCallback?.(tempId, { progress });
       }
     });
+    
     return response.data;
   } catch (error) {
-    console.error(error)
+    console.error('Create post error:', error);
+    throw error;
   }
-} 
+};
+
 
 export const likePostService = async (id, token) => {
   try {
-    const response = await axios.patch(`${baseURL}/post/like/${id}`, 
-    {},
-    {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    console.log(response.data);
+    if (!token || !id) throw new Error('Missing required parameters');
+    
+    const api = createApiInstance(token);
+    const response = await api.patch(`/post/like/${id}`, {});
+    
     return response.data;
   } catch (error) {
-    console.error(error)
+    console.error('Create post error:', error);
+    throw error;
   }
-} 
+}; 
 
 export const getTrendingService = async (token, page = 1) => {
   return await handleGetFunctions(`${baseURL}/post/trending?page=${page}`, token);
@@ -77,9 +102,7 @@ export const getPostBySearchService = async (param, token, page) => {
 } 
 
 async function handleGetFunctions(url, token) {
-  const response = await axios.get(url, 
-  {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+  const api = createApiInstance(token);
+  const response = await api.get(url);
   return response.data;
 }
