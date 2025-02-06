@@ -15,6 +15,7 @@ import { BsXCircleFill } from "react-icons/bs";
 import Sentinel from "../../components/Sentinel/Sentinel";
 import { usePostsFetcher } from "../../functions/usePostsFetcher";
 import { useLocation, useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const Home = ({ latest }) => {
   const [token, setToken] = useState(null);
