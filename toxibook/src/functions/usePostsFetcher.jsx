@@ -26,4 +26,47 @@ export const usePostsFetcher = (token, type = 'trending') => {
       );
 
       setPosts(prev => currentPage === 0 ? postsRes : [...prev, ...postsRes]);
-      setHasMore(postsRes.length >= 10); // Supondo que 10 é
+      setHasMore(postsRes.length >= 10); // Supondo que 10 é o limite por página
+      setCurrentPage(prev => prev + 1);
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        setError(err.message);
+        setHasMore(false);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token, type, currentPage, hasMore, isLoading]);
+
+  const resetPosts = useCallback(() => {
+    setCurrentPage(0);
+    setPosts([]);
+    setHasMore(true);
+    abortControllerRef.current?.abort();
+  }, []);
+
+  const deletePost = useCallback((postId) => {
+    setPosts(prev => prev.filter(post => post._id !== postId));
+  }, []);
+
+  useEffect(() => {
+    if (currentPage === 0 && hasMore) {
+      fetchPosts();
+    }
+  }, [currentPage, fetchPosts, hasMore]);
+
+  useEffect(() => {
+    return () => abortControllerRef.current?.abort();
+  }, []);
+
+  return {
+    posts,
+    isLoading,
+    hasMore,
+    error,
+    fetchPosts,
+    deletePost,
+    resetPosts,
+    currentPage
+  };
+};
