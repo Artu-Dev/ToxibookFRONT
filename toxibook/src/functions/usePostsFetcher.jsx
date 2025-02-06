@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { getLatestPostService, getTrendingService } from '../services/post.services';
 
 export const usePostsFetcher = (token, type = 'trending') => {
