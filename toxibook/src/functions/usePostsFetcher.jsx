@@ -63,6 +63,7 @@ export const usePostsFetcher = (token, type = 'trending') => {
     posts,
     isLoading,
     hasMore,
+    setPosts,
     error,
     fetchPosts,
     deletePost,
