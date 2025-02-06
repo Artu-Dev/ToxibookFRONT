@@ -13,7 +13,7 @@ import Loading from "../../components/Layout/Loading/Loading";
 import { AlertBox } from "../../components/AlertBox/AlertBox";
 import { BsXCircleFill } from "react-icons/bs";
 import Sentinel from "../../components/Sentinel/Sentinel";
-import usePostsFetcher from "../../functions/usePostsFetcher";
+import { usePostsFetcher } from "../../functions/usePostsFetcher";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Home = ({ latest }) => {
